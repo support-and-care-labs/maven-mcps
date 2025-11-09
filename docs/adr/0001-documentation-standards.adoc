@@ -1,0 +1,183 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= ADR-0001: Documentation Standards and Structure
+:toc:
+:toclevels: 3
+
+== Status
+
+Accepted (Updated 2025-01-16 for Python project structure)
+
+== Context
+
+The maven-mcps project is a multi-project repository containing several MCP (Model Context Protocol) servers for Apache Maven support. We need to establish clear documentation standards to ensure consistency across all projects and make it easy for contributors (both human and AI) to understand and work with the codebase.
+
+Key considerations:
+
+* Multiple independent sub-projects within one repository
+* Need for both high-level overview and detailed technical documentation
+* AI assistants (like Claude Code) will be working with this codebase
+* Apache Maven ecosystem traditionally uses AsciiDoc for documentation
+* Need to track architectural decisions over time
+* Python projects typically use `docs/` directory instead of `src/main/doc/`
+
+== Decision
+
+We will adopt the following documentation standards for the maven-mcps repository:
+
+=== Format Standard
+
+**All documentation will be written in AsciiDoc format** (`.adoc` files).
+
+Rationale:
+
+* AsciiDoc is the standard format in the Apache Maven ecosystem
+* Better suited for technical documentation than Markdown
+* Superior support for cross-references, includes, and complex document structures
+* Native support in many documentation generators (Maven Site, Antora, etc.)
+
+=== Documentation Structure
+
+==== Umbrella Project (maven-mcps root)
+
+* `README.adoc` - Overview of the entire maven-mcps project collection
+* `CLAUDE.md` - Guidance for Claude Code (remains in Markdown as per Claude Code convention)
+* `docs/adr/` - Project-wide Architecture Decision Records
+
+==== Sub-Projects (e.g., mail-mcp)
+
+Each sub-project must have:
+
+[source]
+----
+<subproject>/
+├── README.adoc                    # Project overview and getting started
+├── CLAUDE.md                      # Claude Code guidance (Markdown)
+├── docs/                          # Documentation directory (Python convention)
+│   ├── adr/                       # Architecture Decision Records
+│   │   ├── 0001-*.adoc
+│   │   ├── 0002-*.adoc
+│   │   └── ...
+│   └── *.adoc                     # Other detailed documentation
+├── src/                           # Source code
+│   └── <package>/
+└── tests/                         # Test files
+----
+
+=== Content Guidelines
+
+==== README.adoc Files
+
+Purpose: Provide a quick overview and getting started guide
+
+Should include:
+
+* Brief description of the project purpose
+* Quick start / installation instructions
+* Links to detailed documentation
+* Basic usage examples
+* Link to parent/sibling projects (if applicable)
+
+==== docs/ Directory
+
+Purpose: Detailed technical documentation
+
+May include:
+
+* Architecture overviews
+* API documentation
+* Usage guides
+* Developer guides
+* Design documents
+
+Location::
+* Project-wide ADRs: `docs/adr/` (at root level)
+* Project-specific ADRs: `<subproject>/docs/adr/`
+* Other documentation: `<subproject>/docs/`
+
+==== Architecture Decision Records (ADRs)
+
+Purpose: Document significant architectural and design decisions
+
+Format: `docs/adr/NNNN-title-with-dashes.adoc`
+
+Structure (based on Michael Nygard's ADR template):
+
+* Status (Proposed, Accepted, Deprecated, Superseded)
+* Context (what is the issue we're facing)
+* Decision (what we decided to do)
+* Consequences (what becomes easier or more difficult)
+
+==== CLAUDE.md Files
+
+Purpose: Provide guidance to Claude Code AI assistant
+
+Format: Markdown (`.md`) - this is a Claude Code convention
+
+* Remains in Markdown format as this is the Claude Code standard
+* Contains practical, actionable information for AI assistants
+* References AsciiDoc documentation for detailed information
+
+== Consequences
+
+=== Positive
+
+* **Consistency**: All documentation follows the same format and structure
+* **Discoverability**: Clear, predictable locations for documentation
+* **AI-friendly**: Both human and AI contributors know where to find information
+* **Decision tracking**: ADRs provide historical context for architectural decisions
+* **Ecosystem alignment**: AsciiDoc aligns with Apache Maven conventions
+* **Separation of concerns**: CLAUDE.md for AI guidance, AsciiDoc for project documentation
+
+=== Negative
+
+* **Learning curve**: Contributors unfamiliar with AsciiDoc need to learn it
+* **Tooling**: Requires AsciiDoc-compatible editors and renderers
+* **Migration effort**: Existing Markdown documentation needs conversion
+* **Dual format**: Maintaining both CLAUDE.md (Markdown) and other docs (AsciiDoc)
+
+=== Neutral
+
+* **Directory structure**: `docs/` follows Python conventions (changed from Java's `src/main/doc/`)
+* **ADR numbering**: Sequential numbering requires coordination in multi-contributor scenarios
+* **Format enforcement**: Requires code review to ensure compliance
+
+== Updates
+
+=== 2025-01-16: Python Project Structure
+
+Changed documentation directory from `src/main/doc/` to `docs/` to align with Python community conventions.
+
+Rationale::
+* Python projects typically use `docs/` at top level
+* `src/` should contain only source code, not documentation
+* Improves consistency with Python ecosystem tools (Sphinx, MkDocs, etc.)
+* Clearer separation between code and documentation
+
+Migration::
+* Moved root-level ADRs from `src/main/doc/adr/` to `docs/adr/`
+* Moved mail-mcp ADRs from `src/main/doc/adr/` to `docs/adr/`
+* Updated all references in README.adoc and CLAUDE.md files
+* Removed empty `src/main/` directories
+
+== References
+
+* https://asciidoc.org/[AsciiDoc Language]
+* https://docs.asciidoctor.org/[Asciidoctor Documentation]
+* https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions[Documenting Architecture Decisions by Michael Nygard]
+* https://adr.github.io/[ADR GitHub Organization]
+* https://maven.apache.org/guides/mini/guide-site.html[Maven Site Guide]

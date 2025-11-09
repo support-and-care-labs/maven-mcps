@@ -1,0 +1,111 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= Maven MCPs
+:toc:
+:toclevels: 2
+
+== Overview
+
+*Maven MCPs* is a collection of autonomous MCP (Model Context Protocol) servers designed to help with Apache Maven improvements.
+Each server provides LLM-accessible tools and context that enable better understanding of, and contributions to, the Apache Maven project.
+
+== Purpose
+
+This collection of MCP servers aims to provide comprehensive tooling for:
+
+* Analyzing Maven mailing list history and discussions
+* Supporting Maven development and maintenance workflows
+* Enabling LLM-assisted Maven improvements and contributions
+* Providing contextual information about Maven's evolution
+
+== MCP Server Projects
+
+=== link:mail-mcp/README.adoc[mail-mcp]
+
+MCP server for accessing and analyzing Apache Maven mailing list archives.
+
+* Contains 700+ MB of historical mbox files from 2002-present
+* Provides tools for retrieving and querying email archives
+* Supports multiple Apache mailing lists
+
+See link:mail-mcp/README.adoc[mail-mcp README] for details.
+
+=== Future Projects
+
+Additional MCP servers will be added to support various aspects of Maven development and maintenance.
+
+== Project Structure
+
+Each MCP server is in its own subdirectory with:
+
+`README.adoc`:: Project overview and getting started guide
+`docs/`:: Project-specific documentation in AsciiDoc format
+`docs/adr/`:: Architecture Decision Records
+`src/`:: Source code
+`tests/`:: Test files
+
+== Documentation
+
+* All documentation is written in *AsciiDoc format* (`.adoc` files)
+* See link:docs/adr/0001-documentation-standards.adoc[ADR-0001] for documentation standards
+* Each sub-project maintains its own detailed documentation
+* Project-wide ADRs are stored at the root level in `docs/adr/`
+* Project-specific ADRs are in each project's `docs/adr/` directory
+
+== Getting Started
+
+Navigate to the specific MCP server directory you're interested in and read its README.adoc file.
+
+[source,bash]
+----
+cd mail-mcp
+----
+
+== Contributing
+
+When adding new MCP servers:
+
+. Create a new subdirectory at the root level
+. Follow the established project structure (README.adoc, docs/, src/, tests/)
+. Document architectural decisions in ADR format in `docs/adr/`
+. Update this README.adoc to list the new project
+
+== Technology
+
+MCP (Model Context Protocol):: Server framework for LLM tool exposure
+Python 3.11+:: Primary implementation language
+AsciiDoc:: Documentation format
+Poetry:: Dependency management and virtual environments
+
+== License
+
+This project is licensed under the Apache License 2.0.
+See the link:LICENSE[LICENSE] file for details.
+
+Copyright 2025 The Apache Software Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

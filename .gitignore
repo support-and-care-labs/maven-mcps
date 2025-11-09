@@ -1,0 +1,7 @@
+.claude/
+.idea/
+*.iml
+tmp/
+*-mcp/
+webui/
+wip/

@@ -27,6 +27,13 @@ MCP server for accessing and analyzing Apache Maven mailing list archives. Conta
 ### Future Projects
 Additional MCP servers will be added as separate subdirectories, each with their own CLAUDE.md.
 
+ ## Supporting Projects
+
+### maven-simple-reports/
+Supporting project for generating simple reports and statistics about Maven development. Not an MCP server itself, but provides useful tools and analysis for Maven support and care.
+
+**See**: `maven-simple-reports/CLAUDE.md` for full details.
+
 ## License
 
 This project is licensed under the **Apache License 2.0**.

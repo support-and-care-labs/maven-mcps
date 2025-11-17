@@ -48,6 +48,17 @@ See link:mail-mcp/README.adoc[mail-mcp README] for details.
 
 Additional MCP servers will be added to support various aspects of Maven development and maintenance.
 
+== Supporting Projects
+
+=== link:maven-simple-reports/README.adoc[maven-simple-reports]
+
+Supporting project for generating simple reports and statistics about Maven development.
+
+* Not an MCP server itself, but provides useful tools and analysis
+* Helps with Maven support and care workflows
+
+See link:maven-simple-reports/README.adoc[maven-simple-reports README] for details.
+
 == Project Structure
 
 Each MCP server is in its own subdirectory with:

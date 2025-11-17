@@ -3,5 +3,6 @@
 *.iml
 tmp/
 *-mcp/
+maven-simple-reports/
 webui/
 wip/

@@ -1,0 +1,67 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= Usage Documentation
+:toc:
+
+== Purpose
+
+This directory contains documentation for _using_ the Maven MCP ecosystem.
+
+Usage docs:: How to install, configure, and use MCPs together in workflows.
+External docs:: Information about third-party MCPs we consume (see link:../external/[docs/external/]).
+Project docs:: Individual MCP project documentation (in each subdirectory).
+
+== Scope
+
+Documentation in this directory covers:
+
+* System architecture and deployment diagrams
+* Installation and configuration guides
+* Integration between multiple MCPs
+* Client-specific guides (Claude Code, etc.)
+* Usage scenarios and workflows
+
+== Structure
+
+index.adoc:: Catalog and landing page for all usage documentation
+architecture.adoc:: System architecture with deployment diagrams
+claude-code.adoc:: Guide for using MCPs with Claude Code (planned)
+diagrams/:: Visual diagrams (SVG exports and editable sources)
+
+== Guidelines
+
+=== When to Add Usage Documentation
+
+Add usage documentation when:
+
+* Describing how multiple MCPs work together
+* Providing installation or configuration instructions
+* Documenting client-specific integration (e.g., Claude Code)
+* Illustrating architecture or deployment scenarios
+
+=== Diagram Standards
+
+* Use diagrams.net (draw.io) for creating diagrams
+* Export as SVG for documentation display
+* Store editable source files (`.drawio.svg`) for future updates
+* Use UML deployment diagrams for architecture visualization
+
+== Related
+
+* xref:../../README.adoc[Maven MCPs Overview] - main project README
+* link:../adr/[Architecture Decision Records] - project-wide ADRs
+* link:../external/[External MCP Documentation] - third-party MCP docs

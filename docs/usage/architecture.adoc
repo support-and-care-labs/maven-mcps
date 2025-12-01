@@ -1,0 +1,132 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= System Architecture
+:toc:
+:toclevels: 3
+:imagesdir: diagrams
+
+== Overview
+
+[NOTE]
+====
+This documentation uses *Claude Code* as the example MCP client.
+However, the architecture is client-agnostic.
+Any MCP-compatible LLM client or CLI tool can replace Claude Code in this setup.
+====
+
+This document describes the architecture and deployment of the Maven MCP ecosystem.
+The system consists of multiple MCP servers that provide LLM clients access to various data sources relevant to Maven development.
+
+== Deployment Diagram
+
+image::deployment.drawio.svg[Maven MCP Deployment Architecture,800]
+
+The diagram shows the typical deployment scenario with all MCPs configured.
+
+== Components
+
+=== Local Components
+
+These components run on your local machine:
+
+MCP Client (e.g., Claude Code)::
+The MCP client that connects to all configured MCP servers via HTTP/SSE.
+Provides the user interface for interacting with the MCPs.
+
+mail-mcp::
+Locally deployed MCP server providing access to Maven mailing list archives.
+Clients access mail-mcp only via MCP protocol.
+See xref:../../mail-mcp/README.adoc[mail-mcp documentation].
+
+Atlassian MCP::
+Locally deployed MCP server (runs via Docker).
+Provides access to Apache Jira and Confluence instances.
+See xref:../external/atlassian-mcps.adoc[Atlassian MCPs] for available options.
+Communicates with Atlassian API via REST.
+
+=== Remote Components
+
+These components are hosted externally:
+
+GitHub MCP::
+Remote MCP server providing access to GitHub repositories, issues, and pull requests.
+Typically pre-configured in Claude Code.
+Communicates with GitHub API via REST.
+
+GitHub API::
+REST API at `api.github.com`.
+
+Apache Jira::
+REST API at `issues.apache.org/jira`.
+Primary issue tracker for Apache Maven.
+
+Apache Confluence::
+REST API at `cwiki.apache.org`.
+Primary wiki for Apache Maven documentation.
+
+== Communication
+
+=== MCP Protocol
+
+All MCP servers communicate with Claude Code using the Model Context Protocol (MCP).
+This protocol enables:
+
+* Tool discovery and invocation
+* Resource access
+* Bidirectional communication
+
+=== REST APIs
+
+MCP servers communicate with their respective backend services via REST APIs:
+
+GitHub API:: `api.github.com` - requires authentication token
+Apache Jira:: `issues.apache.org/jira` - requires authentication
+Apache Confluence:: `cwiki.apache.org` - requires authentication
+
+== Prerequisites
+
+=== For mail-mcp
+
+* Docker Desktop (for Elasticsearch)
+* Python 3.11+
+* Sufficient disk space for mbox files (~700 MB)
+
+=== For GitHub MCP
+
+* GitHub account
+* Personal Access Token or GitHub CLI authentication
+
+=== For Atlassian MCP
+
+* Atlassian Cloud or Server/Data Center instance
+* API token or Personal Access Token
+* See xref:../external/atlassian-mcps.adoc[Atlassian MCPs] for authentication details
+
+== Configuration
+
+Configuration details for each MCP are provided in their respective documentation:
+
+* xref:../../mail-mcp/README.adoc[mail-mcp configuration]
+* xref:../external/atlassian-mcps.adoc[Atlassian MCP configuration]
+
+GitHub MCP is typically pre-configured in Claude Code installations.
+
+== Related
+
+* xref:index.adoc[Usage Documentation Catalog]
+* xref:../external/index.adoc[External MCP Catalog]
+* xref:../adr/0003-usage-documentation.adoc[ADR-0003: Usage Documentation]

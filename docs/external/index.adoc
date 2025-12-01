@@ -22,7 +22,7 @@
 This catalog lists external MCP servers that can be integrated into Maven support workflows.
 These are third-party servers we consume but do not develop ourselves.
 
-For information about MCP servers we develop, see link:../../README.adoc[Maven MCPs Overview].
+For information about MCP servers we develop, see xref:../../README.adoc[Maven MCPs Overview].
 
 == Available External MCPs
 
@@ -33,7 +33,7 @@ For information about MCP servers we develop, see link:../../README.adoc[Maven M
 |*Atlassian (Jira & Confluence)*
 |Access to Jira issues and Confluence pages via various MCP implementations
 |Evaluated
-|link:atlassian-mcps.adoc[Details]
+|xref:atlassian-mcps.adoc[Details]
 
 |===
 
@@ -53,4 +53,4 @@ The following external services may be documented in the future as needs arise:
 . Include authentication methods and deployment requirements
 . Add entry to this catalog index
 
-See link:README.adoc[README] for detailed guidelines.
+See xref:README.adoc[README] for detailed guidelines.

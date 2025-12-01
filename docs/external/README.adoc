@@ -60,5 +60,5 @@ Document an external MCP when:
 
 == Related
 
-* link:../../README.adoc[Maven MCPs Overview] - main project README
-* link:../adr/[Architecture Decision Records] - project-wide ADRs
+* xref:../../README.adoc[Maven MCPs Overview] - main project README
+* xref:../adr/[Architecture Decision Records] - project-wide ADRs

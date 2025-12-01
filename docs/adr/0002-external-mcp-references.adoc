@@ -1,0 +1,120 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= ADR-0002: External MCP Server Documentation
+:toc:
+:toclevels: 3
+
+== Status
+
+Proposed
+
+== Context
+
+The maven-mcps project develops internal MCP servers (like `mail-mcp`) to support Apache Maven workflows.
+However, we also consume third-party MCP servers to access external services such as GitHub, Atlassian (Jira/Confluence), and others.
+
+Key considerations:
+
+* External MCPs provide valuable capabilities we don't need to develop ourselves
+* Multiple implementations often exist for the same service (e.g., several Jira MCPs)
+* Configuration, authentication, and deployment requirements vary significantly
+* Research findings should be preserved to avoid repeated evaluation effort
+* Clear distinction needed between what we develop vs. what we consume
+
+== Decision
+
+We will maintain a dedicated `docs/external/` directory to document external MCP servers.
+
+=== Directory Structure
+
+[source]
+----
+docs/
+├── adr/                      # Architecture Decision Records
+└── external/                 # External MCP documentation
+    ├── README.adoc           # Purpose and guidelines
+    ├── index.adoc            # Catalog of all documented external MCPs
+    └── <service>-mcps.adoc   # Detailed docs per service category
+----
+
+=== Documentation Requirements
+
+Each external MCP evaluation should document:
+
+* All discovered alternatives (not just the chosen one)
+* Research date (to indicate when information was last verified)
+* Comparison matrix with relevant criteria
+* Deployment requirements (Cloud vs. Server/Data Center)
+* Authentication methods (API tokens, PAT, OAuth)
+* Known limitations and caveats
+* Practical experience notes from actual usage
+
+=== Distinction from Internal MCPs
+
+Internal MCPs (our projects)::
+Developed and maintained within this repository.
+Have their own subdirectory with source code.
+Documented via README.adoc and `docs/` within their subdirectory.
+
+External MCPs (third-party)::
+Developed and maintained by others.
+We only document configuration and usage.
+Cataloged in `docs/external/`.
+
+== Consequences
+
+=== Positive
+
+Knowledge preservation::
+Research findings are retained for future reference.
+
+Comparison support::
+Alternative implementations documented side-by-side.
+
+Onboarding::
+New team members can quickly understand available integrations.
+
+Decision transparency::
+Clear record of why specific MCPs were chosen.
+
+Reduced duplication::
+Avoid re-evaluating the same options repeatedly.
+
+=== Negative
+
+Maintenance burden::
+External MCP documentation can become outdated.
+
+Scope creep::
+Risk of documenting MCPs we don't actually use.
+
+Research effort::
+Initial documentation requires investigation time.
+
+=== Neutral
+
+Separation::
+Clear boundary between developed and consumed MCPs.
+
+Format consistency::
+Same AsciiDoc standards apply as project documentation.
+
+== References
+
+* link:0001-documentation-standards.adoc[ADR-0001: Documentation Standards]
+* link:../external/README.adoc[External MCP Documentation Guidelines]
+* link:../external/index.adoc[External MCP Catalog]

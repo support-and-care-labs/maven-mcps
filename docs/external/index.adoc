@@ -1,0 +1,56 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= External MCP Server Catalog
+:toc:
+
+== Overview
+
+This catalog lists external MCP servers that can be integrated into Maven support workflows.
+These are third-party servers we consume but do not develop ourselves.
+
+For information about MCP servers we develop, see link:../../README.adoc[Maven MCPs Overview].
+
+== Available External MCPs
+
+[cols="2,3,1,1"]
+|===
+|Service |Description |Status |Documentation
+
+|*Atlassian (Jira & Confluence)*
+|Access to Jira issues and Confluence pages via various MCP implementations
+|Evaluated
+|link:atlassian-mcps.adoc[Details]
+
+|===
+
+== Planned Evaluations
+
+The following external services may be documented in the future as needs arise:
+
+* *GitHub MCP* - Already available via `mcp__github__*` tools; may document advanced usage
+* *Web Search MCPs* - Various implementations for web research capabilities
+* *Database MCPs* - Access to databases relevant to Maven infrastructure
+
+== How to Add New External MCPs
+
+. Research available MCP implementations for the target service
+. Document all alternatives with comparison matrix
+. Note the research date explicitly
+. Include authentication methods and deployment requirements
+. Add entry to this catalog index
+
+See link:README.adoc[README] for detailed guidelines.

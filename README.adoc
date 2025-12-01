@@ -48,6 +48,17 @@ See link:mail-mcp/README.adoc[mail-mcp README] for details.
 
 Additional MCP servers will be added to support various aspects of Maven development and maintenance.
 
+== External MCP References
+
+We also consume third-party MCP servers for accessing external services.
+These are documented in link:docs/external/index.adoc[docs/external/].
+
+Currently documented:
+
+* link:docs/external/atlassian-mcps.adoc[Atlassian MCPs] - Jira and Confluence access
+
+See link:docs/adr/0002-external-mcp-references.adoc[ADR-0002] for the rationale behind this documentation approach.
+
 == Supporting Projects
 
 === link:maven-simple-reports/README.adoc[maven-simple-reports]
@@ -76,6 +87,7 @@ Each MCP server is in its own subdirectory with:
 * Each sub-project maintains its own detailed documentation
 * Project-wide ADRs are stored at the root level in `docs/adr/`
 * Project-specific ADRs are in each project's `docs/adr/` directory
+* External MCP documentation is in `docs/external/`
 
 == Getting Started
 

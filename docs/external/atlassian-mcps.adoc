@@ -1,0 +1,338 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= Atlassian MCP Servers
+:toc:
+:toclevels: 3
+
+[NOTE]
+====
+Research date: 2025-12-01.
+Information may become outdated; verify current status before relying on this documentation.
+====
+
+== Overview
+
+This document covers MCP servers that provide access to Atlassian products, specifically *Jira* and *Confluence*.
+These tools are relevant for Maven support work when accessing:
+
+* Issue tracking in Jira instances
+* Documentation and knowledge bases in Confluence
+* Historical discussions and decisions
+
+== Use Cases for Maven Support
+
+* Access to Apache Jira issues (if MCP is configured for ASF infrastructure)
+* Integration with customer or organizational Confluence instances
+* Searching and summarizing documentation
+* Creating and updating issues or pages via LLM workflows
+
+== Comparison Matrix
+
+[cols="2,1,1,1,1,2"]
+|===
+|MCP Server |Confluence |Jira |Cloud |Server/DC |Authentication
+
+|<<official,Atlassian Remote MCP>>
+|✓
+|✓
+|✓
+|✗
+|OAuth
+
+|<<mcp-atlassian,mcp-atlassian (sooperset)>>
+|✓
+|✓
+|✓
+|✓
+|API Token, PAT, OAuth
+
+|<<atlassian-mcp-xuanxt,atlassian-mcp (xuanxt)>>
+|✓
+|✓
+|✓
+|✗
+|API Token
+
+|<<aashari,aashari Confluence MCP>>
+|✓
+|✗
+|✓
+|✗
+|API Token
+
+|<<olson3r,olson3r Confluence MCP>>
+|✓
+|✗
+|✓
+|?
+|API Token
+
+|===
+
+Legend:
+
+* *Cloud*: Atlassian Cloud (*.atlassian.net)
+* *Server/DC*: Self-hosted Atlassian Server or Data Center
+* *PAT*: Personal Access Token
+
+[[official]]
+== Atlassian Remote MCP Server (Official)
+
+=== Overview
+
+Atlassian's official Remote MCP Server, built in partnership with Anthropic and hosted on Cloudflare infrastructure.
+
+Status:: Beta (as of May 2025)
+Availability:: Jira and Confluence Cloud customers only
+Integration:: Direct integration with Claude
+
+=== Features
+
+* Summarize Jira work items or Confluence pages
+* Create Jira work items or Confluence pages directly from Claude
+* Execute bulk actions (creating multiple issues or pages simultaneously)
+* Enrich Jira items with context from multiple sources
+* Multi-step automated actions
+
+=== Limitations
+
+* *Cloud only* - does not support Server or Data Center deployments
+* Currently limited to Claude as the AI partner
+* Beta status; features may change
+
+=== Links
+
+* https://www.atlassian.com/blog/announcements/remote-mcp-server[Atlassian Announcement Blog Post]
+
+[[mcp-atlassian]]
+== mcp-atlassian (sooperset) — Recommended
+
+=== Overview
+
+Community-maintained MCP server supporting both Confluence and Jira across Cloud and Server/Data Center deployments.
+This is the *recommended option* for environments using Personal Access Tokens (PAT) or self-hosted Atlassian instances.
+
+Repository:: https://github.com/sooperset/mcp-atlassian
+
+=== Supported Deployments
+
+[cols="1,1,1"]
+|===
+|Product |Type |Support
+
+|Confluence
+|Cloud
+|✓ Fully supported
+
+|Confluence
+|Server/Data Center
+|✓ Version 6.0+
+
+|Jira
+|Cloud
+|✓ Fully supported
+
+|Jira
+|Server/Data Center
+|✓ Version 8.14+
+
+|===
+
+=== Authentication Methods
+
+API Token (Cloud)::
+Generate tokens at https://id.atlassian.com/manage-profile/security/api-tokens.
+Provide email + token credentials.
+
+Personal Access Token (Server/Data Center)::
+Available through profile settings.
+Supports self-hosted deployments with version 6.0+ for Confluence and 8.14+ for Jira.
+
+OAuth 2.0 (Cloud)::
+Two variants:
+* Standard flow using the server's built-in client with interactive setup
+* BYOT (Bring Your Own Token) for externally managed tokens
+
+=== Installation
+
+Distributed as a Docker image:
+
+[source,bash]
+----
+docker pull ghcr.io/sooperset/mcp-atlassian:latest
+----
+
+Configuration supports environment variables passed directly or via `--env-file` flag.
+
+=== Key Features
+
+* Automatic Jira updates from meeting notes
+* AI-powered Confluence content search and summarization
+* Smart issue filtering with project and date parameters
+* Content creation and management across both platforms
+* Proxy support (HTTP/HTTPS/SOCKS) with service-specific overrides
+
+=== Example Configuration
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "atlassian": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "CONFLUENCE_URL",
+        "-e", "CONFLUENCE_USERNAME",
+        "-e", "CONFLUENCE_TOKEN",
+        "ghcr.io/sooperset/mcp-atlassian:latest"
+      ],
+      "env": {
+        "CONFLUENCE_URL": "https://your-instance.atlassian.net/wiki",
+        "CONFLUENCE_USERNAME": "your-email@example.com",
+        "CONFLUENCE_TOKEN": "your-api-token"
+      }
+    }
+  }
+}
+----
+
+For Server/Data Center with PAT:
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "atlassian": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "CONFLUENCE_URL",
+        "-e", "CONFLUENCE_PERSONAL_TOKEN",
+        "ghcr.io/sooperset/mcp-atlassian:latest"
+      ],
+      "env": {
+        "CONFLUENCE_URL": "https://confluence.your-company.com",
+        "CONFLUENCE_PERSONAL_TOKEN": "your-personal-access-token"
+      }
+    }
+  }
+}
+----
+
+[[atlassian-mcp-xuanxt]]
+== atlassian-mcp (xuanxt)
+
+=== Overview
+
+Community MCP server providing 51 tools for Atlassian Confluence and Jira Cloud.
+Supports NPM package and Docker deployment.
+
+Repository:: https://github.com/xuanxt/atlassian-mcp
+
+=== Features
+
+* 51 tools for comprehensive Atlassian management
+* Confluence pages management
+* Jira issues, sprints, boards, and backlogs
+* Flexible authentication
+
+=== Limitations
+
+* Cloud-focused; Server/Data Center support unclear
+* Less documentation than mcp-atlassian
+
+[[aashari]]
+== aashari Confluence MCP Server
+
+=== Overview
+
+Node.js/TypeScript MCP server specifically for Atlassian Confluence Cloud.
+Enables AI systems to interact with Confluence spaces, pages, and content in real time.
+
+Links:: https://mcp.so/server/mcp-atlassian-confluence/aashari
+
+=== Features
+
+* Manage spaces (list, retrieve, discover)
+* Manage pages (list, filter, access content)
+* Advanced search using Confluence Query Language (CQL)
+* Comment management with pagination
+
+=== Limitations
+
+* Confluence only (no Jira support)
+* Cloud only
+
+[[olson3r]]
+== olson3r Confluence MCP Server
+
+=== Overview
+
+MCP server providing secure access to Atlassian Confluence through its REST API.
+
+Links::
+* https://mcpservers.org/servers/Olson3R/confluence-mcp
+* https://lobehub.com/mcp/olson3r-confluence-mcp
+
+=== Features
+
+* REST API access to Confluence
+* Environment variable configuration for credentials
+* Configurable allowed spaces
+
+=== Limitations
+
+* Confluence only (no Jira support)
+* Less documentation available
+
+== Other Options
+
+Additional MCP servers exist for Atlassian products but with less documentation or community adoption:
+
+* *kevinmeyvaert Confluence MCP* - https://www.pulsemcp.com/servers/kevinmeyvaert-confluence
+* *zereight Confluence and JIRA MCP* - https://playbooks.com/mcp/zereight-confluence-jira
+
+== Recommendation Summary
+
+For most Maven support use cases:
+
+[cols="1,3"]
+|===
+|Scenario |Recommendation
+
+|Atlassian Cloud with Claude
+|Consider <<official,Atlassian Remote MCP>> for official support, or <<mcp-atlassian,mcp-atlassian>> for more flexibility
+
+|Server/Data Center with PAT
+|<<mcp-atlassian,mcp-atlassian (sooperset)>> — only option with full Server/DC support
+
+|Confluence-only access (Cloud)
+|<<mcp-atlassian,mcp-atlassian>> or <<aashari,aashari Confluence MCP>>
+
+|Maximum tool coverage
+|<<atlassian-mcp-xuanxt,atlassian-mcp (xuanxt)>> with 51 tools
+
+|===
+
+== References
+
+* https://www.atlassian.com/blog/announcements/remote-mcp-server[Atlassian Remote MCP Announcement]
+* https://github.com/sooperset/mcp-atlassian[mcp-atlassian GitHub Repository]
+* https://github.com/xuanxt/atlassian-mcp[atlassian-mcp GitHub Repository]
+* https://mcpservers.org/servers/Olson3R/confluence-mcp[Confluence MCP on MCP Servers Directory]
+* https://mcp.so/server/mcp-atlassian-confluence/aashari[aashari Confluence MCP]

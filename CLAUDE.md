@@ -27,7 +27,16 @@ MCP server for accessing and analyzing Apache Maven mailing list archives. Conta
 ### Future Projects
 Additional MCP servers will be added as separate subdirectories, each with their own CLAUDE.md.
 
- ## Supporting Projects
+## External MCP References
+
+Documentation for third-party MCP servers we consume (but don't develop) is in `docs/external/`.
+
+- `docs/external/index.adoc` - Catalog of all documented external MCPs
+- `docs/external/atlassian-mcps.adoc` - Jira and Confluence MCP options
+
+**See**: `docs/adr/0002-external-mcp-references.adoc` for the rationale.
+
+## Supporting Projects
 
 ### maven-simple-reports/
 Supporting project for generating simple reports and statistics about Maven development. Not an MCP server itself, but provides useful tools and analysis for Maven support and care.
@@ -79,6 +88,7 @@ Replace `YYYY` with the current year.
 ### Project Structure
 - Root level: `README.adoc` (umbrella project overview)
 - Root level: `docs/adr/` (project-wide Architecture Decision Records)
+- Root level: `docs/external/` (external MCP server documentation)
 - Each sub-project: `<subproject>/README.adoc` (project overview)
 - Each sub-project: `<subproject>/docs/` (project-specific detailed documentation)
 - Each sub-project: `<subproject>/docs/adr/` (project-specific architecture decisions)

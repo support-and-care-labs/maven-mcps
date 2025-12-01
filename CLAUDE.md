@@ -36,6 +36,15 @@ Documentation for third-party MCP servers we consume (but don't develop) is in `
 
 **See**: `docs/adr/0002-external-mcp-references.adoc` for the rationale.
 
+## Usage Documentation
+
+Usage and architecture documentation is in `docs/usage/`.
+
+- `docs/usage/architecture.adoc` - System architecture with deployment diagram
+- `docs/usage/index.adoc` - Usage documentation catalog
+
+**See**: `docs/adr/0003-usage-documentation.adoc` for the rationale.
+
 ## Supporting Projects
 
 ### maven-simple-reports/
@@ -89,6 +98,7 @@ Replace `YYYY` with the current year.
 - Root level: `README.adoc` (umbrella project overview)
 - Root level: `docs/adr/` (project-wide Architecture Decision Records)
 - Root level: `docs/external/` (external MCP server documentation)
+- Root level: `docs/usage/` (usage and architecture documentation)
 - Each sub-project: `<subproject>/README.adoc` (project overview)
 - Each sub-project: `<subproject>/docs/` (project-specific detailed documentation)
 - Each sub-project: `<subproject>/docs/adr/` (project-specific architecture decisions)

@@ -59,6 +59,15 @@ Currently documented:
 
 See link:docs/adr/0002-external-mcp-references.adoc[ADR-0002] for the rationale behind this documentation approach.
 
+== Usage and Architecture
+
+For guidance on setting up and using the complete MCP ecosystem:
+
+* xref:docs/usage/architecture.adoc[System Architecture] - deployment diagram and component overview
+* xref:docs/usage/index.adoc[Usage Documentation] - guides for using MCPs together
+
+See xref:docs/adr/0003-usage-documentation.adoc[ADR-0003] for the documentation approach.
+
 == Supporting Projects
 
 === link:maven-simple-reports/README.adoc[maven-simple-reports]
@@ -88,6 +97,7 @@ Each MCP server is in its own subdirectory with:
 * Project-wide ADRs are stored at the root level in `docs/adr/`
 * Project-specific ADRs are in each project's `docs/adr/` directory
 * External MCP documentation is in `docs/external/`
+* Usage and architecture documentation is in `docs/usage/`
 
 == Getting Started
 

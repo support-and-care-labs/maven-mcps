@@ -1,0 +1,118 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= ADR-0003: Usage Documentation
+:toc:
+:toclevels: 3
+
+== Status
+
+Proposed
+
+== Context
+
+The maven-mcps project provides multiple MCP servers (both internal and external) that need to be configured and used together.
+Users need guidance on how to set up and use these MCPs in their workflows.
+
+Key considerations:
+
+* Multiple MCPs need to work together (mail-mcp, GitHub MCP, Atlassian MCP)
+* Installation and configuration varies between local and external MCPs
+* Architecture understanding helps users troubleshoot and extend setups
+* Different usage scenarios exist (Claude Code, other MCP clients)
+* Visual diagrams aid comprehension of system architecture
+
+== Decision
+
+We will maintain a dedicated `docs/usage/` directory for usage documentation.
+
+=== Directory Structure
+
+[source]
+----
+docs/
+├── adr/                      # Architecture Decision Records
+├── external/                 # External MCP documentation
+└── usage/                    # Usage documentation
+    ├── README.adoc           # Purpose and guidelines
+    ├── index.adoc            # Catalog of usage scenarios
+    ├── architecture.adoc     # System architecture and deployment
+    ├── diagrams/             # Visual diagrams (SVG, diagrams.net sources)
+    └── claude-code.adoc      # Claude Code integration guide
+----
+
+=== Documentation Requirements
+
+Usage documentation should include:
+
+* Architecture overview with deployment diagrams
+* Installation and configuration steps
+* Prerequisites and dependencies
+* Integration between multiple MCPs
+* Client-specific guides (e.g., Claude Code)
+* Troubleshooting information
+
+=== Diagram Standards
+
+Diagrams::
+Use diagrams.net (draw.io) for creating visual diagrams.
+Export diagrams as SVG for display in documentation.
+Store source files (`.drawio` or `.drawio.svg`) alongside exports for future editing.
+
+Diagram types::
+Deployment diagrams show how components are installed and connected.
+Sequence diagrams show interaction flows between MCPs and clients.
+
+== Consequences
+
+=== Positive
+
+Onboarding::
+New users can quickly understand how to set up the complete environment.
+
+Visual clarity::
+Architecture diagrams make system relationships immediately apparent.
+
+Scenario coverage::
+Different usage scenarios documented separately for clarity.
+
+Maintainability::
+Editable diagram sources allow easy updates as architecture evolves.
+
+=== Negative
+
+Maintenance burden::
+Diagrams need updates when architecture changes.
+
+Tool dependency::
+Requires diagrams.net for diagram editing.
+
+Duplication risk::
+Usage docs may duplicate information from individual project READMEs.
+
+=== Neutral
+
+Separation::
+Clear distinction between external MCP docs and usage/integration docs.
+
+Format::
+Same AsciiDoc standards apply as other project documentation.
+
+== References
+
+* xref:0001-documentation-standards.adoc[ADR-0001: Documentation Standards]
+* xref:0002-external-mcp-references.adoc[ADR-0002: External MCP Server Documentation]
+* xref:../usage/README.adoc[Usage Documentation Guidelines]

@@ -115,6 +115,6 @@ Same AsciiDoc standards apply as project documentation.
 
 == References
 
-* link:0001-documentation-standards.adoc[ADR-0001: Documentation Standards]
-* link:../external/README.adoc[External MCP Documentation Guidelines]
-* link:../external/index.adoc[External MCP Catalog]
+* xref:0001-documentation-standards.adoc[ADR-0001: Documentation Standards]
+* xref:../external/README.adoc[External MCP Documentation Guidelines]
+* xref:../external/index.adoc[External MCP Catalog]

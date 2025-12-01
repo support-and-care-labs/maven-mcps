@@ -22,7 +22,7 @@
 This directory contains documentation for _using_ the Maven MCP ecosystem.
 
 Usage docs:: How to install, configure, and use MCPs together in workflows.
-External docs:: Information about third-party MCPs we consume (see link:../external/[docs/external/]).
+External docs:: Information about third-party MCPs we consume (see xref:../external/[docs/external/]).
 Project docs:: Individual MCP project documentation (in each subdirectory).
 
 == Scope
@@ -63,5 +63,5 @@ Add usage documentation when:
 == Related
 
 * xref:../../README.adoc[Maven MCPs Overview] - main project README
-* link:../adr/[Architecture Decision Records] - project-wide ADRs
-* link:../external/[External MCP Documentation] - third-party MCP docs
+* xref:../adr/[Architecture Decision Records] - project-wide ADRs
+* xref:../external/[External MCP Documentation] - third-party MCP docs

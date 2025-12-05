@@ -1,0 +1,256 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= Atlassian MCP Setup Guide
+:toc:
+:toclevels: 3
+
+== Overview
+
+This guide covers setting up MCP access to Apache's Atlassian infrastructure:
+
+* *Confluence*: https://cwiki.apache.org/confluence — Apache Wiki, including Maven documentation
+* *Jira*: https://issues.apache.org/jira — Apache issue tracker
+
+Both services are self-hosted Atlassian Server/Data Center instances (not Cloud), requiring Personal Access Token (PAT) authentication.
+
+== Prerequisites
+
+* Docker installed and running
+* Personal Access Tokens for each service
+* Claude Code or another MCP-compatible client
+
+== Recommended MCP Server
+
+We recommend *mcp-atlassian* by sooperset as it is the only MCP server with full Server/Data Center support using PAT authentication.
+
+Repository:: https://github.com/sooperset/mcp-atlassian
+
+See xref:../external/atlassian-mcps.adoc[Atlassian MCPs] for alternatives and detailed comparison.
+
+== Generating Personal Access Tokens
+
+=== Confluence PAT
+
+. Log in to https://cwiki.apache.org/confluence
+. Navigate to your profile (click your avatar in the top right)
+. Select *Personal Access Tokens* (or *Settings* → *Personal Access Tokens*)
+. Click *Create token*
+. Enter a descriptive name (e.g., "Claude Code MCP")
+. Set an appropriate expiration date
+. Copy the generated token immediately (it won't be shown again)
+
+=== Jira PAT
+
+. Log in to https://issues.apache.org/jira
+. Navigate to your profile (click your avatar in the top right)
+. Select *Personal Access Tokens* (or *Profile* → *Personal Access Tokens*)
+. Click *Create token*
+. Enter a descriptive name (e.g., "Claude Code MCP")
+. Set an appropriate expiration date
+. Copy the generated token immediately (it won't be shown again)
+
+== Configuration
+
+=== Claude Code CLI
+
+Use the `claude mcp add` command to register MCP servers.
+Add `-s user` for user-level (global) configuration, or `-s project` for project-level configuration.
+
+==== Confluence Only
+
+[source,bash]
+----
+claude mcp add confluence \
+  -s user \
+  -e CONFLUENCE_URL=https://cwiki.apache.org/confluence \
+  -e CONFLUENCE_PERSONAL_TOKEN=<your-confluence-pat> \
+  -- docker run -i --rm \
+    -e CONFLUENCE_URL \
+    -e CONFLUENCE_PERSONAL_TOKEN \
+    ghcr.io/sooperset/mcp-atlassian:latest
+----
+
+==== Jira Only
+
+[source,bash]
+----
+claude mcp add jira \
+  -s user \
+  -e JIRA_URL=https://issues.apache.org/jira \
+  -e JIRA_PERSONAL_TOKEN=<your-jira-pat> \
+  -- docker run -i --rm \
+    -e JIRA_URL \
+    -e JIRA_PERSONAL_TOKEN \
+    ghcr.io/sooperset/mcp-atlassian:latest
+----
+
+==== Combined (Confluence + Jira)
+
+[source,bash]
+----
+claude mcp add atlassian \
+  -s user \
+  -e CONFLUENCE_URL=https://cwiki.apache.org/confluence \
+  -e CONFLUENCE_PERSONAL_TOKEN=<your-confluence-pat> \
+  -e JIRA_URL=https://issues.apache.org/jira \
+  -e JIRA_PERSONAL_TOKEN=<your-jira-pat> \
+  -- docker run -i --rm \
+    -e CONFLUENCE_URL \
+    -e CONFLUENCE_PERSONAL_TOKEN \
+    -e JIRA_URL \
+    -e JIRA_PERSONAL_TOKEN \
+    ghcr.io/sooperset/mcp-atlassian:latest
+----
+
+==== Managing MCP Servers
+
+List configured servers:
+
+[source,bash]
+----
+claude mcp list
+----
+
+Remove a server:
+
+[source,bash]
+----
+claude mcp remove <server-name>
+----
+
+=== Using Shell Environment Variables (Recommended)
+
+Claude Code supports `${VAR}` syntax for environment variable interpolation at runtime.
+This approach ensures tokens are *never persisted* in configuration files.
+
+. Set environment variables in your shell profile (`~/.bashrc`, `~/.zshrc`, etc.):
++
+[source,bash]
+----
+export CONFLUENCE_PERSONAL_TOKEN="your-confluence-token-here"
+export JIRA_PERSONAL_TOKEN="your-jira-token-here"
+----
+
+. Configure MCP without embedding tokens:
++
+[source,bash]
+----
+claude mcp add atlassian \
+  -s user \
+  -e 'CONFLUENCE_URL=https://cwiki.apache.org/confluence' \
+  -e 'CONFLUENCE_PERSONAL_TOKEN=${CONFLUENCE_PERSONAL_TOKEN}' \
+  -e 'JIRA_URL=https://issues.apache.org/jira' \
+  -e 'JIRA_PERSONAL_TOKEN=${JIRA_PERSONAL_TOKEN}' \
+  -- docker run -i --rm \
+    -e CONFLUENCE_URL \
+    -e CONFLUENCE_PERSONAL_TOKEN \
+    -e JIRA_URL \
+    -e JIRA_PERSONAL_TOKEN \
+    ghcr.io/sooperset/mcp-atlassian:latest
+----
+
+The `${VAR}` references are expanded at runtime from your shell environment.
+The settings file only stores the variable reference, not the actual token value.
+
+[NOTE]
+====
+If an environment variable is not set when Claude Code starts, configuration parsing will fail.
+Ensure your tokens are exported before launching Claude Code.
+====
+
+=== Security Best Practices
+
+[IMPORTANT]
+====
+Never commit Personal Access Tokens to version control.
+Always use the `${VAR}` interpolation syntax to keep tokens out of configuration files.
+====
+
+== Apache Maven Project Keys
+
+=== Confluence
+
+Space Key:: `MAVEN`
+URL:: https://cwiki.apache.org/confluence/display/MAVEN
+
+=== Jira
+
+[NOTE]
+====
+Apache Maven has migrated to GitHub Issues.
+Jira access is primarily for historical issue lookup.
+====
+
+The mcp-atlassian server supports `JIRA_PROJECTS_FILTER` to limit searches to Maven projects.
+Add this directly to your MCP configuration:
+
+[source,bash]
+----
+claude mcp add atlassian \
+  -s user \
+  -e 'CONFLUENCE_URL=https://cwiki.apache.org/confluence' \
+  -e 'CONFLUENCE_PERSONAL_TOKEN=${CONFLUENCE_PERSONAL_TOKEN}' \
+  -e 'JIRA_URL=https://issues.apache.org/jira' \
+  -e 'JIRA_PERSONAL_TOKEN=${JIRA_PERSONAL_TOKEN}' \
+  -e 'JIRA_PROJECTS_FILTER=ARCHETYPE,DOXIA,DOXIASITETOOLS,DOXIATOOLS,JXR,MJARSIGNER,MACR,MANTRUN,MARCHETYPES,MARTIFACT,MASFRES,MASSEMBLY,MBUILDCACHE,MCHANGELOG,MCHANGES,MCHECKSTYLE,MCLEAN,MCOMPILER,MDEP,MDEPLOY,MDOAP,MEAR,MEJB,MENFORCER,MGPG,MINDEXER,MINSTALL,MINVOKER,MJAR,MJAVADOC,MJDEPRSCAN,MJDEPS,MJLINK,MJMOD,MLINKCHECK,MNG,MNGSITE,MPH,MPIR,MPLUGIN,MPLUGINTESTING,MPMD,MPOM,MRAR,MRELEASE,MRESOLVER,MRESOURCES,MRRESOURCES,MSCMPUB,MSCRIPTING,MSHADE,MSHARED,MSITE,MSKINS,MSOURCES,MSTAGE,MTOOLCHAINS,MVERIFIER,MWAR,MWRAPPER,SCM,SUREFIRE,WAGON' \
+  -- docker run -i --rm \
+    -e CONFLUENCE_URL \
+    -e CONFLUENCE_PERSONAL_TOKEN \
+    -e JIRA_URL \
+    -e JIRA_PERSONAL_TOKEN \
+    -e JIRA_PROJECTS_FILTER \
+    ghcr.io/sooperset/mcp-atlassian:latest
+----
+
+See xref:index.adoc#cross-mcp-orchestration[Cross-MCP Orchestration] for the categorized list of project keys.
+
+== Verification
+
+After configuring the MCP server, verify connectivity:
+
+. Start Claude Code in a project with the configuration
+. Use the `/mcp` command to check server status
+. Try a simple query like "Search Confluence for Maven release process"
+
+== Troubleshooting
+
+=== Docker Image Not Found
+
+Pull the latest image:
+
+[source,bash]
+----
+docker pull ghcr.io/sooperset/mcp-atlassian:latest
+----
+
+=== Authentication Errors
+
+* Verify your PAT has not expired
+* Ensure the token was copied correctly (no extra whitespace)
+* Check that you're using the correct URL (no trailing slash)
+
+=== Connection Timeouts
+
+Apache infrastructure may have rate limits.
+Add appropriate delays between requests if making many queries.
+
+== References
+
+* xref:../external/atlassian-mcps.adoc[Atlassian MCP Comparison]
+* https://github.com/sooperset/mcp-atlassian[mcp-atlassian Repository]
+* https://cwiki.apache.org/confluence/display/MAVEN[Apache Maven Confluence Space]
+* https://issues.apache.org/jira/projects/MNG[Apache Maven Jira Project]

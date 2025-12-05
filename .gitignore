@@ -6,3 +6,6 @@ tmp/
 maven-simple-reports/
 webui/
 wip/
+
+# Docs
+*.html

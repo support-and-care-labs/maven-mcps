@@ -41,9 +41,21 @@ Documentation for third-party MCP servers we consume (but don't develop) is in `
 Usage and architecture documentation is in `docs/usage/`.
 
 - `docs/usage/architecture.adoc` - System architecture with deployment diagram
+- `docs/usage/atlassian-setup.adoc` - Confluence and Jira MCP configuration
 - `docs/usage/index.adoc` - Usage documentation catalog
 
 **See**: `docs/adr/0003-usage-documentation.adoc` for the rationale.
+
+## Cross-MCP Orchestration
+
+When searching or analyzing Maven-related content across multiple MCP servers, **automatically read and follow** the orchestration guide:
+
+**Read**: `docs/usage/cross-mcp-orchestration.md`
+
+This file defines reference patterns (JIRA issues, GitHub PRs, Confluence links) and how to follow them across MCPs to gather complete context. Load this file when:
+- Searching mail archives, Confluence, or GitHub for Maven topics
+- Analyzing content that may reference issues, PRs, or documentation
+- User asks to investigate or summarize a Maven topic
 
 ## Supporting Projects
 

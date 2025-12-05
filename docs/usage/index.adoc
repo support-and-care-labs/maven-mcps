@@ -34,6 +34,14 @@ For external MCP documentation, see xref:../external/index.adoc[External MCP Cat
 |System architecture and deployment diagram showing how MCPs connect
 |Available
 
+|xref:atlassian-setup.adoc[Atlassian Setup]
+|Configuring MCP access to Apache Confluence and Jira with PAT authentication
+|Available
+
+|<<cross-mcp-orchestration,Cross-MCP Orchestration>>
+|Reference patterns and workflow for following references across MCPs
+|Available
+
 |Claude Code Integration
 |Guide for configuring and using MCPs with Claude Code
 |Planned
@@ -66,4 +74,16 @@ Typically pre-configured in Claude Code.
 
 Atlassian MCP::
 Provides access to Jira and Confluence.
-See xref:../external/atlassian-mcps.adoc[Atlassian MCPs] for options.
+See xref:atlassian-setup.adoc[Atlassian Setup Guide] for Apache infrastructure configuration, or xref:../external/atlassian-mcps.adoc[Atlassian MCPs] for MCP options.
+
+[[cross-mcp-orchestration]]
+== Cross-MCP Orchestration
+
+When searching Maven-related content, references to JIRA issues, GitHub PRs, or Confluence pages can be followed across MCP servers to gather complete context.
+
+The following instructions are used by Claude Code (via `CLAUDE.md`) and shown here for reference:
+
+[source,markdown]
+----
+include::cross-mcp-orchestration.md[]
+----

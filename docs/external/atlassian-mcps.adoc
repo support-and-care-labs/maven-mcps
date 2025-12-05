@@ -126,7 +126,7 @@ Integration:: Direct integration with Claude
 Community-maintained MCP server supporting both Confluence and Jira across Cloud and Server/Data Center deployments.
 This is the *recommended option* for environments using Personal Access Tokens (PAT) or self-hosted Atlassian instances.
 
-Repository:: https://github.com/sooperset/mcp-atlassian
+Repository:: https://github.com/sooperset/mcp-atlassian[]
 
 === Supported Deployments
 

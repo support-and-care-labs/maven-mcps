@@ -1,0 +1,101 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= ADR-0004: Documentation Restructuring with docs/index.adoc Entry Points
+:revdate: 2025-12-07
+:status: Accepted
+
+== Status
+
+Accepted
+
+== Context
+
+The project documentation was primarily contained in README.adoc files at each project root.
+This created several issues:
+
+1. **README.adoc files became too long**: They contained both quick-start information and detailed documentation, making them hard to navigate.
+
+2. **Cross-referencing challenges**: References between the umbrella project and sub-projects (like mail-mcp) needed to work in multiple contexts:
+   * Local development (files on disk)
+   * GitHub rendering (different repositories)
+   * Future documentation site generation
+
+3. **No clear documentation entry point**: The `docs/` directories lacked a central index, making navigation difficult.
+
+4. **Mixed concerns**: README files mixed project overview, quick start, detailed documentation, and contributor guidelines.
+
+== Decision
+
+Restructure documentation with the following approach:
+
+=== Minimal README.adoc Files
+
+README.adoc files should contain only:
+
+* Project title and one-line description
+* Quick start / prerequisites
+* Link to `docs/index.adoc` for full documentation
+* License reference
+
+=== docs/index.adoc as Documentation Hub
+
+Each project (umbrella and sub-projects) has a `docs/index.adoc` that serves as:
+
+* Main documentation entry point
+* Table of contents for all documentation
+* Links to all ADRs with status
+* Cross-references to related projects
+
+=== Documentation Structure
+
+[source]
+----
+maven-mcps/
+├── README.adoc              # Minimal: title, project list, link to docs
+├── docs/
+│   ├── index.adoc           # Main documentation hub
+│   ├── adr/                  # Project-wide ADRs
+│   ├── external/             # External MCP documentation
+│   └── usage/                # Usage guides
+└── mail-mcp/
+    ├── README.adoc          # Minimal: quick start, link to docs
+    └── docs/
+        ├── index.adoc       # mail-mcp documentation hub
+        ├── adr/             # Project-specific ADRs
+        ├── development.adoc
+        └── ...
+----
+
+== Consequences
+
+=== Positive
+
+* **Clear separation of concerns**: Quick start vs. detailed documentation
+* **Better navigation**: Central index files in each docs/ directory
+* **Scalable structure**: Easy to add new documentation without bloating README
+* **Foundation for site generation**: index.adoc files can serve as navigation roots
+
+=== Negative
+
+* **One extra click**: Users must navigate from README to docs/index.adoc for details
+* **Maintenance overhead**: Need to keep index files updated when adding docs
+
+=== Future Work
+
+* Implement cross-reference attributes for multi-context rendering (Issue 1)
+* Configure GitHub rendering compatibility (Issue 2)
+* Set up documentation site generation with Antora or similar (Issue 3)

@@ -15,131 +15,39 @@
 //
 
 = Maven MCPs
-:toc:
-:toclevels: 2
 
-== Overview
-
-*Maven MCPs* is a collection of autonomous MCP (Model Context Protocol) servers designed to help with Apache Maven improvements.
-Each server provides LLM-accessible tools and context that enable better understanding of, and contributions to, the Apache Maven project.
-
-== Purpose
-
-This collection of MCP servers aims to provide comprehensive tooling for:
-
-* Analyzing Maven mailing list history and discussions
-* Supporting Maven development and maintenance workflows
-* Enabling LLM-assisted Maven improvements and contributions
-* Providing contextual information about Maven's evolution
+A collection of MCP (Model Context Protocol) servers designed to help with Apache Maven improvements.
 
 == MCP Server Projects
 
-=== xref:mail-mcp/README.adoc[mail-mcp]
+xref:mail-mcp/README.adoc[mail-mcp]::
+MCP server for accessing and analyzing Apache Maven mailing list archives (2002-present).
 
-MCP server for accessing and analyzing Apache Maven mailing list archives.
+== External MCP Servers
 
-* Contains 700+ MB of historical mbox files from 2002-present
-* Provides tools for retrieving and querying email archives
-* Supports multiple Apache mailing lists
-
-See xref:mail-mcp/README.adoc[mail-mcp README] for details.
-
-=== Future Projects
-
-Additional MCP servers will be added to support various aspects of Maven development and maintenance.
-
-== External MCP References
-
-We also consume third-party MCP servers for accessing external services.
-These are documented in xref:docs/external/index.adoc[docs/external/].
-
-Currently documented:
-
-* xref:docs/external/atlassian-mcps.adoc[Atlassian MCPs] - Jira and Confluence access
-
-See xref:docs/adr/0002-external-mcp-references.adoc[ADR-0002] for the rationale behind this documentation approach.
-
-
-== Usage and Architecture
-
-For guidance on setting up and using the complete MCP ecosystem:
-
-* xref:docs/usage/architecture.adoc[System Architecture] - deployment diagram and component overview
-* xref:docs/usage/index.adoc[Usage Documentation] - guides for using MCPs together
-
-See xref:docs/adr/0003-usage-documentation.adoc[ADR-0003] for the documentation approach.
-
-== Supporting Projects
-
-=== xref:maven-simple-reports/README.adoc[maven-simple-reports]
-
-Supporting project for generating simple reports and statistics about Maven development.
-
-* Not an MCP server itself, but provides useful tools and analysis
-* Helps with Maven support and care workflows
-
-See xref:maven-simple-reports/README.adoc[maven-simple-reports README] for details.
-
-== Project Structure
-
-Each MCP server is in its own subdirectory with:
-
-`README.adoc`:: Project overview and getting started guide
-`docs/`:: Project-specific documentation in AsciiDoc format
-`docs/adr/`:: Architecture Decision Records
-`src/`:: Source code
-`tests/`:: Test files
+We also document and integrate third-party MCP servers (Atlassian, GitHub, etc.) for accessing external services.
+See xref:docs/external/index.adoc[External MCP Catalog].
 
 == Documentation
 
-* All documentation is written in *AsciiDoc format* (`.adoc` files)
-* See xref:docs/adr/0001-documentation-standards.adoc[ADR-0001] for documentation standards
-* Each sub-project maintains its own detailed documentation
-* Project-wide ADRs are stored at the root level in `docs/adr/`
-* Project-specific ADRs are in each project's `docs/adr/` directory
-* External MCP documentation is in `docs/external/`
-* Usage and architecture documentation is in `docs/usage/`
+See xref:docs/index.adoc[Documentation] for:
+
+* Complete project documentation
+* Usage and architecture guides
+* External MCP references
+* Architecture Decision Records
 
 == Getting Started
 
-Navigate to the specific MCP server directory you're interested in and read its README.adoc file.
+Navigate to the specific MCP server directory:
 
 [source,bash]
 ----
 cd mail-mcp
 ----
 
-== Contributing
-
-When adding new MCP servers:
-
-. Create a new subdirectory at the root level
-. Follow the established project structure (README.adoc, docs/, src/, tests/)
-. Document architectural decisions in ADR format in `docs/adr/`
-. Update this README.adoc to list the new project
-
-== Technology
-
-MCP (Model Context Protocol):: Server framework for LLM tool exposure
-Python 3.11+:: Primary implementation language
-AsciiDoc:: Documentation format
-Poetry:: Dependency management and virtual environments
+Then follow the README.adoc in that directory.
 
 == License
 
-This project is licensed under the Apache License 2.0.
-See the xref:LICENSE[LICENSE] file for details.
-
-Copyright 2025 The Apache Software Foundation
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+Apache License 2.0 - See xref:LICENSE[LICENSE] for details.

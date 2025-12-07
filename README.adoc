@@ -14,13 +14,19 @@
 // limitations under the License.
 //
 
+// Cross-repository references - local default, GitHub override
+:mail-mcp-root: mail-mcp
+ifdef::env-github[]
+:mail-mcp-root: https://github.com/support-and-care-labs/mail-mcp/blob/main
+endif::[]
+
 = Maven MCPs
 
 A collection of MCP (Model Context Protocol) servers designed to help with Apache Maven improvements.
 
 == MCP Server Projects
 
-xref:mail-mcp/README.adoc[mail-mcp]::
+xref:{mail-mcp-root}/README.adoc[mail-mcp]::
 MCP server for accessing and analyzing Apache Maven mailing list archives (2002-present).
 
 == External MCP Servers

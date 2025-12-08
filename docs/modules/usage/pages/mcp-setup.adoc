@@ -1,0 +1,190 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= MCP Setup (Quick Start)
+ifndef::env-site[:toc:]
+ifndef::env-site[:toclevels: 2]
+
+This guide covers setting up all Maven-related MCP servers using Docker.
+
+== Prerequisites
+
+* Node.js 18+ with npm/npx (for Claude Code, GitHub MCP)
+* Docker Desktop (or Podman) installed and running
+
+Each MCP is optional - install only those you need:
+
+* **Mail MCP**: No account required (public archives)
+* **GitHub MCP**: GitHub account with Personal Access Token
+* **Atlassian MCP**: Apache Confluence and/or Apache Jira accounts with PATs
+
+TIP: For xref:claude-code-setup.adoc#_cross_mcp_orchestration[Cross-MCP Orchestration], having multiple MCPs enables following references across data sources (e.g., finding mail discussions about a GitHub issue).
+
+See xref:ROOT:prerequisites.adoc[Prerequisites] for detailed installation instructions.
+
+== Mail MCP
+
+The Mail MCP provides access to Apache Maven mailing list archives.
+It runs as a persistent Docker service and is accessed via SSE (Server-Sent Events).
+
+=== Setup
+
+[source,bash]
+----
+# Clone the repository
+git clone https://github.com/support-and-care-labs/mail-mcp.git
+cd mail-mcp
+
+# Start all services (Elasticsearch + MCP server + scheduler)
+docker compose up -d
+----
+
+=== Initial Data Retrieval
+
+Before using the MCP, retrieve the mailing list archives.
+This can be done entirely via Docker (no local Python installation required):
+
+[source,bash]
+----
+# Retrieve all dev mailing list archives (2002-present, ~700MB)
+for year in $(seq 2002 $(date +%Y)); do
+  for month in $(seq -w 1 12); do
+    docker compose exec scheduler retrieve-mbox --date ${year}-${month} || true
+  done
+done
+
+# Index all downloaded mbox files
+docker compose exec scheduler index-mbox --directory /app/data/dev/
+----
+
+TIP: The scheduler container automatically updates the current month's archive hourly.
+
+=== Verify
+
+[source,bash]
+----
+# Check services are running
+docker compose ps
+# Should show elasticsearch, mail-mcp, and scheduler services
+
+# Check Elasticsearch has data
+curl http://localhost:59200/maven-dev/_count
+----
+
+=== Add to Claude Code
+
+The Mail MCP server runs permanently and is accessed via SSE:
+
+[source,bash]
+----
+claude mcp add maven-mail -s user --transport sse http://localhost:58080/sse
+----
+
+NOTE: Ensure the mail-mcp Docker services are running before starting Claude Code.
+
+For detailed configuration, see xref:mail-mcp-setup.adoc[Mail MCP Detailed Setup].
+
+== GitHub MCP
+
+The GitHub MCP provides access to Maven repositories, issues, and pull requests.
+
+=== Create GitHub PAT
+
+. Go to https://github.com/settings/tokens[GitHub Settings > Tokens]
+. Click "Generate new token (classic)"
+. Select scope: `public_repo` (sufficient for Apache Maven public repositories)
+. Copy the generated token
+
+=== Add to Claude Code
+
+[source,bash]
+----
+claude mcp add github -s user \
+  -e GITHUB_PERSONAL_ACCESS_TOKEN=<your-token> \
+  -- npx -y @modelcontextprotocol/server-github
+----
+
+NOTE: GitHub MCP uses `npx` as there is no official Docker image yet.
+The name `github` (without `maven-` prefix) reflects that this MCP is not Maven-specific.
+
+For detailed configuration, see xref:github-mcp-setup.adoc[GitHub MCP Detailed Setup].
+
+== Atlassian MCP
+
+The Atlassian MCP provides access to Apache Confluence and Jira.
+
+=== Create Personal Access Tokens
+
+Apache uses Atlassian Server/Data Center (not Cloud).
+PATs are generated separately in each application:
+
+**Confluence PAT:**
+
+. Log in to https://cwiki.apache.org/confluence[Apache Confluence]
+. Go to Profile (top right) → Settings → Personal Access Tokens
+. Click "Create token", set a name and expiry
+. Copy the generated token
+
+**Jira PAT:**
+
+. Log in to https://issues.apache.org/jira[Apache Jira]
+. Go to Profile (top right) → Personal Access Tokens
+. Click "Create token", set a name and expiry
+. Copy the generated token
+
+=== Add to Claude Code
+
+. Set your tokens as shell variables:
++
+[source,bash]
+----
+CONFLUENCE_PERSONAL_TOKEN=<your-confluence-pat>
+JIRA_PERSONAL_TOKEN=<your-jira-pat>
+----
+
+. Run the `claude mcp add` command (copy-paste as-is):
++
+[source,bash]
+----
+claude mcp add maven-atlassian -s user \
+  -e CONFLUENCE_URL=https://cwiki.apache.org/confluence \
+  -e CONFLUENCE_PERSONAL_TOKEN=$CONFLUENCE_PERSONAL_TOKEN \
+  -e JIRA_URL=https://issues.apache.org/jira \
+  -e JIRA_PERSONAL_TOKEN=$JIRA_PERSONAL_TOKEN \
+  -e 'JIRA_PROJECTS_FILTER=ARCHETYPE,DOXIA,DOXIASITETOOLS,DOXIATOOLS,JXR,MJARSIGNER,MACR,MANTRUN,MARCHETYPES,MARTIFACT,MASFRES,MASSEMBLY,MBUILDCACHE,MCHANGELOG,MCHANGES,MCHECKSTYLE,MCLEAN,MCOMPILER,MDEP,MDEPLOY,MDOAP,MEAR,MEJB,MENFORCER,MGPG,MINDEXER,MINSTALL,MINVOKER,MJAR,MJAVADOC,MJDEPRSCAN,MJDEPS,MJLINK,MJMOD,MLINKCHECK,MNG,MNGSITE,MPH,MPIR,MPLUGIN,MPLUGINTESTING,MPMD,MPOM,MRAR,MRELEASE,MRESOLVER,MRESOURCES,MRRESOURCES,MSCMPUB,MSCRIPTING,MSHADE,MSHARED,MSITE,MSKINS,MSOURCES,MSTAGE,MTOOLCHAINS,MVERIFIER,MWAR,MWRAPPER,SCM,SUREFIRE,WAGON' \
+  -- docker run -i --rm \
+     -e CONFLUENCE_URL -e CONFLUENCE_PERSONAL_TOKEN \
+     -e JIRA_URL -e JIRA_PERSONAL_TOKEN -e JIRA_PROJECTS_FILTER \
+     ghcr.io/sooperset/mcp-atlassian:latest
+----
+
+For detailed configuration, see xref:atlassian-mcp-setup.adoc[Atlassian MCP Detailed Setup].
+
+== Verify Installation
+
+After adding MCPs, verify they are configured:
+
+[source,bash]
+----
+claude mcp list
+----
+
+You should see all configured MCP servers listed.
+
+== Next Steps
+
+* xref:claude-code-setup.adoc[Configure Claude Code] with cross-MCP orchestration
+* xref:llm-mcp-overview.adoc[Learn more about LLMs and MCPs]

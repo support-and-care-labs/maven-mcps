@@ -74,8 +74,7 @@ Add `-s user` for user-level (global) configuration, or `-s project` for project
 
 [source,bash]
 ----
-claude mcp add confluence \
-  -s user \
+claude mcp add maven-confluence -s user \
   -e CONFLUENCE_URL=https://cwiki.apache.org/confluence \
   -e CONFLUENCE_PERSONAL_TOKEN=<your-confluence-pat> \
   -- docker run -i --rm \
@@ -88,8 +87,7 @@ claude mcp add confluence \
 
 [source,bash]
 ----
-claude mcp add jira \
-  -s user \
+claude mcp add maven-jira -s user \
   -e JIRA_URL=https://issues.apache.org/jira \
   -e JIRA_PERSONAL_TOKEN=<your-jira-pat> \
   -- docker run -i --rm \
@@ -98,12 +96,11 @@ claude mcp add jira \
     ghcr.io/sooperset/mcp-atlassian:latest
 ----
 
-==== Combined (Confluence + Jira)
+==== Combined (Confluence + Jira) (Recommended)
 
 [source,bash]
 ----
-claude mcp add atlassian \
-  -s user \
+claude mcp add maven-atlassian -s user \
   -e CONFLUENCE_URL=https://cwiki.apache.org/confluence \
   -e CONFLUENCE_PERSONAL_TOKEN=<your-confluence-pat> \
   -e JIRA_URL=https://issues.apache.org/jira \
@@ -149,8 +146,7 @@ export JIRA_PERSONAL_TOKEN="your-jira-token-here"
 +
 [source,bash]
 ----
-claude mcp add atlassian \
-  -s user \
+claude mcp add maven-atlassian -s user \
   -e 'CONFLUENCE_URL=https://cwiki.apache.org/confluence' \
   -e 'CONFLUENCE_PERSONAL_TOKEN=${CONFLUENCE_PERSONAL_TOKEN}' \
   -e 'JIRA_URL=https://issues.apache.org/jira' \
@@ -200,8 +196,7 @@ Add this directly to your MCP configuration:
 
 [source,bash]
 ----
-claude mcp add atlassian \
-  -s user \
+claude mcp add maven-atlassian -s user \
   -e 'CONFLUENCE_URL=https://cwiki.apache.org/confluence' \
   -e 'CONFLUENCE_PERSONAL_TOKEN=${CONFLUENCE_PERSONAL_TOKEN}' \
   -e 'JIRA_URL=https://issues.apache.org/jira' \

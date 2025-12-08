@@ -1,0 +1,158 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= GitHub MCP Setup
+ifndef::env-site[:toc:]
+ifndef::env-site[:toclevels: 3]
+
+This guide covers setting up the GitHub MCP server for accessing Apache Maven repositories and issues.
+
+== Overview
+
+The GitHub MCP provides access to:
+
+* GitHub Issues (the primary issue tracker for Maven since migration from Jira)
+* Pull Requests and code reviews
+* Repository content and commits
+* Code search
+
+== Prerequisites
+
+* Node.js (for npx) - see xref:ROOT:prerequisites.adoc[Prerequisites]
+* GitHub account
+* GitHub Personal Access Token (PAT)
+
+== Creating a GitHub PAT
+
+. Go to https://github.com/settings/tokens[GitHub Settings > Tokens]
+. Click "Generate new token (classic)"
+. Select scopes:
+** `repo` - Full control of private repositories (or `public_repo` for public only)
+** `read:org` - Read organization membership (optional)
+. Copy the generated token
+
+TIP: For Apache Maven work, `public_repo` scope is usually sufficient since Maven repositories are public.
+
+== MCP Configuration
+
+=== Using Claude Code CLI (Recommended)
+
+[source,bash]
+----
+claude mcp add github -s user \
+  -e GITHUB_PERSONAL_ACCESS_TOKEN=<your-github-token> \
+  -- npx -y @modelcontextprotocol/server-github
+----
+
+NOTE: The name `github` (without `maven-` prefix) reflects that this MCP is not Maven-specific.
+
+=== Manual JSON Configuration
+
+For project-level configuration, add to `.mcp.json` in your project root:
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "<your-github-token>"
+      }
+    }
+  }
+}
+----
+
+== Available Tools
+
+Once configured, the following MCP tools are available:
+
+=== Issues
+
+search_issues::
+Search issues across repositories using GitHub's search syntax.
+
+issue_read::
+Get details of a specific issue including comments and labels.
+
+=== Pull Requests
+
+list_pull_requests::
+List PRs in a repository with optional filters.
+
+pull_request_read::
+Get PR details including diff, status, and review comments.
+
+=== Code
+
+search_code::
+Search code across repositories.
+
+get_file_contents::
+Retrieve file content from a repository.
+
+=== Repository
+
+list_commits::
+List commits in a repository or branch.
+
+get_commit::
+Get details of a specific commit including diff.
+
+== Maven Repositories
+
+Key Apache Maven repositories on GitHub:
+
+[cols="2,3"]
+|===
+|Repository |Description
+
+|`apache/maven`
+|Maven Core
+
+|`apache/maven-resolver`
+|Artifact Resolver
+
+|`apache/maven-compiler-plugin`
+|Compiler Plugin
+
+|`apache/maven-surefire`
+|Surefire Plugin
+|===
+
+TIP: Search for `apache/maven-*` to find all Maven-related repositories.
+
+== Example Queries
+
+[source]
+----
+# Search for issues about Maven 4
+> Search GitHub issues in apache/maven about "Maven 4"
+
+# Get a specific issue
+> Get details of issue #1234 in apache/maven
+
+# Find recent PRs
+> List open pull requests in apache/maven-compiler-plugin
+----
+
+== Related
+
+* xref:claude-code-setup.adoc[Claude Code Setup]
+* xref:components:github-mcp.adoc[GitHub MCP Component Overview]
+* https://github.com/modelcontextprotocol/servers/tree/main/src/github[Official GitHub MCP Documentation]

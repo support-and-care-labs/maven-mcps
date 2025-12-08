@@ -2,15 +2,23 @@
 
 When working with Maven-related content, automatically follow references across MCP servers to gather complete context.
 
+## MCP Server Names
+
+| MCP Server | Name | Description |
+|------------|------|-------------|
+| GitHub | `github` | GitHub issues, PRs, and repositories (not Maven-specific) |
+| Atlassian | `maven-atlassian` | Apache Confluence and Jira access |
+| Mail | `maven-mail` | Maven mailing list archives |
+
 ## Primary Sources
 
 For Maven-related queries, use these sources in order of preference:
 
-1. **GitHub Issues** - Current issue tracker (primary)
-2. **GitHub PRs** - Code changes and discussions
-3. **Mail Archives** - Historical discussions and decisions
-4. **Confluence** - Design documents and specifications
-5. **Jira** - Historical issues only (see below)
+1. **GitHub Issues** (`github`) - Current issue tracker (primary)
+2. **GitHub PRs** (`github`) - Code changes and discussions
+3. **Mail Archives** (`maven-mail`) - Historical discussions and decisions
+4. **Confluence** (`maven-atlassian`) - Design documents and specifications
+5. **Jira** (`maven-atlassian`) - Historical issues only (see below)
 
 ## Jira Migration Notice
 
@@ -32,7 +40,7 @@ For Maven-related queries, use these sources in order of preference:
 Pattern: `apache/maven#123`, `#123` (in context of a repo)
 
 When searching for Maven issues:
-- Use GitHub MCP's `search_issues` or `issue_read` tools
+- Use `github` MCP's `search_issues` or `issue_read` tools
 - This is the primary issue tracker - search here first
 - Issues imported from Jira contain the original Jira key in their body
 
@@ -41,7 +49,7 @@ When searching for Maven issues:
 Pattern: `MNG-1234`, `MCOMPILER-567`, `MRESOLVER-123`, etc.
 
 **Only retrieve when referenced** in mail archives, Confluence, or GitHub:
-- Use the Atlassian MCP to retrieve issue details
+- Use `maven-atlassian` MCP to retrieve issue details
 - Look for: status, resolution, linked issues, comments
 - Check if a corresponding GitHub issue exists (for current status)
 
@@ -141,7 +149,7 @@ Maven JIRA project keys:
 Pattern: `apache/maven#123` (PR), commit SHAs
 
 When found:
-- Use GitHub MCP's `pull_request_read` or `get_commit` tools
+- Use `github` MCP's `pull_request_read` or `get_commit` tools
 - Retrieve PR description, status, review comments, or commit details
 
 ### Confluence Pages
@@ -149,7 +157,7 @@ When found:
 Pattern: URLs containing `cwiki.apache.org/confluence`
 
 When found:
-- Use Atlassian MCP to retrieve page content
+- Use `maven-atlassian` MCP to retrieve page content
 - Look for related documentation and decision records
 
 ### Mail Thread References
@@ -157,7 +165,7 @@ When found:
 Pattern: Message-IDs in `In-Reply-To` or `References` headers
 
 When found:
-- Use mail-mcp's `get_thread` to retrieve full discussion context
+- Use `maven-mail` MCP's `get_thread` to retrieve full discussion context
 - Use `get_message` for specific referenced messages
 
 ## Orchestration Workflow
@@ -175,18 +183,18 @@ When analyzing Maven-related content:
 
 When a Jira key is mentioned (in mail, docs, or conversation):
 
-1. **Search GitHub Issues first** - look for the imported issue containing "MNG-7038" in the body
-2. Search mail-mcp for emails mentioning MNG-7038
-3. **Only then** use Atlassian MCP to get the original JIRA issue details
-4. If the issue references a GitHub PR, fetch that via GitHub MCP
-5. If Confluence documentation is linked, retrieve that context
+1. **Search GitHub Issues first** (`github`) - look for the imported issue containing "MNG-7038" in the body
+2. Search `maven-mail` for emails mentioning MNG-7038
+3. **Only then** use `maven-atlassian` to get the original JIRA issue details
+4. If the issue references a GitHub PR, fetch that via `github`
+5. If Confluence documentation is linked, retrieve via `maven-atlassian`
 6. Synthesize findings into a coherent summary
 
 ### Investigating a Current Maven Issue
 
 When researching a current topic (not a specific Jira reference):
 
-1. **Search GitHub Issues** - this is the current issue tracker
-2. Search mail-mcp for related discussions
-3. Check Confluence for design documents
-4. Only look up Jira if references are found in the above sources
+1. **Search GitHub Issues** (`github`) - this is the current issue tracker
+2. Search `maven-mail` for related discussions
+3. Check Confluence via `maven-atlassian` for design documents
+4. Only look up Jira via `maven-atlassian` if references are found in the above sources

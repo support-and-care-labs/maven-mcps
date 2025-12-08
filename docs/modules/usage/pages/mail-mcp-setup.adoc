@@ -1,0 +1,142 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= Mail MCP Setup
+ifndef::env-site[:toc:]
+ifndef::env-site[:toclevels: 3]
+
+This guide covers setting up the Mail MCP server for accessing Apache Maven mailing list archives.
+
+== Overview
+
+Mail MCP provides access to historical Maven mailing list discussions.
+It runs locally using Docker and indexes emails into Elasticsearch for fast searching.
+
+== Prerequisites
+
+* Container runtime (Docker, Podman, etc.) - see xref:ROOT:prerequisites.adoc[Prerequisites]
+* Sufficient disk space (~1GB for archives + Elasticsearch data)
+
+== Quick Start with Docker
+
+The simplest way to run mail-mcp is via Docker Compose:
+
+[source,bash]
+----
+# Clone the repository
+git clone https://github.com/support-and-care-labs/mail-mcp.git
+cd mail-mcp
+
+# Start all services (Elasticsearch + MCP server + scheduler)
+docker compose up -d
+
+# Verify services are running
+docker compose ps
+----
+
+The Docker setup includes:
+
+* Elasticsearch for storing and searching emails
+* Mail MCP server (HTTP/SSE on port 58080)
+* Scheduler for automatic hourly updates of the current month's archive
+
+== Initial Data Retrieval
+
+Before using the MCP, retrieve the mailing list archives.
+This can be done entirely via Docker (no local Python installation required):
+
+[source,bash]
+----
+# Retrieve all dev mailing list archives (2002-present, ~700MB)
+for year in $(seq 2002 $(date +%Y)); do
+  for month in $(seq -w 1 12); do
+    docker compose exec scheduler retrieve-mbox --date ${year}-${month} || true
+  done
+done
+
+# Index all downloaded mbox files into Elasticsearch
+docker compose exec scheduler index-mbox --directory /app/data/dev/
+----
+
+TIP: This initial retrieval takes time but only needs to be done once.
+The scheduler container automatically updates the current month's archive hourly.
+
+== MCP Configuration
+
+The Mail MCP server runs as a persistent Docker service and is accessed via SSE.
+
+=== Using Claude Code CLI (Recommended)
+
+[source,bash]
+----
+claude mcp add maven-mail -s user --transport sse http://localhost:58080/sse
+----
+
+=== Manual JSON Configuration
+
+For project-level configuration, add to `.mcp.json` in your project root:
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "maven-mail": {
+      "transport": "sse",
+      "url": "http://localhost:58080/sse"
+    }
+  }
+}
+----
+
+NOTE: Ensure Docker services are running before starting Claude Code.
+See xref:claude-code-detailed.adoc[Claude Code Detailed Setup] for other configuration scopes.
+
+== Available Tools
+
+Once configured, the following MCP tools are available:
+
+search_emails::
+Full-text search across email archives with date and metadata filters.
+
+get_message::
+Retrieve a specific email by Message-ID.
+
+get_thread::
+Retrieve an entire email thread for context.
+
+find_references::
+Find emails mentioning specific JIRA issues or GitHub PRs.
+
+== Detailed Documentation
+
+For complete documentation including:
+
+* Data management and indexing
+* Development setup
+* Architecture details
+
+See xref:mail-mcp::index.adoc[Mail MCP Documentation].
+
+=== Key Pages
+
+* xref:mail-mcp:usage:docker.adoc[Docker Setup] - Full Docker configuration
+* xref:mail-mcp:usage:mcp-server.adoc[MCP Server] - Server configuration and tools
+* xref:mail-mcp:usage:data-management.adoc[Data Management] - Managing mbox archives
+
+== Related
+
+* xref:claude-code-setup.adoc[Claude Code Setup]
+* xref:components:mail-mcp.adoc[Mail MCP Component Overview]

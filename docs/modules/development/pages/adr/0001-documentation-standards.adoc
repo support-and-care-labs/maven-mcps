@@ -15,8 +15,8 @@
 //
 
 = ADR-0001: Documentation Standards and Structure
-:toc:
-:toclevels: 3
+ifndef::env-site[:toc:]
+ifndef::env-site[:toclevels: 3]
 
 == Status
 

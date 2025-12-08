@@ -1,0 +1,135 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= Prerequisites
+ifndef::env-site[:toc:]
+ifndef::env-site[:toclevels: 2]
+
+== Overview
+
+This page lists the prerequisites for *using* the Maven MCP ecosystem.
+For development prerequisites, see xref:development:prerequisites.adoc[Development Prerequisites].
+
+[NOTE]
+====
+*About "Docker" terminology*
+
+Throughout this documentation, "Docker" refers to any OCI-compatible container runtime.
+You can use Docker Engine, Docker Desktop, Podman, containerd, or any other compatible runtime.
+Commands shown use `docker` syntax, but substitute your runtime's equivalent commands as needed.
+====
+
+== Summary
+
+[cols="2,3,2"]
+|===
+|Prerequisite |Used By |Documentation
+
+|Container Runtime
+|mail-mcp, Atlassian MCP
+|<<container-runtime>>
+
+|Personal Access Tokens (Apache infrastructure)
+|Atlassian MCP
+|<<apache-pat>>
+
+|GitHub Account
+|GitHub MCP
+|<<github>>
+
+|===
+
+[[container-runtime]]
+== Container Runtime
+
+A container runtime is required for running the MCP servers and their dependencies.
+
+Used by::
+* *mail-mcp*: Runs Elasticsearch for indexing and searching email archives, and the MCP server itself
+* *Atlassian MCP*: Runs the mcp-atlassian container
+
+Options::
+* https://docs.docker.com/engine/install/[Docker Engine] (Linux)
+* https://www.docker.com/products/docker-desktop/[Docker Desktop] (macOS, Windows, Linux)
+* https://podman.io/[Podman] (Linux, macOS, Windows)
+
+Verification::
+[source,bash]
+----
+docker --version
+# or: podman --version
+----
+
+For Compose support:
+[source,bash]
+----
+docker compose version
+# or: podman-compose --version
+----
+
+Further reading::
+* xref:mail-mcp:usage:docker.adoc[mail-mcp Docker Setup]
+* xref:components:atlassian-mcps.adoc[Atlassian MCP Options]
+
+[[apache-pat]]
+== Personal Access Tokens (Apache Infrastructure)
+
+Personal Access Tokens (PAT) are required for accessing Apache's self-hosted Atlassian instances.
+
+[IMPORTANT]
+====
+Apache runs *Atlassian Server/Data Center* (not Cloud).
+PAT authentication is the only supported method for these self-hosted instances.
+====
+
+Used by::
+* *Atlassian MCP*: Access to Apache Jira and Apache Confluence
+
+Required tokens::
+* *Confluence PAT*: For accessing https://cwiki.apache.org/confluence[Apache Confluence]
+* *Jira PAT*: For accessing https://issues.apache.org/jira[Apache Jira]
+
+Setup::
+You need an Apache account with access to these services.
+See xref:usage:atlassian-setup.adoc#_generating_personal_access_tokens[Generating Personal Access Tokens] for step-by-step instructions.
+
+[[github]]
+== GitHub Account
+
+A GitHub account is required for the GitHub MCP.
+
+Used by::
+* *GitHub MCP*: Access to repositories, issues, and pull requests
+
+Setup::
+. Create an account at https://github.com[GitHub] (if you don't have one)
+. Authenticate via GitHub CLI: `gh auth login`
++
+Or generate a Personal Access Token at https://github.com/settings/tokens[GitHub Settings > Tokens]
+
+[NOTE]
+====
+GitHub MCP is typically pre-configured in Claude Code installations.
+====
+
+Further reading::
+* xref:components:github-mcp.adoc[GitHub MCP Documentation]
+
+== Related
+
+* xref:architecture.adoc[System Architecture]
+* xref:usage:index.adoc[Usage Documentation]
+* xref:development:prerequisites.adoc[Development Prerequisites]

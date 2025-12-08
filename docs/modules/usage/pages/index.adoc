@@ -21,14 +21,14 @@ ifdef::env-github[]
 endif::[]
 
 = Usage Documentation Catalog
-:toc:
+ifndef::env-site[:toc:]
 
 == Overview
 
 This catalog provides guides for using the Maven MCP ecosystem.
 
-For information about individual MCP projects, see xref:../../README.adoc[Maven MCPs Overview].
-For external MCP documentation, see xref:../external/index.adoc[External MCP Catalog].
+For information about individual MCP projects, see xref:ROOT:index.adoc[Maven MCPs Overview].
+For component documentation, see xref:components:index.adoc[Components Catalog].
 
 == Available Documentation
 
@@ -36,7 +36,7 @@ For external MCP documentation, see xref:../external/index.adoc[External MCP Cat
 |===
 |Document |Description |Status
 
-|xref:architecture.adoc[Architecture]
+|xref:ROOT:architecture.adoc[Architecture]
 |System architecture and deployment diagram showing how MCPs connect
 |Available
 
@@ -62,25 +62,25 @@ For a typical Maven support workflow, you need:
 . *GitHub MCP* (external) - Access to Maven GitHub repositories and issues
 . *Atlassian MCP* (external, optional) - Access to Jira/Confluence if needed
 
-See xref:architecture.adoc[Architecture] for the deployment overview.
+See xref:ROOT:architecture.adoc[Architecture] for the deployment overview.
 
 == MCP Components
 
-=== Internal MCPs
+For a complete list of available MCP components, see xref:components:index.adoc[Components Catalog].
+
+=== Quick Links
 
 mail-mcp::
 Locally deployed MCP server providing access to Maven mailing list archives.
-See xref:{mail-mcp-root}/README.adoc[mail-mcp documentation].
-
-=== External MCPs
-
-GitHub MCP::
-Provides access to GitHub repositories, issues, and pull requests.
-Typically pre-configured in Claude Code.
+See xref:components:mail-mcp.adoc[Overview] or xref:mail-mcp::index.adoc[Full Documentation].
 
 Atlassian MCP::
 Provides access to Jira and Confluence.
-See xref:atlassian-setup.adoc[Atlassian Setup Guide] for Apache infrastructure configuration, or xref:../external/atlassian-mcps.adoc[Atlassian MCPs] for MCP options.
+See xref:atlassian-setup.adoc[Atlassian Setup Guide] for Apache infrastructure configuration.
+
+GitHub MCP::
+Provides access to GitHub repositories, issues, and pull requests.
+See xref:components:github-mcp.adoc[GitHub MCP].
 
 [[cross-mcp-orchestration]]
 == Cross-MCP Orchestration
@@ -91,5 +91,5 @@ The following instructions are used by Claude Code (via `CLAUDE.md`) and shown h
 
 [source,markdown]
 ----
-include::cross-mcp-orchestration.md[]
+include::partial$cross-mcp-orchestration.md[]
 ----

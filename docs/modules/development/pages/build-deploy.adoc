@@ -1,0 +1,132 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= Build and Deployment
+ifndef::env-site[:toc:]
+ifndef::env-site[:toclevels: 3]
+
+This page documents how to build and deploy the maven-mcps documentation site.
+
+== Prerequisites
+
+* Node.js (for npx/Antora)
+* netlify-cli (`npm install -g netlify-cli`) - for deployment only
+
+== Makefile Targets
+
+The project includes a `Makefile` in the repository root for common tasks:
+
+[cols="1,3"]
+|===
+| Target | Description
+
+| `make build`
+| Build the Antora documentation site
+
+| `make clean`
+| Remove build artifacts (`./build/` directory)
+
+| `make deploy`
+| Build and deploy to Netlify (production)
+
+| `make deploy-preview`
+| Build and deploy a draft preview to Netlify
+
+| `make help`
+| Show available targets
+|===
+
+== Building the Site
+
+To build the documentation site locally:
+
+[source,bash]
+----
+make build
+----
+
+This runs Antora with the local playbook (`antora-local-playbook.yml`) and generates the site in `./build/site/`.
+
+You can also run Antora directly:
+
+[source,bash]
+----
+npx antora antora-local-playbook.yml
+----
+
+== Deploying to Netlify
+
+=== Environment Variables
+
+Deployment requires two environment variables:
+
+`NETLIFY_AUTH_TOKEN`::
+Your Netlify personal access token.
+Generate one at https://app.netlify.com/user/applications#personal-access-tokens[Netlify User Settings].
+
+`NETLIFY_PROJECT_ID`::
+The Netlify site ID.
+Find this in your site's settings under "Site information".
+
+=== Production Deployment
+
+Deploy to production (publishes to the live site URL):
+
+[source,bash]
+----
+export NETLIFY_AUTH_TOKEN="your-token"
+export NETLIFY_PROJECT_ID="your-site-id"
+make deploy
+----
+
+=== Preview Deployment
+
+Deploy a draft preview (generates a unique preview URL):
+
+[source,bash]
+----
+make deploy-preview
+----
+
+This is useful for reviewing changes before publishing to production.
+
+== Local Development
+
+For local development with live preview, use a local HTTP server:
+
+[source,bash]
+----
+make build
+cd build/site
+python -m http.server 8000
+----
+
+Then open http://localhost:8000 in your browser.
+
+== Playbook Configuration
+
+The build uses `antora-local-playbook.yml` which:
+
+* Reads from the working directory (via `worktrees: true`)
+* Includes both the umbrella docs and mail-mcp component
+* Uses supplemental UI files for custom header styling
+
+See the playbook file for full configuration details.
+
+== Related Documentation
+
+* xref:development:prerequisites.adoc[Development Prerequisites]
+* xref:development:adr/0004-documentation-restructuring.adoc[ADR-0004: Documentation Restructuring]

@@ -15,14 +15,14 @@
 //
 
 = Usage Documentation
-:toc:
+ifndef::env-site[:toc:]
 
 == Purpose
 
 This directory contains documentation for _using_ the Maven MCP ecosystem.
 
 Usage docs:: How to install, configure, and use MCPs together in workflows.
-External docs:: Information about third-party MCPs we consume (see xref:../external/[docs/external/]).
+External docs:: Information about third-party MCPs we consume (see xref:external-mcps.adoc[External MCPs]).
 Project docs:: Individual MCP project documentation (in each subdirectory).
 
 == Scope
@@ -62,6 +62,6 @@ Add usage documentation when:
 
 == Related
 
-* xref:../../README.adoc[Maven MCPs Overview] - main project README
-* xref:../adr/[Architecture Decision Records] - project-wide ADRs
-* xref:../external/[External MCP Documentation] - third-party MCP docs
+* xref:ROOT:index.adoc[Maven MCPs Overview] - main documentation hub
+* xref:development:adr/0001-documentation-standards.adoc[Architecture Decision Records] - project-wide ADRs
+* xref:external-mcps.adoc[External MCP Documentation] - third-party MCP docs

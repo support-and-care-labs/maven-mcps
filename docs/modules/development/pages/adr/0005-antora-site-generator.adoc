@@ -1,0 +1,144 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= ADR-0005: Antora as Documentation Site Generator
+:revdate: 2025-12-08
+:status: Accepted
+
+== Status
+
+Accepted
+
+== Context
+
+The maven-mcps project requires a documentation site generator that:
+
+* Supports AsciiDoc natively (per xref:development:adr/0001-documentation-standards.adoc[ADR-0001])
+* Handles multi-component documentation (umbrella + sub-projects like mail-mcp)
+* Provides good navigation and cross-referencing capabilities
+* Integrates with modern deployment platforms (Netlify, GitHub Pages)
+* Has active community support
+
+=== Options Considered
+
+Yupiik Tools Maven Plugin::
+Initially considered due to Maven ecosystem familiarity.
+However, it soon turned out that we would rather need multi-repository/multi-version support and opinionated hierarchical navigation, which the Yupiik Tools do not provide out of the box.
+
+Antora::
+Purpose-built for multi-repository, multi-component AsciiDoc documentation.
+Uses a playbook concept for flexible source configuration.
+Strong cross-referencing with module-aware xref syntax.
+Node.js based, runs via `npx` without installation.
+
+Hugo/Jekyll with AsciiDoc::
+General-purpose static site generators with AsciiDoc plugins.
+Less native AsciiDoc support compared to Antora.
+Cross-referencing between components requires more manual work.
+
+== Decision
+
+Use **Antora** as the documentation site generator.
+
+=== Key Features Used
+
+Multi-component structure::
+Separate Antora components for umbrella docs and mail-mcp, each with their own modules (ROOT, usage, development, components).
+
+Playbook configuration::
+`antora-local-playbook.yml` for local builds with `worktrees: true` to read from working directory.
+
+Cross-references::
+Module-aware xrefs like `xref:development:adr/0001-...adoc[]` work across components.
+
+Supplemental UI::
+Custom `header-content.hbs` to simplify the default Antora UI navbar.
+
+Conditional rendering::
+`ifndef::env-site[:toc:]` for attributes that differ between standalone and site rendering.
+
+Client-side search::
+`@antora/lunr-extension` provides full-text search across all documentation without external services.
+
+=== Directory Structure
+
+[source]
+----
+maven-mcps/
+├── antora-local-playbook.yml    # Build configuration
+├── supplemental-ui/             # UI customizations
+│   └── partials/
+│       └── header-content.hbs
+├── docs/                        # Umbrella component
+│   ├── antora.yml               # Component descriptor
+│   └── modules/
+│       ├── ROOT/
+│       ├── usage/
+│       ├── components/
+│       └── development/
+└── mail-mcp/
+    └── docs/                    # mail-mcp component
+        ├── antora.yml
+        └── modules/
+            ├── ROOT/
+            └── development/
+----
+
+== Consequences
+
+=== Positive
+
+Native AsciiDoc support::
+No conversion or plugin configuration needed.
+
+Multi-component architecture::
+Clean separation between umbrella and sub-project documentation.
+
+Strong cross-referencing::
+Module-qualified xrefs work reliably across the site.
+
+Modern tooling::
+Runs via `npx`, easy CI/CD integration, active development.
+
+Flexible theming::
+Supplemental UI allows customization without forking the theme.
+
+Built-in search::
+Lunr extension provides client-side full-text search without external dependencies.
+
+=== Negative
+
+Learning curve::
+Antora's module/component concepts require initial learning.
+
+Node.js dependency::
+Requires Node.js for building (though not for development).
+
+Opinionated structure::
+Must follow Antora's directory conventions (modules/, pages/, etc.).
+
+=== Neutral
+
+Separate from code build::
+Documentation builds independently from Python/application code.
+
+== References
+
+* https://antora.org/[Antora Documentation]
+* https://docs.antora.org/antora/latest/playbook/[Playbook Configuration]
+* xref:development:adr/0001-documentation-standards.adoc[ADR-0001: Documentation Standards]
+* xref:development:adr/0004-documentation-restructuring.adoc[ADR-0004: Documentation Restructuring]
+* xref:development:build-deploy.adoc[Build and Deployment Guide]

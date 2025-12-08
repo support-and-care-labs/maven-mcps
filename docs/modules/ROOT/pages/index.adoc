@@ -21,7 +21,7 @@ ifdef::env-github[]
 endif::[]
 
 = Maven MCPs Documentation
-:toc:
+ifndef::env-site[:toc:]
 :toclevels: 2
 
 == Overview
@@ -47,27 +47,28 @@ MCP server for accessing and analyzing Apache Maven mailing list archives.
 * Provides tools for retrieving and querying email archives
 * Supports multiple Apache mailing lists
 
-See xref:{mail-mcp-root}/docs/index.adoc[mail-mcp documentation] for details.
+See xref:mail-mcp::index.adoc[mail-mcp documentation] for details.
 
 == External MCP References
 
 We also consume third-party MCP servers for accessing external services.
-These are documented in xref:external/index.adoc[External MCP Catalog].
+These are documented in xref:components:index.adoc[Components Catalog].
 
 Currently documented:
 
-* xref:external/atlassian-mcps.adoc[Atlassian MCPs] - Jira and Confluence access
+* xref:components:atlassian-mcps.adoc[Atlassian MCPs] - Jira and Confluence access
 
-See xref:adr/0002-external-mcp-references.adoc[ADR-0002] for the rationale.
+See xref:development:adr/0002-external-mcp-references.adoc[ADR-0002] for the rationale.
 
-== Usage and Architecture
+== Getting Started
 
 For guidance on setting up and using the complete MCP ecosystem:
 
-* xref:usage/architecture.adoc[System Architecture] - deployment diagram and component overview
-* xref:usage/index.adoc[Usage Documentation] - guides for using MCPs together
+* xref:prerequisites.adoc[Prerequisites] - what you need to install
+* xref:architecture.adoc[System Architecture] - deployment diagram and component overview
+* xref:usage:index.adoc[Usage Documentation] - guides for using MCPs together
 
-See xref:adr/0003-usage-documentation.adoc[ADR-0003] for the documentation approach.
+See xref:development:adr/0003-usage-documentation.adoc[ADR-0003] for the documentation approach.
 
 == Project Structure
 
@@ -106,7 +107,7 @@ Each MCP server is in its own subdirectory with:
 
 |===
 
-See xref:adr/0001-documentation-standards.adoc[ADR-0001] for documentation standards.
+See xref:development:adr/0001-documentation-standards.adoc[ADR-0001] for documentation standards.
 
 == Technology
 

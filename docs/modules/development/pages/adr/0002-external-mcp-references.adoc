@@ -15,8 +15,8 @@
 //
 
 = ADR-0002: External MCP Server Documentation
-:toc:
-:toclevels: 3
+ifndef::env-site[:toc:]
+ifndef::env-site[:toclevels: 3]
 
 == Status
 
@@ -115,6 +115,5 @@ Same AsciiDoc standards apply as project documentation.
 
 == References
 
-* xref:0001-documentation-standards.adoc[ADR-0001: Documentation Standards]
-* xref:../external/README.adoc[External MCP Documentation Guidelines]
-* xref:../external/index.adoc[External MCP Catalog]
+* xref:development:adr/0001-documentation-standards.adoc[ADR-0001: Documentation Standards]
+* xref:components:index.adoc[Components Catalog]

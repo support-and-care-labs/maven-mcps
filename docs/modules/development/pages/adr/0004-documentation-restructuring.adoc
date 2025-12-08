@@ -94,8 +94,11 @@ maven-mcps/
 * **One extra click**: Users must navigate from README to docs/index.adoc for details
 * **Maintenance overhead**: Need to keep index files updated when adding docs
 
+=== Implemented
+
+* Documentation site generation with Antora (see xref:development:adr/0005-antora-site-generator.adoc[ADR-0005])
+
 === Future Work
 
-* Implement cross-reference attributes for multi-context rendering (Issue 1)
-* Configure GitHub rendering compatibility (Issue 2)
-* Set up documentation site generation with Antora or similar (Issue 3)
+* Implement cross-reference attributes for multi-context rendering
+* Configure GitHub rendering compatibility

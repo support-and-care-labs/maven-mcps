@@ -1,0 +1,81 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= MCP Components Catalog
+ifndef::env-site[:toc:]
+
+== Overview
+
+This catalog lists all MCP components used in Maven support workflows, both internal (developed by us) and external (third-party).
+
+== Internal MCPs
+
+MCP servers we develop and maintain within this repository.
+
+[cols="2,3,1,1"]
+|===
+|Component |Description |Status |Documentation
+
+|*mail-mcp*
+|Access to Apache Maven mailing list archives (2002-present)
+|Active
+|xref:mail-mcp.adoc[Overview] / xref:mail-mcp::index.adoc[Full Docs]
+
+|===
+
+== External MCPs
+
+MCP servers developed by third parties that we consume.
+
+[cols="2,3,1,1"]
+|===
+|Component |Description |Status |Documentation
+
+|*Atlassian MCP*
+|Access to Jira issues and Confluence pages
+|Evaluated
+|xref:atlassian-mcps.adoc[Details]
+
+|*GitHub MCP*
+|Access to GitHub repositories, issues, and pull requests
+|Available
+|xref:github-mcp.adoc[Details]
+
+|===
+
+== Planned Components
+
+The following components may be added in the future:
+
+* *Web Search MCPs* - Various implementations for web research capabilities
+* *Database MCPs* - Access to databases relevant to Maven infrastructure
+
+== Adding New Components
+
+=== Internal MCPs
+
+. Create a new subdirectory at the repository root level
+. Follow the established project structure (see xref:mail-mcp::index.adoc[mail-mcp] as example)
+. Add an Antora component descriptor (`docs/antora.yml`)
+. Add an overview page in this components module
+
+=== External MCPs
+
+. Research available MCP implementations for the target service
+. Document all alternatives with comparison matrix
+. Note the research date explicitly
+. Include authentication methods and deployment requirements
+. Add entry to this catalog

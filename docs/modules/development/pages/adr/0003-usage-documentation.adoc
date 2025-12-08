@@ -15,8 +15,8 @@
 //
 
 = ADR-0003: Usage Documentation
-:toc:
-:toclevels: 3
+ifndef::env-site[:toc:]
+ifndef::env-site[:toclevels: 3]
 
 == Status
 
@@ -113,6 +113,6 @@ Same AsciiDoc standards apply as other project documentation.
 
 == References
 
-* xref:0001-documentation-standards.adoc[ADR-0001: Documentation Standards]
-* xref:0002-external-mcp-references.adoc[ADR-0002: External MCP Server Documentation]
-* xref:../usage/README.adoc[Usage Documentation Guidelines]
+* xref:development:adr/0001-documentation-standards.adoc[ADR-0001: Documentation Standards]
+* xref:development:adr/0002-external-mcp-references.adoc[ADR-0002: External MCP Server Documentation]
+* xref:usage:index.adoc[Usage Documentation]

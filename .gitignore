@@ -9,3 +9,8 @@ wip/
 
 # Docs
 *.html
+build/
+
+# Local config
+.mcp.json
+.netlify/

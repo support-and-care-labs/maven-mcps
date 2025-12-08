@@ -1,0 +1,61 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= mail-mcp
+ifndef::env-site[:toc:]
+
+== Overview
+
+*mail-mcp* is an internal MCP server for accessing and analyzing Apache Maven mailing list archives.
+
+Type:: Internal (developed in this repository)
+Status:: Active Development
+Repository:: `mail-mcp/` subdirectory
+
+== Features
+
+* Access to 700+ MB of historical mbox files from 2002-present
+* Full-text search across email archives via Elasticsearch
+* Thread reconstruction and message retrieval
+* Support for multiple Apache mailing lists (dev@maven.apache.org, users@maven.apache.org)
+
+== Quick Start
+
+[source,bash]
+----
+cd mail-mcp
+poetry install
+docker compose up -d elasticsearch
+poetry run retrieve-mbox --date 2024-10
+poetry run index-mbox data/dev/*.mbox
+poetry run maven-mail-mcp
+----
+
+== Documentation
+
+For complete documentation, see xref:mail-mcp::index.adoc[mail-mcp Documentation].
+
+Key sections:
+
+* xref:mail-mcp:usage:mcp-server.adoc[MCP Server Setup]
+* xref:mail-mcp:usage:docker.adoc[Docker Configuration]
+* xref:mail-mcp:usage:data-management.adoc[Data Management]
+* xref:mail-mcp:development:development.adoc[Development Guide]
+
+== Related
+
+* xref:index.adoc[Components Catalog]
+* xref:usage:atlassian-setup.adoc[Atlassian Setup] - complementary external MCP

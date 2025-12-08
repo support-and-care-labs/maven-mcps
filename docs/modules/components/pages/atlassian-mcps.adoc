@@ -15,8 +15,8 @@
 //
 
 = Atlassian MCP Servers
-:toc:
-:toclevels: 3
+ifndef::env-site[:toc:]
+ifndef::env-site[:toclevels: 3]
 
 [NOTE]
 ====

@@ -15,7 +15,7 @@
 //
 
 = Atlassian MCP Setup Guide
-:toc:
+ifndef::env-site[:toc:]
 :toclevels: 3
 
 == Overview
@@ -39,7 +39,7 @@ We recommend *mcp-atlassian* by sooperset as it is the only MCP server with full
 
 Repository:: https://github.com/sooperset/mcp-atlassian
 
-See xref:../external/atlassian-mcps.adoc[Atlassian MCPs] for alternatives and detailed comparison.
+See xref:components:atlassian-mcps.adoc[Atlassian MCPs] for alternatives and detailed comparison.
 
 == Generating Personal Access Tokens
 
@@ -134,7 +134,7 @@ claude mcp remove <server-name>
 
 === Using Shell Environment Variables (Recommended)
 
-Claude Code supports `${VAR}` syntax for environment variable interpolation at runtime.
+Claude Code supports pass:c[`${VAR}`] syntax for environment variable interpolation at runtime.
 This approach ensures tokens are *never persisted* in configuration files.
 
 . Set environment variables in your shell profile (`~/.bashrc`, `~/.zshrc`, etc.):
@@ -163,7 +163,7 @@ claude mcp add atlassian \
     ghcr.io/sooperset/mcp-atlassian:latest
 ----
 
-The `${VAR}` references are expanded at runtime from your shell environment.
+The pass:c[`${VAR}`] references are expanded at runtime from your shell environment.
 The settings file only stores the variable reference, not the actual token value.
 
 [NOTE]
@@ -177,7 +177,7 @@ Ensure your tokens are exported before launching Claude Code.
 [IMPORTANT]
 ====
 Never commit Personal Access Tokens to version control.
-Always use the `${VAR}` interpolation syntax to keep tokens out of configuration files.
+Always use the pass:c[`${VAR}`] interpolation syntax to keep tokens out of configuration files.
 ====
 
 == Apache Maven Project Keys
@@ -250,7 +250,7 @@ Add appropriate delays between requests if making many queries.
 
 == References
 
-* xref:../external/atlassian-mcps.adoc[Atlassian MCP Comparison]
+* xref:components:atlassian-mcps.adoc[Atlassian MCP Comparison]
 * https://github.com/sooperset/mcp-atlassian[mcp-atlassian Repository]
 * https://cwiki.apache.org/confluence/display/MAVEN[Apache Maven Confluence Space]
 * https://issues.apache.org/jira/projects/MNG[Apache Maven Jira Project]

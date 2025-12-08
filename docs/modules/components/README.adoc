@@ -14,34 +14,42 @@
 // limitations under the License.
 //
 
-= External MCP Servers
-:toc:
+= MCP Components
+ifndef::env-site[:toc:]
 
 == Purpose
 
-This directory documents *external MCP servers* that can be integrated into our Maven support workflows.
+This module documents all *MCP components* used in Maven support workflows.
 
-External MCPs:: MCP servers developed and maintained by third parties that we _consume_ but do not develop ourselves.
 Internal MCPs:: MCP servers we develop and maintain within this repository (e.g., `mail-mcp`).
+External MCPs:: MCP servers developed and maintained by third parties that we _consume_ but do not develop ourselves (e.g., Atlassian MCP, GitHub MCP).
 
 == Scope
 
-Documentation in this directory covers:
+Documentation in this module covers:
 
-* Available external MCP servers relevant to Maven support work
+* Internal MCP servers with links to their detailed documentation
+* External MCP servers relevant to Maven support work
 * Comparison of alternatives for specific use cases
-* Configuration guidance for integrating external MCPs
+* Configuration guidance for integrating MCPs
 * Authentication and security considerations
 * Known limitations and caveats
 
 == Structure
 
-index.adoc:: Catalog and landing page listing all documented external MCPs
-<service>-mcps.adoc:: Detailed documentation for each external service category
+index.adoc:: Catalog listing all internal and external MCP components
+mail-mcp.adoc:: Overview of the mail-mcp internal component
+atlassian-mcps.adoc:: Detailed documentation for Atlassian MCP options
+github-mcp.adoc:: Documentation for GitHub MCP (planned)
 
 == Guidelines
 
-=== When to Document an External MCP
+=== Internal MCP Documentation
+
+Each internal MCP has its own Antora component with detailed documentation.
+The components module provides an overview and links to the full documentation.
+
+=== External MCP Documentation
 
 Document an external MCP when:
 
@@ -60,5 +68,5 @@ Document an external MCP when:
 
 == Related
 
-* xref:../../README.adoc[Maven MCPs Overview] - main project README
-* xref:../adr/[Architecture Decision Records] - project-wide ADRs
+* xref:ROOT:index.adoc[Maven MCPs Overview] - main documentation hub
+* xref:development:adr/0001-documentation-standards.adoc[Architecture Decision Records] - project-wide ADRs

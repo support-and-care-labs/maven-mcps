@@ -21,7 +21,7 @@ ifdef::env-github[]
 endif::[]
 
 = System Architecture
-:toc:
+ifndef::env-site[:toc:]
 :toclevels: 3
 :imagesdir: diagrams
 
@@ -56,12 +56,12 @@ Provides the user interface for interacting with the MCPs.
 mail-mcp::
 Locally deployed MCP server providing access to Maven mailing list archives.
 Clients access mail-mcp only via MCP protocol.
-See xref:{mail-mcp-root}/README.adoc[mail-mcp documentation].
+See xref:mail-mcp::index.adoc[mail-mcp documentation].
 
 Atlassian MCP::
 Locally deployed MCP server (runs via Docker).
 Provides access to Apache Jira and Confluence instances.
-See xref:../external/atlassian-mcps.adoc[Atlassian MCPs] for available options.
+See xref:components:atlassian-mcps.adoc[Atlassian MCPs] for available options.
 Communicates with Atlassian API via REST.
 
 === Remote Components
@@ -105,34 +105,19 @@ Apache Confluence:: `cwiki.apache.org` - requires authentication
 
 == Prerequisites
 
-=== For mail-mcp
-
-* Docker Desktop (for Elasticsearch)
-* Python 3.11+
-* Sufficient disk space for mbox files (~700 MB)
-
-=== For GitHub MCP
-
-* GitHub account
-* Personal Access Token or GitHub CLI authentication
-
-=== For Atlassian MCP
-
-* Atlassian Cloud or Server/Data Center instance
-* API token or Personal Access Token
-* See xref:../external/atlassian-mcps.adoc[Atlassian MCPs] for authentication details
+See xref:prerequisites.adoc[Prerequisites] for detailed requirements per component.
 
 == Configuration
 
 Configuration details for each MCP are provided in their respective documentation:
 
-* xref:{mail-mcp-root}/README.adoc[mail-mcp configuration]
-* xref:../external/atlassian-mcps.adoc[Atlassian MCP configuration]
+* xref:mail-mcp::index.adoc[mail-mcp configuration]
+* xref:components:atlassian-mcps.adoc[Atlassian MCP configuration]
 
 GitHub MCP is typically pre-configured in Claude Code installations.
 
 == Related
 
-* xref:index.adoc[Usage Documentation Catalog]
-* xref:../external/index.adoc[External MCP Catalog]
-* xref:../adr/0003-usage-documentation.adoc[ADR-0003: Usage Documentation]
+* xref:usage:index.adoc[Usage Documentation Catalog]
+* xref:components:index.adoc[Components Catalog]
+* xref:development:adr/0003-usage-documentation.adoc[ADR-0003: Usage Documentation]

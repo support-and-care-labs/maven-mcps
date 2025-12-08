@@ -14,10 +14,16 @@
 // limitations under the License.
 //
 
-// Cross-repository references - local default, GitHub override
-:mail-mcp-root: ../../mail-mcp
+// Cross-repository references - context-dependent paths
+// Local filesystem (default)
+:mail-mcp-docs: ../../mail-mcp/docs
+// GitHub web view
 ifdef::env-github[]
-:mail-mcp-root: https://github.com/support-and-care-labs/mail-mcp/blob/main
+:mail-mcp-docs: https://github.com/support-and-care-labs/mail-mcp/blob/main/docs
+endif::[]
+// Site generation (set via Maven attributes)
+ifdef::env-site[]
+:mail-mcp-docs: ../components/mail-mcp
 endif::[]
 
 = Usage Documentation Catalog
@@ -70,7 +76,7 @@ See xref:architecture.adoc[Architecture] for the deployment overview.
 
 mail-mcp::
 Locally deployed MCP server providing access to Maven mailing list archives.
-See xref:{mail-mcp-root}/README.adoc[mail-mcp documentation].
+See xref:{mail-mcp-docs}/index.adoc[mail-mcp documentation].
 
 === External MCPs
 
@@ -90,6 +96,11 @@ When searching Maven-related content, references to JIRA issues, GitHub PRs, or 
 The following instructions are used by Claude Code (via `CLAUDE.md`) and shown here for reference:
 
 [source,markdown]
-----
+....
+ifndef::env-site[]
 include::cross-mcp-orchestration.md[]
-----
+endif::[]
+ifdef::env-site[]
+include::content/usage/cross-mcp-orchestration.md[]
+endif::[]
+....

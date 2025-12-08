@@ -14,16 +14,27 @@
 // limitations under the License.
 //
 
-// Cross-repository references - local default, GitHub override
-:mail-mcp-root: ../../mail-mcp
+// Cross-repository references - context-dependent paths
+// mail-mcp-docs: path to mail-mcp documentation
+// mail-mcp-github: always points to GitHub (for README, etc.)
+:mail-mcp-docs: ../../mail-mcp/docs
+:mail-mcp-github: https://github.com/support-and-care-labs/mail-mcp/blob/main
 ifdef::env-github[]
-:mail-mcp-root: https://github.com/support-and-care-labs/mail-mcp/blob/main
+:mail-mcp-docs: https://github.com/support-and-care-labs/mail-mcp/blob/main/docs
+endif::[]
+ifdef::env-site[]
+:mail-mcp-docs: ../components/mail-mcp
 endif::[]
 
 = System Architecture
 :toc:
 :toclevels: 3
-:imagesdir: diagrams
+ifndef::env-site[:imagesdir: diagrams]
+ifdef::env-site[:imagesdir: /images]
+:minisite-index: 110
+:minisite-index-title: Architecture
+:minisite-index-icon: fas fa-sitemap
+:minisite-index-description: System architecture and deployment overview
 
 == Overview
 
@@ -56,7 +67,7 @@ Provides the user interface for interacting with the MCPs.
 mail-mcp::
 Locally deployed MCP server providing access to Maven mailing list archives.
 Clients access mail-mcp only via MCP protocol.
-See xref:{mail-mcp-root}/README.adoc[mail-mcp documentation].
+See xref:{mail-mcp-docs}/index.adoc[mail-mcp documentation].
 
 Atlassian MCP::
 Locally deployed MCP server (runs via Docker).
@@ -126,7 +137,7 @@ Apache Confluence:: `cwiki.apache.org` - requires authentication
 
 Configuration details for each MCP are provided in their respective documentation:
 
-* xref:{mail-mcp-root}/README.adoc[mail-mcp configuration]
+* xref:{mail-mcp-docs}/index.adoc[mail-mcp configuration]
 * xref:../external/atlassian-mcps.adoc[Atlassian MCP configuration]
 
 GitHub MCP is typically pre-configured in Claude Code installations.

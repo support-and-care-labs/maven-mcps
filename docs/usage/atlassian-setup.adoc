@@ -17,6 +17,10 @@
 = Atlassian MCP Setup Guide
 :toc:
 :toclevels: 3
+:minisite-index: 210
+:minisite-index-title: Atlassian Setup
+:minisite-index-icon: fas fa-cogs
+:minisite-index-description: Configure Jira and Confluence MCP access
 
 == Overview
 

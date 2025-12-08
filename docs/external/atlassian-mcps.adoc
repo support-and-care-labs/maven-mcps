@@ -17,6 +17,10 @@
 = Atlassian MCP Servers
 :toc:
 :toclevels: 3
+:minisite-index: 310
+:minisite-index-title: Atlassian MCPs
+:minisite-index-icon: fab fa-atlassian
+:minisite-index-description: Jira and Confluence MCP server reference
 
 [NOTE]
 ====

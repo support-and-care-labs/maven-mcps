@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2025 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.apache.maven.support</groupId>
+    <artifactId>maven-mcps-site</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Maven MCPs Documentation Site</name>
+    <description>Documentation site for Maven MCP servers</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <yupiik-tools.version>1.2.12</yupiik-tools.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- Copy documentation files to staging directory, excluding README files -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-umbrella-docs</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/minisite/content</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/docs</directory>
+                                    <excludes>
+                                        <exclude>**/README.adoc</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-mail-mcp-docs</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/minisite/content/components/mail-mcp</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/mail-mcp/docs</directory>
+                                    <excludes>
+                                        <exclude>**/README.adoc</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-diagrams</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/minisite/images</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/docs/usage/diagrams</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <!-- Copy logo to assets (overrides default logo) -->
+                    <execution>
+                        <id>copy-logo</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/minisite/assets/images</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/docs/images</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <!-- Copy custom templates -->
+                    <execution>
+                        <id>copy-templates</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/minisite/templates</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/docs/templates</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <!-- Copy custom CSS to final site (after minisite goal runs) -->
+                    <execution>
+                        <id>copy-custom-css</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/site/css</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/docs/assets/css</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Generate documentation site -->
+            <plugin>
+                <groupId>io.yupiik.maven</groupId>
+                <artifactId>yupiik-tools-maven-plugin</artifactId>
+                <version>${yupiik-tools.version}</version>
+                <configuration>
+                    <source>${project.build.directory}/minisite</source>
+                    <target>${project.build.directory}/site</target>
+                    <title>Maven MCPs</title>
+                    <description>Documentation for Maven MCP servers - AI-powered tools for Apache Maven support</description>
+                    <indexText>Maven MCPs Documentation</indexText>
+                    <indexSubTitle>AI-powered tools for Apache Maven support and care</indexSubTitle>
+                    <logoText>Maven MCPs</logoText>
+                    <copyright>Copyright 2025 The Apache Software Foundation</copyright>
+                    <siteBase>https://support-and-care-labs.github.io/maven-mcps</siteBase>
+                    <generateIndex>true</generateIndex>
+                    <generateSiteMap>true</generateSiteMap>
+                    <generateBlog>false</generateBlog>
+                    <customHead>&lt;style&gt;.docs-top-utilities{padding-left:280px!important}&lt;/style&gt;&lt;link rel="stylesheet" href="{{base}}/css/custom.css"&gt;</customHead>
+                    <useDefaultAssets>true</useDefaultAssets>
+                    <templateAddLeftMenu>true</templateAddLeftMenu>
+                    <!-- Top-level navigation menu -->
+                    <customMenu>&lt;nav class="top-nav" style="display:flex;gap:0.5rem;margin-left:3rem;margin-right:auto;padding-right:1rem;"&gt;&lt;a href="{{base}}/index.html" class="nav-link" style="color:#fff;padding:0.5rem 0.8rem;text-decoration:none;white-space:nowrap;"&gt;&lt;i class="fas fa-info-circle"&gt;&lt;/i&gt; Introduction&lt;/a&gt;&lt;a href="{{base}}/usage/atlassian-setup.html" class="nav-link" style="color:#fff;padding:0.5rem 0.8rem;text-decoration:none;white-space:nowrap;"&gt;&lt;i class="fas fa-book-open"&gt;&lt;/i&gt; Usage&lt;/a&gt;&lt;a href="{{base}}/components/mail-mcp/index.html" class="nav-link" style="color:#fff;padding:0.5rem 0.8rem;text-decoration:none;white-space:nowrap;"&gt;&lt;i class="fas fa-puzzle-piece"&gt;&lt;/i&gt; Components&lt;/a&gt;&lt;a href="{{base}}/components/mail-mcp/development.html" class="nav-link" style="color:#fff;padding:0.5rem 0.8rem;text-decoration:none;white-space:nowrap;"&gt;&lt;i class="fas fa-code"&gt;&lt;/i&gt; Development&lt;/a&gt;&lt;/nav&gt;</customMenu>
+                    <!-- Override social links and copyright (linkedInCompany is for company pages, not personal profiles) -->
+                    <templateExtensionPoints>
+                        <socialLinks>&lt;li class="list-inline-item"&gt;&lt;a title="Github" href="https://github.com/support-and-care-labs/maven-mcps"&gt;&lt;i class="fab fa-github fa-fw"&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;&lt;li class="list-inline-item"&gt;&lt;a title="LinkedIn" href="https://www.linkedin.com/in/aschemann/"&gt;&lt;i class="fab fa-linkedin fa-fw"&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;</socialLinks>
+                        <copyrightLine>&lt;small class="copyright"&gt;Copyright 2025 The Apache Software Foundation&lt;/small&gt;</copyrightLine>
+                    </templateExtensionPoints>
+                    <attributes>
+                        <env-site>true</env-site>
+                        <mail-mcp-docs>components/mail-mcp</mail-mcp-docs>
+                    </attributes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>minisite</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

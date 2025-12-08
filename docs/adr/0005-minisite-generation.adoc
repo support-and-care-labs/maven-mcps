@@ -1,0 +1,159 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= ADR-0005: Minisite Generation with Yupiik Tools Maven Plugin
+:revdate: 2025-12-07
+:status: Accepted
+
+== Status
+
+Accepted
+
+== Context
+
+The project documentation exists in AsciiDoc format across multiple locations:
+
+* `docs/` - umbrella project documentation
+* `mail-mcp/docs/` - mail-mcp specific documentation (separate repository)
+* Future sub-project documentation in their respective directories
+
+We need a way to generate a unified documentation site that:
+
+. Aggregates content from multiple source directories
+. Works with GitHub Actions for CI/CD deployment
+. Preserves cross-references between documents
+. Supports multiple rendering contexts (local, GitHub, site)
+
+=== Alternatives Considered
+
+Antora::
+Full-featured documentation site generator designed for multi-repository projects.
+Rejected because it requires significant configuration overhead and a specific directory structure.
+
+Asciidoctor Maven Plugin::
+Standard AsciiDoc to HTML conversion.
+Rejected because it lacks built-in site structure, navigation, and theme support.
+
+Yupiik Tools Maven Plugin::
+Lightweight minisite generator with AsciiDoc support, built-in themes, and pre-actions.
+Selected for its simplicity, Maven integration, and copy pre-action capability.
+
+== Decision
+
+Use the Yupiik Tools Maven Plugin (minisite goal) to generate the documentation site.
+
+=== Structure
+
+The project structure remains unchanged (documentation stays in `docs/` for GitHub viewing):
+
+[source]
+----
+maven-mcps/
+├── pom.xml              # Yupiik minisite configuration
+├── docs/                # Umbrella docs (source, GitHub-browseable)
+│   ├── index.adoc       # Site landing page
+│   ├── usage/
+│   │   ├── diagrams/    # SVG diagrams
+│   │   └── ...
+│   ├── external/
+│   └── adr/
+├── mail-mcp/            # Checked out in CI (gitignored in umbrella)
+│   └── docs/
+└── target/              # Generated during build
+    ├── minisite/        # Aggregated source (content/ subdirectory)
+    └── site/            # Final HTML output
+----
+
+=== Build Process
+
+. GitHub Actions checks out the umbrella repository
+. GitHub Actions checks out sub-project repositories (mail-mcp, etc.) into their expected locations
+. Maven runs `yupiik-tools:minisite` goal which:
+.. Executes copy pre-actions to aggregate content into `target/minisite/content/`:
+... Copy `docs/` to `target/minisite/content/`
+... Copy `mail-mcp/docs/` to `target/minisite/content/components/mail-mcp/`
+... Copy `docs/usage/diagrams/` to `target/minisite/images/` (for embedding)
+.. Processes all AsciiDoc files from `target/minisite/content/`
+.. Generates HTML site to `target/site/`
+
+=== Cross-Reference Strategy
+
+Documents use context-dependent attributes for cross-project references:
+
+[source,asciidoc]
+----
+// Local filesystem (default)
+:mail-mcp-docs: ../mail-mcp/docs
+
+// GitHub web view
+ifdef::env-github[]
+:mail-mcp-docs: https://github.com/support-and-care-labs/mail-mcp/blob/main/docs
+endif::[]
+
+// Site generation (set via Maven attributes)
+ifdef::env-site[]
+:mail-mcp-docs: components/mail-mcp
+endif::[]
+----
+
+The Maven plugin sets `env-site=true` during site generation, which activates the appropriate attribute value.
+
+=== GitHub Actions Workflow
+
+[source,yaml]
+----
+- uses: actions/checkout@v4  # maven-mcps
+
+- uses: actions/checkout@v4
+  with:
+    repository: support-and-care-labs/mail-mcp
+    path: mail-mcp
+
+- run: mvn yupiik-tools:minisite
+
+- name: Deploy to GitHub Pages
+  uses: peaceiris/actions-gh-pages@v3
+  with:
+    github_token: ${{ secrets.GITHUB_TOKEN }}
+    publish_dir: ./target/site
+----
+
+== Consequences
+
+=== Positive
+
+* *Minimal restructuring*: Existing documentation stays in place
+* *Single source of truth*: Sub-projects maintain their own docs
+* *CI/CD ready*: GitHub Actions can build and deploy the site
+* *Context-aware references*: Documents work locally, on GitHub, and in the generated site
+* *Extensible*: Easy to add more sub-projects by adding checkout steps and copy pre-actions
+
+=== Negative
+
+* *Copy overhead*: Sub-project docs are copied during build (not symlinked)
+* *Build dependency*: Site generation requires all sub-projects to be checked out
+* *Attribute complexity*: Three-context attribute handling adds some complexity
+
+=== Future Work
+
+* Add GitHub Actions workflow file (`.github/workflows/site.yml`)
+* Configure Netlify preview builds for pull requests
+* Add more sub-project documentation as MCPs are developed
+
+== Related
+
+* xref:0004-documentation-restructuring.adoc[ADR-0004: Documentation Restructuring]
+* https://github.com/yupiik/tools-maven-plugin[Yupiik Tools Maven Plugin]

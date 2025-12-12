@@ -41,8 +41,8 @@ For usage prerequisites, see xref:ROOT:prerequisites.adoc[Prerequisites].
 |mail-mcp
 |<<poetry>>
 
-|Node.js (optional)
-|Documentation (Antora)
+|Node.js
+|GitHub MCP, Claude Code, Documentation
 |<<nodejs>>
 
 |===
@@ -108,12 +108,14 @@ Further reading::
 * xref:mail-mcp:development:development.adoc[mail-mcp Development Guide]
 
 [[nodejs]]
-== Node.js (Optional)
+== Node.js
 
-Node.js is only required for building the documentation site locally with Antora.
+Node.js provides `npm` and `npx`, required for several components.
 
 Used by::
-* *Documentation*: Antora site generator
+* *GitHub MCP*: Runs via `npx -y @modelcontextprotocol/server-github`
+* *Claude Code*: Installation via `npm install -g @anthropic-ai/claude-code`
+* *Documentation*: Antora site generator (`npx antora`)
 
 Installation::
 * macOS: `brew install node`
@@ -124,14 +126,11 @@ Verification::
 [source,bash]
 ----
 node --version
+npm --version
 npx --version
 ----
 
-Usage::
-[source,bash]
-----
-npx antora antora-local-playbook.yml
-----
+TIP: Node.js 18+ is recommended for best compatibility.
 
 == Related
 

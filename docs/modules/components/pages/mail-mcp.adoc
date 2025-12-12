@@ -58,4 +58,4 @@ Key sections:
 == Related
 
 * xref:index.adoc[Components Catalog]
-* xref:usage:atlassian-setup.adoc[Atlassian Setup] - complementary external MCP
+* xref:usage:atlassian-mcp-setup.adoc[Atlassian MCP Setup] - complementary external MCP

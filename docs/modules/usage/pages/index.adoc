@@ -14,82 +14,68 @@
 // limitations under the License.
 //
 
-// Cross-repository references - local default, GitHub override
-:mail-mcp-root: ../../mail-mcp
-ifdef::env-github[]
-:mail-mcp-root: https://github.com/support-and-care-labs/mail-mcp/blob/main
-endif::[]
-
-= Usage Documentation Catalog
+= Usage Overview
 ifndef::env-site[:toc:]
 
-== Overview
+This section provides guides for using the Maven MCP ecosystem with LLM clients.
 
-This catalog provides guides for using the Maven MCP ecosystem.
+== What's Available
 
-For information about individual MCP projects, see xref:ROOT:index.adoc[Maven MCPs Overview].
-For component documentation, see xref:components:index.adoc[Components Catalog].
+The Maven MCPs enable AI assistants to access:
 
-== Available Documentation
+* **Mail Archives** - Historical mailing list discussions (dev@maven.apache.org)
+* **GitHub** - Repositories, issues, and pull requests
+* **Atlassian** - Confluence documentation and Jira (historical issues)
 
-[cols="2,3,1"]
+== Getting Started
+
+[cols="1,2"]
 |===
-|Document |Description |Status
+|Guide |Description
 
-|xref:ROOT:architecture.adoc[Architecture]
-|System architecture and deployment diagram showing how MCPs connect
-|Available
+|xref:llm-mcp-overview.adoc[LLMs and MCPs]
+|Introduction to Large Language Models and the Model Context Protocol
 
-|xref:atlassian-setup.adoc[Atlassian Setup]
-|Configuring MCP access to Apache Confluence and Jira with PAT authentication
-|Available
+|xref:mcp-setup.adoc[MCP Setup]
+|Quick setup guide for all MCP servers (Docker-focused)
 
-|<<cross-mcp-orchestration,Cross-MCP Orchestration>>
-|Reference patterns and workflow for following references across MCPs
-|Available
-
-|Claude Code Integration
-|Guide for configuring and using MCPs with Claude Code
-|Planned
-
+|xref:claude-code-setup.adoc[Claude Code]
+|Configure Claude Code with MCPs and cross-MCP orchestration
 |===
 
-== Quick Start
+== Detailed Documentation
 
-For a typical Maven support workflow, you need:
+=== LLM Clients
 
-. *mail-mcp* (local) - Access to Maven mailing list archives
-. *GitHub MCP* (external) - Access to Maven GitHub repositories and issues
-. *Atlassian MCP* (external, optional) - Access to Jira/Confluence if needed
+[cols="1,2"]
+|===
+|Guide |Description
 
-See xref:ROOT:architecture.adoc[Architecture] for the deployment overview.
+|xref:claude-code-detailed.adoc[Claude Code Detailed]
+|MCP scopes, manual configuration, troubleshooting
 
-== MCP Components
+|xref:claude-desktop-setup.adoc[Claude Desktop]
+|GUI client configuration
+|===
 
-For a complete list of available MCP components, see xref:components:index.adoc[Components Catalog].
+=== MCP Servers
 
-=== Quick Links
+[cols="1,2"]
+|===
+|Guide |Description
 
-mail-mcp::
-Locally deployed MCP server providing access to Maven mailing list archives.
-See xref:components:mail-mcp.adoc[Overview] or xref:mail-mcp::index.adoc[Full Documentation].
+|xref:mail-mcp-setup.adoc[Mail MCP]
+|Detailed setup for Maven mailing list archive access
 
-Atlassian MCP::
-Provides access to Jira and Confluence.
-See xref:atlassian-setup.adoc[Atlassian Setup Guide] for Apache infrastructure configuration.
+|xref:github-mcp-setup.adoc[GitHub MCP]
+|GitHub repositories and issues configuration
 
-GitHub MCP::
-Provides access to GitHub repositories, issues, and pull requests.
-See xref:components:github-mcp.adoc[GitHub MCP].
+|xref:atlassian-mcp-setup.adoc[Atlassian MCP]
+|Confluence and Jira access configuration
+|===
 
-[[cross-mcp-orchestration]]
-== Cross-MCP Orchestration
+== Related
 
-When searching Maven-related content, references to JIRA issues, GitHub PRs, or Confluence pages can be followed across MCP servers to gather complete context.
-
-The following instructions are used by Claude Code (via `CLAUDE.md`) and shown here for reference:
-
-[source,markdown]
-----
-include::partial$cross-mcp-orchestration.md[]
-----
+* xref:ROOT:index.adoc[Maven MCPs Overview]
+* xref:ROOT:prerequisites.adoc[Prerequisites]
+* xref:ROOT:architecture.adoc[Architecture]

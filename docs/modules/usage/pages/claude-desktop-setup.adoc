@@ -1,0 +1,165 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= Claude Desktop Setup
+ifndef::env-site[:toc:]
+ifndef::env-site[:toclevels: 3]
+
+Guide for configuring Claude Desktop with Maven MCP servers.
+
+== Overview
+
+https://claude.ai/download[Claude Desktop] is Anthropic's desktop application for Claude.
+It provides a GUI interface and supports MCP servers through a JSON configuration file.
+
+== Installation
+
+Download Claude Desktop from https://claude.ai/download[claude.ai/download] for your platform:
+
+* macOS
+* Windows
+
+== Configuration File
+
+Claude Desktop uses a JSON configuration file for MCP servers:
+
+[cols="1,2"]
+|===
+|Platform |Location
+
+|macOS
+|`~/Library/Application Support/Claude/claude_desktop_config.json`
+
+|Windows
+|`%APPDATA%\Claude\claude_desktop_config.json`
+|===
+
+== MCP Configuration
+
+Create or edit the configuration file with your MCP servers:
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "maven-mail": {
+      "transport": "sse",
+      "url": "http://localhost:58080/sse"
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "<your-github-token>"
+      }
+    },
+    "atlassian": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "CONFLUENCE_URL",
+        "-e", "CONFLUENCE_USERNAME",
+        "-e", "CONFLUENCE_TOKEN",
+        "-e", "JIRA_URL",
+        "-e", "JIRA_USERNAME",
+        "-e", "JIRA_TOKEN",
+        "ghcr.io/sooperset/mcp-atlassian:latest"
+      ],
+      "env": {
+        "CONFLUENCE_URL": "https://cwiki.apache.org/confluence",
+        "CONFLUENCE_USERNAME": "<your-email>",
+        "CONFLUENCE_TOKEN": "<your-confluence-pat>",
+        "JIRA_URL": "https://issues.apache.org/jira",
+        "JIRA_USERNAME": "<your-email>",
+        "JIRA_TOKEN": "<your-jira-pat>"
+      }
+    }
+  }
+}
+----
+
+NOTE: Mail MCP uses SSE transport.
+Ensure the mail-mcp Docker services are running (`docker compose up -d` in the mail-mcp directory) before starting Claude Desktop.
+
+== Configuration Scope
+
+Claude Desktop uses a **user-level** configuration only.
+Unlike Claude Code, there is no project-level scope.
+
+All MCP servers configured in Claude Desktop are available in every conversation.
+
+== Verification
+
+After editing the configuration:
+
+. Restart Claude Desktop
+. Open a new conversation
+. Ask Claude to use one of the MCP tools:
++
+[source,text]
+----
+Search for recent Maven 4 discussions in the mailing lists
+----
+
+If MCPs are configured correctly, Claude will use the available tools to answer your question.
+
+== Troubleshooting
+
+=== MCPs Not Available
+
+* Verify the configuration file path is correct for your platform
+* Check JSON syntax (use a JSON validator)
+* Restart Claude Desktop after configuration changes
+
+=== Docker Commands Fail
+
+* Ensure Docker Desktop is running
+* Verify the docker-compose.yml path is absolute
+* Test the command manually in a terminal
+
+=== Permission Errors
+
+* Check file permissions on the configuration file
+* Ensure tokens have the required scopes
+
+== Comparison with Claude Code
+
+[cols="1,2,2"]
+|===
+|Feature |Claude Code |Claude Desktop
+
+|Interface
+|CLI
+|GUI
+
+|MCP Scopes
+|User-level and project-level
+|User-level only
+
+|Configuration
+|`claude mcp add` or JSON
+|JSON only
+
+|Best For
+|Development workflows, automation
+|General queries, document analysis
+|===
+
+== Related
+
+* xref:claude-code-setup.adoc[Claude Code Quick Start]
+* xref:claude-code-detailed.adoc[Claude Code Detailed Setup]
+* xref:mcp-setup.adoc[MCP Setup (Quick Start)]

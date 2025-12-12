@@ -1,0 +1,262 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= Claude Code Detailed Setup
+ifndef::env-site[:toc:]
+ifndef::env-site[:toclevels: 3]
+
+Advanced configuration for Claude Code including MCP scopes, manual configuration, and troubleshooting.
+
+== MCP Scopes
+
+Claude Code supports three configuration scopes for MCP servers:
+
+[cols="1,2,3"]
+|===
+|Scope |Location |Purpose
+
+|`local` (default)
+|`~/.claude.json` (project-specific section)
+|Personal, current project only
+
+|`user`
+|`~/.claude.json` (global section)
+|Personal, all projects
+
+|`project`
+|`.mcp.json` (project root)
+|Shared with team via git
+|===
+
+NOTE: Both `local` and `user` scopes store data in `~/.claude.json`, but are differentiated internally.
+Local-scoped MCPs are associated with a specific project path, while user-scoped MCPs are globally available.
+See https://docs.anthropic.com/en/docs/claude-code/mcp[Claude Code MCP documentation] for details.
+
+=== Local (Default)
+
+Local MCPs are personal to you and specific to the current project directory.
+
+[source,bash]
+----
+# Add MCP at local scope (default)
+claude mcp add maven-mail --transport sse http://localhost:58080/sse
+----
+
+**Use for:**
+
+* Personal MCP configurations for a specific project
+* Testing and experimentation
+* Configurations you don't want to share with the team
+
+=== User-Level (Global)
+
+User-level MCPs are available in all Claude Code sessions, regardless of the working directory.
+
+[source,bash]
+----
+# Add MCP at user level
+claude mcp add --scope user github -e GITHUB_PERSONAL_ACCESS_TOKEN=ghp_xxx -- npx -y @modelcontextprotocol/server-github
+----
+
+**Use for:**
+
+* General-purpose MCPs you always want available
+* MCPs with personal credentials (GitHub token, Atlassian PAT)
+* MCPs that don't contain sensitive project data
+
+=== Project-Level
+
+**Location**: `.mcp.json` (in project root)
+
+Project-level MCPs are shared with the team via source control.
+
+[source,bash]
+----
+# Add MCP at project level
+claude mcp add --scope project maven-mail --transport sse http://localhost:58080/sse
+----
+
+**Use for:**
+
+* Project-specific data sources
+* MCPs with project-specific configurations
+* Shared team configurations (committed to git)
+
+=== Scope Priority
+
+When the same MCP name exists at multiple levels, precedence is (highest to lowest):
+
+. Local (personal, project-specific)
+. Project (`.mcp.json`, shared)
+. User (personal, global)
+
+=== Security Considerations
+
+[cols="1,2,2"]
+|===
+|Concern |Recommendation |Scope
+
+|Personal API tokens
+|Store in user-level config
+|User (`--scope user`)
+
+|Project credentials
+|Use environment variables or secrets manager
+|Project (`--scope project`)
+
+|Shared team config
+|Commit to git (without secrets)
+|Project (`--scope project`)
+
+|Quick testing
+|Use local scope (gitignored)
+|Local (default)
+|===
+
+== Manual JSON Configuration
+
+Instead of `claude mcp add`, you can edit configuration files directly.
+
+NOTE: The `~/.claude.json` file has a complex structure managed by Claude Code.
+Prefer using `claude mcp add` commands rather than editing it manually.
+
+=== Project-Level Configuration
+
+**File**: `.mcp.json` (in project root)
+
+This is the recommended file for manual editing, as it has a simple structure and is meant to be shared via git:
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "maven-mail": {
+      "transport": "sse",
+      "url": "http://localhost:58080/sse"
+    }
+  }
+}
+----
+
+NOTE: Mail MCP uses SSE transport to connect to the persistent Docker service.
+Ensure `docker compose up -d` is running in the mail-mcp directory.
+
+IMPORTANT: Do not include personal credentials (tokens, passwords) in `.mcp.json` since it is committed to git.
+Use environment variables or add MCPs with credentials to `local` or `user` scope instead.
+
+== MCP Management Commands
+
+[source,bash]
+----
+# List all configured MCPs (all scopes)
+claude mcp list
+
+# Remove an MCP from local scope (default)
+claude mcp remove <name>
+
+# Remove from specific scope
+claude mcp remove --scope user <name>
+claude mcp remove --scope project <name>
+claude mcp remove --scope local <name>
+----
+
+== Environment Variables
+
+MCPs can use environment variables for sensitive data:
+
+[source,json]
+----
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    }
+  }
+}
+----
+
+Then set the variable in your shell:
+
+[source,bash]
+----
+export GITHUB_TOKEN=ghp_xxxxxxxxxxxx
+----
+
+== Troubleshooting
+
+=== MCP Not Connecting
+
+[source,bash]
+----
+# Check if MCP is listed
+claude mcp list
+
+# For SSE transport (mail-mcp), verify the server is accessible
+curl http://localhost:58080/health
+----
+
+=== Mail MCP Docker Errors
+
+Ensure Docker services are running:
+
+[source,bash]
+----
+# Check Docker is running
+docker info
+
+# Check mail-mcp services
+cd /path/to/mail-mcp
+docker compose ps
+
+# View mail-mcp logs
+docker compose logs mail-mcp
+
+# Restart if needed
+docker compose restart mail-mcp
+----
+
+=== Permission Issues
+
+For macOS/Linux:
+
+[source,bash]
+----
+# Check file permissions
+ls -la ~/.claude.json
+
+# Fix if needed
+chmod 600 ~/.claude.json
+----
+
+=== Debugging MCP Communication
+
+Start Claude Code with verbose logging:
+
+[source,bash]
+----
+claude --mcp-debug
+----
+
+== Related
+
+* xref:claude-code-setup.adoc[Claude Code Quick Start]
+* xref:claude-desktop-setup.adoc[Claude Desktop Setup]
+* xref:mcp-setup.adoc[MCP Setup (Quick Start)]
+* xref:ROOT:architecture.adoc[Architecture Overview]

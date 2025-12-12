@@ -38,6 +38,10 @@ Commands shown use `docker` syntax, but substitute your runtime's equivalent com
 |===
 |Prerequisite |Used By |Documentation
 
+|Node.js (npm/npx)
+|Claude Code, GitHub MCP
+|<<nodejs>>
+
 |Container Runtime
 |mail-mcp, Atlassian MCP
 |<<container-runtime>>
@@ -51,6 +55,41 @@ Commands shown use `docker` syntax, but substitute your runtime's equivalent com
 |<<github>>
 
 |===
+
+[[nodejs]]
+== Node.js
+
+Node.js provides `npm` and `npx`, required for installing and running several components.
+
+Used by::
+* *Claude Code*: Installation via `npm install -g @anthropic-ai/claude-code`
+* *GitHub MCP*: Runs via `npx -y @modelcontextprotocol/server-github`
+
+Installation::
+* https://nodejs.org/[Node.js Official] - Download LTS version
+* Via package manager:
++
+[source,bash]
+----
+# macOS (Homebrew)
+brew install node
+
+# Ubuntu/Debian
+sudo apt install nodejs npm
+
+# Windows (Chocolatey)
+choco install nodejs-lts
+----
+
+Verification::
+[source,bash]
+----
+node --version
+npm --version
+npx --version
+----
+
+TIP: Node.js 18+ is recommended for best compatibility.
 
 [[container-runtime]]
 == Container Runtime
@@ -104,7 +143,7 @@ Required tokens::
 
 Setup::
 You need an Apache account with access to these services.
-See xref:usage:atlassian-setup.adoc#_generating_personal_access_tokens[Generating Personal Access Tokens] for step-by-step instructions.
+See xref:usage:atlassian-mcp-setup.adoc#_generating_personal_access_tokens[Generating Personal Access Tokens] for step-by-step instructions.
 
 [[github]]
 == GitHub Account

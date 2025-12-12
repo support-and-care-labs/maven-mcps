@@ -50,7 +50,7 @@ docker compose ps
 The Docker setup includes:
 
 * Elasticsearch for storing and searching emails
-* Mail MCP server (HTTP/SSE on port 58080)
+* Mail MCP server (Streamable HTTP on port 58080)
 * Scheduler for automatic hourly updates of the current month's archive
 
 == Initial Data Retrieval
@@ -76,13 +76,13 @@ The scheduler container automatically updates the current month's archive hourly
 
 == MCP Configuration
 
-The Mail MCP server runs as a persistent Docker service and is accessed via SSE.
+The Mail MCP server runs as a persistent Docker service and is accessed via Streamable HTTP.
 
 === Using Claude Code CLI (Recommended)
 
 [source,bash]
 ----
-claude mcp add maven-mail -s user --transport sse http://localhost:58080/sse
+claude mcp add maven-mail -s user --transport http http://localhost:58080/mcp
 ----
 
 === Manual JSON Configuration
@@ -94,8 +94,8 @@ For project-level configuration, add to `.mcp.json` in your project root:
 {
   "mcpServers": {
     "maven-mail": {
-      "transport": "sse",
-      "url": "http://localhost:58080/sse"
+      "type": "streamable-http",
+      "url": "http://localhost:58080/mcp"
     }
   }
 }

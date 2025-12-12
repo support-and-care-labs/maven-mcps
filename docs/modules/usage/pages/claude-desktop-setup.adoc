@@ -56,8 +56,8 @@ Create or edit the configuration file with your MCP servers:
 {
   "mcpServers": {
     "maven-mail": {
-      "transport": "sse",
-      "url": "http://localhost:58080/sse"
+      "type": "streamable-http",
+      "url": "http://localhost:58080/mcp"
     },
     "github": {
       "command": "npx",
@@ -91,7 +91,7 @@ Create or edit the configuration file with your MCP servers:
 }
 ----
 
-NOTE: Mail MCP uses SSE transport.
+NOTE: Mail MCP uses Streamable HTTP transport.
 Ensure the mail-mcp Docker services are running (`docker compose up -d` in the mail-mcp directory) before starting Claude Desktop.
 
 == Configuration Scope

@@ -47,7 +47,7 @@ This is simpler than manually editing JSON configuration files.
 
 [source,bash]
 ----
-claude mcp add maven-mail --transport sse http://localhost:58080/sse
+claude mcp add maven-mail --transport http http://localhost:58080/mcp
 ----
 
 NOTE: The mail-mcp Docker services must be running (`docker compose up -d` in the mail-mcp directory).

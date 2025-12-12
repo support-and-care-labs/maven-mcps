@@ -52,7 +52,7 @@ Local MCPs are personal to you and specific to the current project directory.
 [source,bash]
 ----
 # Add MCP at local scope (default)
-claude mcp add maven-mail --transport sse http://localhost:58080/sse
+claude mcp add maven-mail --transport http http://localhost:58080/mcp
 ----
 
 **Use for:**
@@ -86,7 +86,7 @@ Project-level MCPs are shared with the team via source control.
 [source,bash]
 ----
 # Add MCP at project level
-claude mcp add --scope project maven-mail --transport sse http://localhost:58080/sse
+claude mcp add --scope project maven-mail --transport http http://localhost:58080/mcp
 ----
 
 **Use for:**
@@ -144,14 +144,14 @@ This is the recommended file for manual editing, as it has a simple structure an
 {
   "mcpServers": {
     "maven-mail": {
-      "transport": "sse",
-      "url": "http://localhost:58080/sse"
+      "type": "streamable-http",
+      "url": "http://localhost:58080/mcp"
     }
   }
 }
 ----
 
-NOTE: Mail MCP uses SSE transport to connect to the persistent Docker service.
+NOTE: Mail MCP uses Streamable HTTP transport to connect to the persistent Docker service.
 Ensure `docker compose up -d` is running in the mail-mcp directory.
 
 IMPORTANT: Do not include personal credentials (tokens, passwords) in `.mcp.json` since it is committed to git.
@@ -208,7 +208,7 @@ export GITHUB_TOKEN=ghp_xxxxxxxxxxxx
 # Check if MCP is listed
 claude mcp list
 
-# For SSE transport (mail-mcp), verify the server is accessible
+# For Streamable HTTP transport (mail-mcp), verify the server is accessible
 curl http://localhost:58080/health
 ----
 
@@ -230,6 +230,9 @@ docker compose logs mail-mcp
 
 # Restart if needed
 docker compose restart mail-mcp
+
+# For Streamable HTTP transport, verify the server is accessible
+curl http://localhost:58080/health
 ----
 
 === Permission Issues

@@ -38,7 +38,7 @@ See xref:ROOT:prerequisites.adoc[Prerequisites] for detailed installation instru
 == Mail MCP
 
 The Mail MCP provides access to Apache Maven mailing list archives.
-It runs as a persistent Docker service and is accessed via SSE (Server-Sent Events).
+It runs as a persistent Docker service and is accessed via Streamable HTTP transport.
 
 === Setup
 
@@ -86,11 +86,11 @@ curl http://localhost:59200/maven-dev/_count
 
 === Add to Claude Code
 
-The Mail MCP server runs permanently and is accessed via SSE:
+The Mail MCP server runs permanently and is accessed via Streamable HTTP:
 
 [source,bash]
 ----
-claude mcp add maven-mail -s user --transport sse http://localhost:58080/sse
+claude mcp add maven-mail -s user --transport http http://localhost:58080/mcp
 ----
 
 NOTE: Ensure the mail-mcp Docker services are running before starting Claude Code.

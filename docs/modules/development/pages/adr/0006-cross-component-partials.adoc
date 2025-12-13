@@ -1,0 +1,138 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= ADR-0006: Cross-Component Partials for Documentation Reuse
+:revdate: 2025-12-13
+:status: Accepted
+
+== Status
+
+Accepted
+
+== Context
+
+The maven-mcps umbrella project contains sub-projects (like mail-mcp) with their own documentation.
+Central usage documentation in maven-mcps needs to reference setup instructions, prerequisites, and tool descriptions from sub-projects.
+
+=== Problem
+
+Documentation was duplicated between:
+
+* Central docs (`docs/modules/usage/pages/mail-mcp-setup.adoc`)
+* Sub-project docs (`mail-mcp/docs/modules/usage/pages/mcp-server.adoc`, `docker.adoc`)
+
+This duplication led to:
+
+* Content drift when one location was updated but not the other
+* Maintenance burden keeping both in sync
+* Inconsistent information for users
+
+=== Requirements
+
+* Single source of truth for shared content
+* Central docs can embed sub-project content (not just link)
+* Sub-project docs remain self-contained and buildable
+* Works with Antora's multi-component architecture
+
+== Decision
+
+Use **Antora partials** in sub-projects that can be included by both the sub-project's own docs and the central maven-mcps docs.
+
+=== Implementation
+
+Partials are placed in the sub-project's `docs/modules/ROOT/partials/` directory:
+
+[source]
+----
+mail-mcp/docs/modules/ROOT/partials/
+├── prerequisites.adoc      # Docker/Podman requirements
+├── quick-start.adoc        # Service startup and data retrieval
+├── available-tools.adoc    # MCP tool descriptions
+└── mcp-config.adoc         # Claude Code/Desktop configuration
+----
+
+=== Include Syntax
+
+From central maven-mcps docs (cross-component):
+[source,asciidoc]
+----
+\include::mail-mcp:ROOT:partial$prerequisites.adoc[]
+----
+
+From mail-mcp docs (same component):
+[source,asciidoc]
+----
+\include::ROOT:partial$prerequisites.adoc[]
+----
+
+=== Playbook Configuration
+
+The Antora playbook must reference mail-mcp as a separate content source for cross-component includes to resolve:
+
+[source,yaml]
+----
+content:
+  sources:
+    - url: .
+      start_path: docs
+      worktrees: true
+    - url: mail-mcp
+      start_path: docs
+      worktrees: true
+----
+
+== Consequences
+
+=== Positive
+
+Single source of truth::
+Content is authored once in the sub-project and reused everywhere.
+
+Automatic synchronization::
+Central docs always reflect the latest sub-project documentation.
+
+Self-contained sub-projects::
+mail-mcp docs work independently; partials are used internally too.
+
+Granular reuse::
+Different pages can include different combinations of partials.
+
+=== Negative
+
+Antora dependency::
+Cross-component includes only work when building with Antora.
+
+Partial design required::
+Content must be structured to work in multiple contexts (no context-specific assumptions).
+
+Build-time coupling::
+Central docs depend on sub-project partials being available at build time.
+
+=== Neutral
+
+Partial granularity::
+Decided on 4 focused partials rather than one large partial or many small ones.
+This balances reuse flexibility with maintenance overhead.
+
+Detailed vs summary content::
+Central docs use brief partials (e.g., `available-tools.adoc` with description list).
+Sub-project docs can have detailed sections alongside partial includes.
+
+== References
+
+* https://docs.antora.org/antora/latest/page/partials/[Antora Partials Documentation]
+* https://docs.antora.org/antora/latest/page/include-a-partial/[Include a Partial]
+* xref:development:adr/0005-antora-site-generator.adoc[ADR-0005: Antora as Documentation Site Generator]

@@ -22,7 +22,7 @@ ifndef::env-site[:toc:]
 
 This guide covers setting up MCP access to Apache's Atlassian infrastructure:
 
-* *Confluence*: https://cwiki.apache.org/confluence — Apache Wiki, including Maven documentation
+* *Confluence*: https://cwiki.apache.org/confluence/ — Apache Wiki, including Maven documentation
 * *Jira*: https://issues.apache.org/jira — Apache issue tracker
 
 Both services are self-hosted Atlassian Server/Data Center instances (not Cloud), requiring Personal Access Token (PAT) authentication.
@@ -45,7 +45,7 @@ See xref:components:atlassian-mcps.adoc[Atlassian MCPs] for alternatives and det
 
 === Confluence PAT
 
-. Log in to https://cwiki.apache.org/confluence
+. Log in to https://cwiki.apache.org/confluence/
 . Navigate to your profile (click your avatar in the top right)
 . Select *Personal Access Tokens* (or *Settings* → *Personal Access Tokens*)
 . Click *Create token*

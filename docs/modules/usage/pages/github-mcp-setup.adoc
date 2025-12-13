@@ -155,4 +155,5 @@ TIP: Search for `apache/maven-*` to find all Maven-related repositories.
 
 * xref:claude-code-setup.adoc[Claude Code Setup]
 * xref:components:github-mcp.adoc[GitHub MCP Component Overview]
-* https://github.com/modelcontextprotocol/servers/tree/main/src/github[Official GitHub MCP Documentation]
+* https://github.com/github/github-mcp-server[GitHub MCP Server] — GitHub's official MCP server
+* https://github.com/github/github-mcp-server/blob/main/docs/installation-guides/install-claude.md[Claude Installation Guide] — Official setup instructions for Claude

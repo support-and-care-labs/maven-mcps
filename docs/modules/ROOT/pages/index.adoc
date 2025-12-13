@@ -129,4 +129,4 @@ When adding new MCP servers:
 == License
 
 This project is licensed under the Apache License 2.0.
-See the xref:../LICENSE[LICENSE] file for details.
+See the https://github.com/support-and-care-labs/maven-mcps/blob/main/LICENSE[LICENSE] file for details.

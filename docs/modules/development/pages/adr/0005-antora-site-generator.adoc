@@ -62,7 +62,7 @@ Playbook configuration::
 `antora-local-playbook.yml` for local builds with `worktrees: true` to read from working directory.
 
 Cross-references::
-Module-aware xrefs like `xref:development:adr/0001-...adoc[]` work across components.
+Module-aware xrefs like `+xref:development:adr/0001-...adoc[]+` work across components.
 
 Supplemental UI::
 Custom `header-content.hbs` to simplify the default Antora UI navbar.

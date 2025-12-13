@@ -161,7 +161,7 @@ Provide email + token credentials.
 Personal Access Token (Server/Data Center)::
 Generated within each application's profile settings (Profile → Personal Access Tokens).
 For Apache infrastructure:
-* Confluence: https://cwiki.apache.org/confluence[cwiki.apache.org] → Profile → Settings → Personal Access Tokens
+* Confluence: https://cwiki.apache.org/confluence/[cwiki.apache.org] → Profile → Settings → Personal Access Tokens
 * Jira: https://issues.apache.org/jira[issues.apache.org] → Profile → Personal Access Tokens
 +
 Supports self-hosted deployments with version 6.0+ for Confluence and 8.14+ for Jira.

@@ -133,7 +133,7 @@ PATs are generated separately in each application:
 
 **Confluence PAT:**
 
-. Log in to https://cwiki.apache.org/confluence[Apache Confluence]
+. Log in to https://cwiki.apache.org/confluence/[Apache Confluence]
 . Go to Profile (top right) → Settings → Personal Access Tokens
 . Click "Create token", set a name and expiry
 . Copy the generated token

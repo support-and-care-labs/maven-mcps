@@ -138,7 +138,7 @@ Used by::
 * *Atlassian MCP*: Access to Apache Jira and Apache Confluence
 
 Required tokens::
-* *Confluence PAT*: For accessing https://cwiki.apache.org/confluence[Apache Confluence]
+* *Confluence PAT*: For accessing https://cwiki.apache.org/confluence/[Apache Confluence]
 * *Jira PAT*: For accessing https://issues.apache.org/jira[Apache Jira]
 
 Setup::

@@ -1,0 +1,8 @@
+{{!--
+Override of default Antora UI edit-this-page partial.
+Adds target="_blank" to open GitHub edit page in new tab.
+Original: https://gitlab.com/antora/antora-ui-default/-/blob/HEAD/src/partials/edit-this-page.hbs
+--}}
+{{#if page.editUrl}}
+<div class="edit-this-page"><a href="{{page.editUrl}}" target="_blank" rel="noopener">Edit this Page</a></div>
+{{/if}}

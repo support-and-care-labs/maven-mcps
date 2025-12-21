@@ -33,8 +33,11 @@ The project includes a `Makefile` in the repository root for common tasks:
 |===
 | Target | Description
 
-| `make build`
-| Build the Antora documentation site
+| `make build-local`
+| Build for local development (no edit URLs) [default]
+
+| `make build-remote`
+| Build for remote deployment (with GitHub edit URLs)
 
 | `make clean`
 | Remove build artifacts (`./build/` directory)
@@ -51,21 +54,47 @@ The project includes a `Makefile` in the repository root for common tasks:
 
 == Building the Site
 
-To build the documentation site locally:
+=== Local Development
+
+To build the documentation site for local development:
 
 [source,bash]
 ----
-make build
+make build-local
 ----
 
-This runs Antora with the local playbook (`antora-local-playbook.yml`) and generates the site in `./build/site/`.
+This runs Antora with `antora-local-playbook.yml` and generates the site in `./build/local-site/`.
+Edit URLs are disabled in local builds.
+
+=== Remote Deployment
+
+To build for remote deployment (Netlify, GitHub Pages):
+
+[source,bash]
+----
+make build-remote
+----
+
+This runs Antora with `antora-playbook.yml` and generates the site in `./build/remote-site/`.
+Edit URLs point to GitHub with the current branch.
+
+=== Running Antora Directly
 
 You can also run Antora directly:
 
 [source,bash]
 ----
+# Local build
 npx antora antora-local-playbook.yml
+
+# Remote build (CI=true required for GitHub edit URLs)
+CI=true npx antora --url https://maven-mcps.netlify.app antora-playbook.yml
 ----
+
+NOTE: The `CI=true` environment variable is required for remote builds.
+When Antora reads from local worktrees, it defaults to `file://` edit URLs.
+Setting `CI=true` forces Antora to use the configured `edit_url` pointing to GitHub.
+In most CI environments (GitHub Actions, Netlify, etc.), this variable is already set.
 
 == Deploying to Netlify
 
@@ -103,14 +132,14 @@ make deploy-preview
 
 This is useful for reviewing changes before publishing to production.
 
-== Local Development
+== Local Preview Server
 
 For local development with live preview, use a local HTTP server:
 
 [source,bash]
 ----
-make build
-cd build/site
+make build-local
+cd build/local-site
 python -m http.server 8000
 ----
 
@@ -118,13 +147,23 @@ Then open http://localhost:8000 in your browser.
 
 == Playbook Configuration
 
-The build uses `antora-local-playbook.yml` which:
+The project uses two Antora playbooks:
 
-* Reads from the working directory (via `worktrees: true`)
-* Includes both the umbrella docs and mail-mcp component
-* Uses supplemental UI files for custom header styling
+`antora-local-playbook.yml`::
+For local development.
+Disables edit URLs.
+Outputs to `./build/local-site/`.
 
-See the playbook file for full configuration details.
+`antora-playbook.yml`::
+For remote deployment.
+Edit URLs point to GitHub using `+{refname}+` for the current branch.
+Outputs to `./build/remote-site/`.
+
+Both playbooks:
+
+* Read from the working directory (via `worktrees: true`)
+* Include both the umbrella docs and mail-mcp component
+* Use supplemental UI files for custom header styling
 
 == Related Documentation
 

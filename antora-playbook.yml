@@ -14,10 +14,13 @@
 # limitations under the License.
 #
 
+# Production playbook for remote deployment (Netlify, GitHub Pages)
+# Use antora-local-playbook.yml for local development
+
 site:
   title: Maven MCPs Documentation
   start_page: maven-mcps::index.adoc
-  url: http://localhost:8080
+  # URL is overridden via CLI: --url <site-url>
 
 antora:
   extensions:
@@ -28,11 +31,11 @@ content:
     - url: .
       start_path: docs
       worktrees: true
-      edit_url: false
+      edit_url: 'https://github.com/support-and-care-labs/maven-mcps/edit/{refname}/{path}'
     - url: mail-mcp
       start_path: docs
       worktrees: true
-      edit_url: false
+      edit_url: 'https://github.com/support-and-care-labs/mail-mcp/edit/{refname}/{path}'
 
 ui:
   bundle:
@@ -41,4 +44,4 @@ ui:
   supplemental_files: ./supplemental-ui
 
 output:
-  dir: ./build/local-site
+  dir: ./build/remote-site

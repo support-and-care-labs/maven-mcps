@@ -1,0 +1,120 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= Advanced Usage
+ifndef::env-site[:toc:]
+ifndef::env-site[:toclevels: 2]
+
+This guide covers advanced usage patterns for the Maven MCP ecosystem.
+
+== Cross-MCP Orchestration
+
+A key feature of the Maven MCP ecosystem is **cross-MCP orchestration**: automatically following references across data sources to gather complete context.
+
+=== How It Works
+
+When you ask Claude about a Maven topic, it can:
+
+. Search mail archives for discussions
+. Find referenced GitHub issues or PRs
+. Look up Confluence documentation
+. Retrieve historical Jira issues (when referenced)
+. Synthesize all findings into a comprehensive answer
+
+=== Reference Patterns
+
+Claude recognizes these patterns and follows them across MCPs:
+
+[cols="2,3"]
+|===
+|Pattern |Action
+
+|`MNG-1234`, `MCOMPILER-567`
+|Look up in GitHub Issues first (migrated), then Jira if needed
+
+|`apache/maven#123`
+|Retrieve GitHub issue or PR
+
+|`cwiki.apache.org/confluence/...`
+|Fetch Confluence page content
+
+|Message-ID references
+|Retrieve email thread for context
+|===
+
+=== Enabling Orchestration
+
+Add orchestration instructions to your project's `CLAUDE.md`:
+
+[source,markdown]
+----
+## Cross-MCP Orchestration
+
+When searching Maven-related content across MCP servers, **automatically read and
+follow** the orchestration guide: `.claude/rules/cross-mcp-orchestration.md`
+----
+
+Then create `.claude/rules/cross-mcp-orchestration.md` with the following content:
+
+.cross-mcp-orchestration.md (link:{attachmentsdir}/cross-mcp-orchestration.md[download])
+[%collapsible]
+====
+[source,markdown]
+----
+include::partial$cross-mcp-orchestration.md[]
+----
+====
+
+=== Key Points
+
+GitHub Issues Primary::
+Maven has migrated from Jira to GitHub.
+Always search GitHub Issues first for current status.
+
+Follow References::
+When content mentions `MNG-1234` or similar, follow the reference to gather context.
+
+Synthesize Findings::
+Combine information from multiple sources to provide comprehensive answers.
+
+== Example Session
+
+Start Claude Code in any Maven-related project:
+
+[source,bash]
+----
+claude
+----
+
+Try queries like:
+
+[source,text]
+----
+> Search for recent discussions about Maven 4 module support in the mailing lists
+
+> What's the current status of MNG-8000? Check both GitHub and the mailing list discussions.
+
+> Find recent PRs in apache/maven that mention "resolver"
+
+> Summarize the decision-making process for the Maven 4 API changes
+----
+
+Claude will use the configured MCPs to search across mail archives, GitHub, and Atlassian services, following references to gather complete context.
+
+== Next Steps
+
+* xref:claude-code-advanced-setup.adoc[Claude Code Advanced Setup] - MCP scopes, manual configuration, troubleshooting
+* xref:llm-mcp-overview.adoc[LLM and MCP Overview] - Background concepts

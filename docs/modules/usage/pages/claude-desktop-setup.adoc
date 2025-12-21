@@ -161,5 +161,5 @@ If MCPs are configured correctly, Claude will use the available tools to answer 
 == Related
 
 * xref:claude-code-setup.adoc[Claude Code Quick Start]
-* xref:claude-code-detailed.adoc[Claude Code Detailed Setup]
+* xref:claude-code-advanced-setup.adoc[Claude Code Advanced Setup]
 * xref:mcp-setup.adoc[MCP Setup (Quick Start)]

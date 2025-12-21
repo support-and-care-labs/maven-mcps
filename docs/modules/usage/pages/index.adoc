@@ -23,7 +23,7 @@ This section provides guides for using the Maven MCP ecosystem with LLM clients.
 
 The Maven MCPs enable AI assistants to access:
 
-* **Mail Archives** - Historical mailing list discussions (dev@maven.apache.org)
+* **Mail Archives** - Historical mailing list discussions (dev@ and users@)
 * **GitHub** - Repositories, issues, and pull requests
 * **Atlassian** - Confluence documentation and Jira (historical issues)
 
@@ -40,7 +40,10 @@ The Maven MCPs enable AI assistants to access:
 |Quick setup guide for all MCP servers (Docker-focused)
 
 |xref:claude-code-setup.adoc[Claude Code]
-|Configure Claude Code with MCPs and cross-MCP orchestration
+|Install Claude Code as your MCP client
+
+|xref:advanced-usage.adoc[Advanced Usage]
+|Cross-MCP orchestration and example queries
 |===
 
 == Detailed Documentation
@@ -51,7 +54,7 @@ The Maven MCPs enable AI assistants to access:
 |===
 |Guide |Description
 
-|xref:claude-code-detailed.adoc[Claude Code Detailed]
+|xref:claude-code-advanced-setup.adoc[Claude Code]
 |MCP scopes, manual configuration, troubleshooting
 
 |xref:claude-desktop-setup.adoc[Claude Desktop]

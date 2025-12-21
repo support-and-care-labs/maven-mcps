@@ -14,167 +14,75 @@
 // limitations under the License.
 //
 
-= Claude Code Quick Start
+= Claude Code Setup
 ifndef::env-site[:toc:]
-ifndef::env-site[:toclevels: 3]
+ifndef::env-site[:toclevels: 2]
 
-Quick start guide for configuring Claude Code with Maven MCP servers.
+This guide covers installing Claude Code as your MCP client.
 
 == Overview
 
 https://claude.ai/code[Claude Code] is Anthropic's CLI tool for Claude that supports the Model Context Protocol (MCP).
 With MCP servers configured, Claude Code gains access to mailing lists, GitHub, and Atlassian services.
 
+NOTE: Claude Code is the primary MCP client used in this documentation, but other MCP-compatible clients (Claude Desktop, Cursor, etc.) work as well.
+
 == Installation
+
+=== macOS
 
 [source,bash]
 ----
-# Install Claude Code (requires Node.js)
-npm install -g @anthropic-ai/claude-code
+brew install claude
+----
 
-# Verify installation
+=== Linux / WSL
+
+[source,bash]
+----
+curl -fsSL https://claude.ai/install.sh | bash
+----
+
+=== Windows
+
+[source,bash]
+----
+choco install claude
+----
+
+=== Verify Installation
+
+[source,bash]
+----
 claude --version
 ----
 
-See https://docs.anthropic.com/en/docs/claude-code[Claude Code documentation] for detailed installation instructions.
+NOTE: For other installation methods, see the https://docs.anthropic.com/en/docs/claude-code[official Claude Code documentation].
 
-== Adding MCP Servers
+== Basic Usage
 
-Use `claude mcp add` to configure MCP servers.
-This is simpler than manually editing JSON configuration files.
-
-=== Mail MCP
+Start an interactive session:
 
 [source,bash]
 ----
-claude mcp add maven-mail --transport http http://localhost:58080/mcp
+claude
 ----
 
-NOTE: The mail-mcp Docker services must be running (`docker compose up -d` in the mail-mcp directory).
-
-=== GitHub MCP
-
-[source,bash]
-----
-claude mcp add github -e GITHUB_PERSONAL_ACCESS_TOKEN=<your-token> -- npx -y @modelcontextprotocol/server-github
-----
-
-=== Atlassian MCP
-
-[source,bash]
-----
-claude mcp add atlassian \
-  -e CONFLUENCE_URL=https://cwiki.apache.org/confluence \
-  -e CONFLUENCE_USERNAME=<your-email> \
-  -e CONFLUENCE_TOKEN=<your-confluence-pat> \
-  -e JIRA_URL=https://issues.apache.org/jira \
-  -e JIRA_USERNAME=<your-email> \
-  -e JIRA_TOKEN=<your-jira-pat> \
-  -- docker run -i --rm \
-     -e CONFLUENCE_URL -e CONFLUENCE_USERNAME -e CONFLUENCE_TOKEN \
-     -e JIRA_URL -e JIRA_USERNAME -e JIRA_TOKEN \
-     ghcr.io/sooperset/mcp-atlassian:latest
-----
-
-=== Verify Configuration
+List configured MCP servers:
 
 [source,bash]
 ----
 claude mcp list
 ----
 
-TIP: For detailed setup including token creation and prerequisites, see xref:mcp-setup.adoc[MCP Setup (Quick Start)].
-
-== Cross-MCP Orchestration
-
-A key feature of the Maven MCP ecosystem is **cross-MCP orchestration**: automatically following references across data sources to gather complete context.
-
-=== How It Works
-
-When you ask Claude about a Maven topic, it can:
-
-. Search mail archives for discussions
-. Find referenced GitHub issues or PRs
-. Look up Confluence documentation
-. Retrieve historical Jira issues (when referenced)
-. Synthesize all findings into a comprehensive answer
-
-=== Reference Patterns
-
-Claude recognizes these patterns and follows them across MCPs:
-
-[cols="2,3"]
-|===
-|Pattern |Action
-
-|`MNG-1234`, `MCOMPILER-567`
-|Look up in GitHub Issues first (migrated), then Jira if needed
-
-|`apache/maven#123`
-|Retrieve GitHub issue or PR
-
-|`cwiki.apache.org/confluence/...`
-|Fetch Confluence page content
-
-|Message-ID references
-|Retrieve email thread for context
-|===
-
-=== Enabling Orchestration
-
-Add orchestration instructions to your project's `CLAUDE.md`:
-
-[source,markdown]
-----
-## Cross-MCP Orchestration
-
-When searching Maven-related content across MCP servers, **automatically read and
-follow** the orchestration guide: `.claude/rules/cross-mcp-orchestration.md`
-----
-
-Then create `.claude/rules/cross-mcp-orchestration.md` with the following content:
-
-.cross-mcp-orchestration.md (link:{attachmentsdir}/cross-mcp-orchestration.md[download])
-[%collapsible]
-====
-[source,markdown]
-----
-include::partial$cross-mcp-orchestration.md[]
-----
-====
-
-=== Key Points
-
-GitHub Issues Primary::
-Maven has migrated from Jira to GitHub.
-Always search GitHub Issues first for current status.
-
-Follow References::
-When content mentions `MNG-1234` or similar, follow the reference to gather context.
-
-Synthesize Findings::
-Combine information from multiple sources to provide comprehensive answers.
-
-== Example Session
+Add an MCP server:
 
 [source,bash]
 ----
-# Start Claude Code
-claude
-----
-
-[source,text]
-.Test MCP access (try queries like the following)
-----
-> Search for recent discussions about Maven 4 module support in the mailing lists
-
-> What's the current status of MNG-8000? Check both GitHub and the mailing list discussions.
-
-> Find recent PRs in apache/maven that mention "resolver"
+claude mcp add <name> [options] -- <command>
 ----
 
 == Next Steps
 
-* xref:claude-code-detailed.adoc[Claude Code Detailed Setup] - MCP scopes, advanced configuration
-* xref:claude-desktop-setup.adoc[Claude Desktop Setup] - GUI alternative
-* xref:llm-mcp-overview.adoc[LLMs and MCPs Overview] - Background concepts
+* xref:mcp-setup.adoc[MCP Setup] - Add Maven-related MCP servers
+* xref:claude-code-advanced-setup.adoc[Claude Code Advanced Setup] - MCP scopes, advanced configuration, troubleshooting

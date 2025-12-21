@@ -14,54 +14,28 @@
 // limitations under the License.
 //
 
-= GitHub MCP Setup
+= GitHub MCP Detailed Setup
 ifndef::env-site[:toc:]
 ifndef::env-site[:toclevels: 3]
 
-This guide covers setting up the GitHub MCP server for accessing Apache Maven repositories and issues.
+Advanced configuration and detailed documentation for the GitHub MCP server.
 
-== Overview
+For basic setup, see xref:mcp-setup.adoc#_github_mcp[MCP Setup - GitHub MCP].
 
-The GitHub MCP provides access to:
+== PAT Scope Options
 
-* GitHub Issues (the primary issue tracker for Maven since migration from Jira)
-* Pull Requests and code reviews
-* Repository content and commits
-* Code search
+The quick start uses `public_repo` scope which is sufficient for Apache Maven repositories.
+For additional access:
 
-== Prerequisites
+`repo`::
+Full control of private repositories (if you work with private forks)
 
-* Node.js (for npx) - see xref:ROOT:prerequisites.adoc[Prerequisites]
-* GitHub account
-* GitHub Personal Access Token (PAT)
+`read:org`::
+Read organization membership (optional, for org-level queries)
 
-== Creating a GitHub PAT
+== Manual JSON Configuration
 
-. Go to https://github.com/settings/tokens[GitHub Settings > Tokens]
-. Click "Generate new token (classic)"
-. Select scopes:
-** `repo` - Full control of private repositories (or `public_repo` for public only)
-** `read:org` - Read organization membership (optional)
-. Copy the generated token
-
-TIP: For Apache Maven work, `public_repo` scope is usually sufficient since Maven repositories are public.
-
-== MCP Configuration
-
-=== Using Claude Code CLI (Recommended)
-
-[source,bash]
-----
-claude mcp add github -s user \
-  -e GITHUB_PERSONAL_ACCESS_TOKEN=<your-github-token> \
-  -- npx -y @modelcontextprotocol/server-github
-----
-
-NOTE: The name `github` (without `maven-` prefix) reflects that this MCP is not Maven-specific.
-
-=== Manual JSON Configuration
-
-For project-level configuration, add to `.mcp.json` in your project root:
+For project-level configuration without using the CLI, add to `.mcp.json` in your project root:
 
 [source,json]
 ----
@@ -135,7 +109,7 @@ Key Apache Maven repositories on GitHub:
 |Surefire Plugin
 |===
 
-TIP: Search for `apache/maven-*` to find all Maven-related repositories.
+Search for `apache/maven-*` to find all Maven-related repositories.
 
 == Example Queries
 
@@ -153,7 +127,7 @@ TIP: Search for `apache/maven-*` to find all Maven-related repositories.
 
 == Related
 
-* xref:claude-code-setup.adoc[Claude Code Setup]
+* xref:mcp-setup.adoc[MCP Setup (Quick Start)]
 * xref:components:github-mcp.adoc[GitHub MCP Component Overview]
-* https://github.com/github/github-mcp-server[GitHub MCP Server] — GitHub's official MCP server
-* https://github.com/github/github-mcp-server/blob/main/docs/installation-guides/install-claude.md[Claude Installation Guide] — Official setup instructions for Claude
+* https://github.com/github/github-mcp-server[GitHub MCP Server] - GitHub's official MCP server
+* https://github.com/github/github-mcp-server/blob/main/docs/installation-guides/install-claude.md[Claude Installation Guide] - Official setup instructions

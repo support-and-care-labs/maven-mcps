@@ -22,8 +22,8 @@ ifndef::env-site[:toc:]
 *GitHub MCP* provides access to GitHub repositories, issues, pull requests, and code search.
 
 Type:: External (third-party)
-Status:: Available (pre-configured in Claude Code)
-Provider:: Anthropic / GitHub
+Status:: Available (requires setup)
+Provider:: https://github.com/modelcontextprotocol/servers/tree/main/src/github[Model Context Protocol]
 
 == Features
 
@@ -47,10 +47,10 @@ The GitHub MCP exposes tools prefixed with `mcp__github__`:
 
 == Configuration
 
-GitHub MCP is typically pre-configured in Claude Code installations.
-No additional setup is required for basic usage.
+GitHub MCP requires manual setup.
+See xref:usage:github-mcp-setup.adoc[GitHub MCP Setup] for installation instructions.
 
-For advanced configuration or custom deployments, see the https://github.com/anthropics/claude-code[Claude Code documentation].
+For the upstream MCP server documentation, see the https://github.com/modelcontextprotocol/servers/tree/main/src/github[MCP GitHub Server repository].
 
 == Maven-Relevant Repositories
 

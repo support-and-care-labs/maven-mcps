@@ -64,14 +64,15 @@ Provides access to Apache Jira and Confluence instances.
 See xref:components:atlassian-mcps.adoc[Atlassian MCPs] for available options.
 Communicates with Atlassian API via REST.
 
+GitHub MCP::
+Locally deployed MCP server (runs via `npx`).
+Provides access to GitHub repositories, issues, and pull requests.
+See xref:components:github-mcp.adoc[GitHub MCP documentation].
+Communicates with GitHub API via REST.
+
 === Remote Components
 
 These components are hosted externally:
-
-GitHub MCP::
-Remote MCP server providing access to GitHub repositories, issues, and pull requests.
-Typically pre-configured in Claude Code.
-Communicates with GitHub API via REST.
 
 GitHub API::
 REST API at `api.github.com`.
@@ -112,9 +113,8 @@ See xref:prerequisites.adoc[Prerequisites] for detailed requirements per compone
 Configuration details for each MCP are provided in their respective documentation:
 
 * xref:mail-mcp::index.adoc[mail-mcp configuration]
+* xref:components:github-mcp.adoc[GitHub MCP configuration]
 * xref:components:atlassian-mcps.adoc[Atlassian MCP configuration]
-
-GitHub MCP is typically pre-configured in Claude Code installations.
 
 == Related
 

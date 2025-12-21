@@ -14,30 +14,54 @@
 // limitations under the License.
 //
 
-= Mail MCP Setup
+= Mail MCP Detailed Setup
 ifndef::env-site[:toc:]
 ifndef::env-site[:toclevels: 3]
 
-This guide covers setting up the Mail MCP server for accessing Apache Maven mailing list archives.
+Advanced configuration and detailed documentation for the Mail MCP server.
 
-== Overview
+For basic setup, see xref:mcp-setup.adoc#_mail_mcp[MCP Setup - Mail MCP].
 
-Mail MCP provides access to historical Maven mailing list discussions.
-It runs locally using Docker and indexes emails into Elasticsearch for fast searching.
+== Retrieving Both Mailing Lists
 
-== Prerequisites
+The quick start only retrieves dev@maven.apache.org.
+To retrieve both lists (dev@ and users@):
 
-include::mail-mcp:ROOT:partial$prerequisites.adoc[]
+[source,bash]
+----
+# Retrieve dev@ archives (July 2002-present, ~750MB)
+for year in $(seq 2002 $(date +%Y)); do
+  for month in $(seq -w 1 12); do
+    docker compose exec scheduler retrieve-mbox --date ${year}-${month} --output-dir /app/data/dev || true
+  done
+done
 
-== Quick Start
+# Retrieve users@ archives (Nov 2002-present, ~800MB)
+for year in $(seq 2002 $(date +%Y)); do
+  for month in $(seq -w 1 12); do
+    docker compose exec scheduler retrieve-mbox --date ${year}-${month} --list users@maven.apache.org --output-dir /app/data/users || true
+  done
+done
 
-include::mail-mcp:ROOT:partial$quick-start.adoc[]
+# Index all downloaded mbox files
+docker compose exec scheduler index-mbox --directory /app/data/dev/ --list dev@maven.apache.org
+docker compose exec scheduler index-mbox --directory /app/data/users/ --list users@maven.apache.org
+----
 
-== MCP Configuration
+Initial retrieval (~1.5GB total) takes time but only needs to be done once.
+The scheduler container automatically updates both lists' archives hourly.
 
-include::mail-mcp:ROOT:partial$mcp-config.adoc[]
+== MCP Configuration Scopes
 
-See xref:claude-code-detailed.adoc[Claude Code Detailed Setup] for other configuration scopes.
+The quick start uses user-level configuration (`-s user`).
+For project-level configuration:
+
+[source,bash]
+----
+claude mcp add maven-mail -s project --transport http http://localhost:58080/mcp
+----
+
+See xref:claude-code-advanced-setup.adoc[Claude Code Advanced Setup] for details on configuration scopes.
 
 == Available Tools
 
@@ -63,5 +87,5 @@ See xref:mail-mcp::index.adoc[Mail MCP Documentation].
 
 == Related
 
-* xref:claude-code-setup.adoc[Claude Code Setup]
+* xref:mcp-setup.adoc[MCP Setup (Quick Start)]
 * xref:components:mail-mcp.adoc[Mail MCP Component Overview]

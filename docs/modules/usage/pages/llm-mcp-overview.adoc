@@ -72,7 +72,7 @@ This project provides MCP servers for Maven-related data:
 |MCP Server |Purpose
 
 |**Mail MCP**
-|Access Apache Maven mailing list archives (dev@maven.apache.org)
+|Access Apache Maven mailing list archives (dev@ and users@)
 
 |**GitHub MCP**
 |Access Maven repositories, issues, and pull requests on GitHub
@@ -97,5 +97,5 @@ For example, asking "What was the decision about Maven 4 module support?" might:
 
 == Next Steps
 
+* xref:claude-code-setup.adoc[Install Claude Code] as your LLM client
 * xref:mcp-setup.adoc[Set up MCP servers] (Docker-based)
-* xref:claude-code-setup.adoc[Configure Claude Code] as your LLM client

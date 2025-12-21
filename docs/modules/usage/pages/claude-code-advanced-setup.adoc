@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-= Claude Code Detailed Setup
+= Claude Code Advanced Setup
 ifndef::env-site[:toc:]
 ifndef::env-site[:toclevels: 3]
 

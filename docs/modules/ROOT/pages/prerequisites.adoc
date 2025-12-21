@@ -20,8 +20,34 @@ ifndef::env-site[:toclevels: 2]
 
 == Overview
 
-This page lists the prerequisites for *using* the Maven MCP ecosystem.
+This page lists the prerequisites for *installing* the Maven MCP servers.
 For development prerequisites, see xref:development:prerequisites.adoc[Development Prerequisites].
+
+NOTE: To *use* the MCPs, you also need an MCP-compatible LLM client (e.g., Claude Code).
+See xref:usage:mcp-setup.adoc[MCP Setup] for client installation and configuration.
+
+== Summary
+
+[cols="2,3"]
+|===
+|Prerequisite |Used By
+
+|<<container-runtime,Container Runtime>>
+|Mail MCP, Atlassian MCP
+
+|<<apache-pat,Personal Access Tokens>>
+|Atlassian MCP
+
+|<<github,GitHub Account>>
+|GitHub MCP
+
+|<<nodejs,Node.js (npm/npx)>>
+|GitHub MCP
+
+|===
+
+[[container-runtime]]
+== Container Runtime
 
 [NOTE]
 ====
@@ -31,68 +57,6 @@ Throughout this documentation, "Docker" refers to any OCI-compatible container r
 You can use Docker Engine, Docker Desktop, Podman, containerd, or any other compatible runtime.
 Commands shown use `docker` syntax, but substitute your runtime's equivalent commands as needed.
 ====
-
-== Summary
-
-[cols="2,3,2"]
-|===
-|Prerequisite |Used By |Documentation
-
-|Node.js (npm/npx)
-|Claude Code, GitHub MCP
-|<<nodejs>>
-
-|Container Runtime
-|mail-mcp, Atlassian MCP
-|<<container-runtime>>
-
-|Personal Access Tokens (Apache infrastructure)
-|Atlassian MCP
-|<<apache-pat>>
-
-|GitHub Account
-|GitHub MCP
-|<<github>>
-
-|===
-
-[[nodejs]]
-== Node.js
-
-Node.js provides `npm` and `npx`, required for installing and running several components.
-
-Used by::
-* *Claude Code*: Installation via `npm install -g @anthropic-ai/claude-code`
-* *GitHub MCP*: Runs via `npx -y @modelcontextprotocol/server-github`
-
-Installation::
-* https://nodejs.org/[Node.js Official] - Download LTS version
-* Via package manager:
-+
-[source,bash]
-----
-# macOS (Homebrew)
-brew install node
-
-# Ubuntu/Debian
-sudo apt install nodejs npm
-
-# Windows (Chocolatey)
-choco install nodejs-lts
-----
-
-Verification::
-[source,bash]
-----
-node --version
-npm --version
-npx --version
-----
-
-TIP: Node.js 18+ is recommended for best compatibility.
-
-[[container-runtime]]
-== Container Runtime
 
 A container runtime is required for running the MCP servers and their dependencies.
 
@@ -159,10 +123,28 @@ Setup::
 +
 Or generate a Personal Access Token at https://github.com/settings/tokens[GitHub Settings > Tokens]
 
-[NOTE]
-====
-GitHub MCP is typically pre-configured in Claude Code installations.
-====
+Further reading::
+* xref:components:github-mcp.adoc[GitHub MCP Documentation]
+
+[[nodejs]]
+== Node.js (npm/npx)
+
+Node.js with npm/npx is required for the GitHub MCP.
+
+Used by::
+* *GitHub MCP*: Uses `npx` to run the MCP server (no official Docker image available)
+
+Options::
+* https://nodejs.org/[Node.js] (includes npm and npx)
+* https://github.com/nvm-sh/nvm[nvm] (Node Version Manager) for managing multiple versions
+
+Verification::
+[source,bash]
+----
+node --version
+npm --version
+npx --version
+----
 
 Further reading::
 * xref:components:github-mcp.adoc[GitHub MCP Documentation]

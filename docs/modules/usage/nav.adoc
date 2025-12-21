@@ -18,11 +18,12 @@
 * xref:usage:index.adoc[Overview]
 * Quick Start
 ** xref:usage:llm-mcp-overview.adoc[LLMs and MCPs]
-** xref:usage:mcp-setup.adoc[MCP Setup]
 ** xref:usage:claude-code-setup.adoc[Claude Code]
+** xref:usage:mcp-setup.adoc[MCP Setup]
+** xref:usage:advanced-usage.adoc[Advanced Usage]
 * Detailed Setup
 ** LLM Clients
-*** xref:usage:claude-code-detailed.adoc[Claude Code]
+*** xref:usage:claude-code-advanced-setup.adoc[Claude Code]
 *** xref:usage:claude-desktop-setup.adoc[Claude Desktop]
 ** MCP Servers
 *** xref:usage:mail-mcp-setup.adoc[Mail MCP]

@@ -28,6 +28,9 @@ ifndef::env-site[:toc:]
 
 This is the documentation hub for *Maven MCPs*, a collection of MCP (Model Context Protocol) servers designed to help with Apache Maven improvements.
 
+These MCP servers can be used with any MCP-compatible LLM client.
+This documentation focuses on https://claude.ai/code[Claude Code] as the primary client, but the MCPs work equally well with other clients such as Claude Desktop, Cursor, or any tool supporting the MCP standard.
+
 == Purpose
 
 This collection of MCP servers provides comprehensive tooling for:
@@ -37,28 +40,18 @@ This collection of MCP servers provides comprehensive tooling for:
 * Enabling LLM-assisted Maven improvements and contributions
 * Providing contextual information about Maven's evolution
 
-== MCP Server Projects
+== Available MCP Servers
 
-=== mail-mcp
+xref:mail-mcp::index.adoc[Mail MCP]::
+Search and analyze Apache Maven mailing list archives (dev@ and users@) from 2002 to present.
 
-MCP server for accessing and analyzing Apache Maven mailing list archives.
+xref:components:github-mcp.adoc[GitHub MCP]::
+Access Maven GitHub repositories, issues, and pull requests.
 
-* Contains 700+ MB of historical mbox files from 2002-present
-* Provides tools for retrieving and querying email archives
-* Supports multiple Apache mailing lists
+xref:components:atlassian-mcps.adoc[Atlassian MCP]::
+Access Apache Jira (legacy issues) and Confluence (wiki documentation).
 
-See xref:mail-mcp::index.adoc[mail-mcp documentation] for details.
-
-== External MCP References
-
-We also consume third-party MCP servers for accessing external services.
-These are documented in xref:components:index.adoc[Components Catalog].
-
-Currently documented:
-
-* xref:components:atlassian-mcps.adoc[Atlassian MCPs] - Jira and Confluence access
-
-See xref:development:adr/0002-external-mcp-references.adoc[ADR-0002] for the rationale.
+See xref:usage:mcp-setup.adoc[MCP Setup] for installation instructions.
 
 == Getting Started
 
@@ -75,11 +68,14 @@ See xref:development:adr/0003-usage-documentation.adoc[ADR-0003] for the documen
 Each MCP server is in its own subdirectory with:
 
 `README.adoc`:: Project overview and quick start
-`docs/`:: Project-specific documentation
-`docs/index.adoc`:: Documentation entry point
-`docs/adr/`:: Architecture Decision Records
+`docs/`:: Antora documentation component
+`docs/modules/<name>/pages/`:: Documentation pages
+`docs/modules/<name>/partials/`:: Reusable content fragments
 `src/`:: Source code
 `tests/`:: Test files
+
+NOTE: Documentation uses https://antora.org[Antora] for multi-component site generation.
+Each `docs/` directory is an Antora component with a `modules/` subdirectory.
 
 == Documentation Organization
 
@@ -87,23 +83,20 @@ Each MCP server is in its own subdirectory with:
 |===
 |Location |Content
 
-|`docs/index.adoc`
+|`docs/modules/ROOT/pages/index.adoc`
 |This file - main documentation hub
 
-|`docs/adr/`
+|`docs/modules/development/pages/adr/`
 |Project-wide Architecture Decision Records
 
-|`docs/external/`
+|`docs/modules/components/`
 |External MCP server documentation
 
-|`docs/usage/`
-|Usage and architecture documentation
+|`docs/modules/usage/`
+|Usage and configuration guides
 
-|`<project>/docs/`
-|Project-specific documentation
-
-|`<project>/docs/adr/`
-|Project-specific Architecture Decision Records
+|`<project>/docs/modules/`
+|Project-specific Antora documentation
 
 |===
 
@@ -112,9 +105,9 @@ See xref:development:adr/0001-documentation-standards.adoc[ADR-0001] for documen
 == Technology
 
 MCP (Model Context Protocol):: Server framework for LLM tool exposure
-Python 3.11+:: Primary implementation language
-AsciiDoc:: Documentation format
-Poetry / pip:: Dependency management
+Python 3.11+ with Poetry:: Implementation language for some MCPs (e.g., Mail MCP).
+Other languages are possible depending on MCP requirements.
+AsciiDoc with Antora:: Documentation format and site generator
 
 == Contributing
 
@@ -122,8 +115,8 @@ When adding new MCP servers:
 
 . Create a new subdirectory at the root level
 . Follow the established project structure
-. Document architectural decisions in ADR format in `docs/adr/`
-. Create a `docs/index.adoc` as the documentation entry point
+. Set up an Antora documentation component in `docs/`
+. Document architectural decisions in ADR format
 . Update this index to list the new project
 
 == License

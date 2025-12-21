@@ -18,39 +18,53 @@
 ifndef::env-site[:toc:]
 ifndef::env-site[:toclevels: 2]
 
-This guide covers setting up all Maven-related MCP servers using Docker.
+This guide covers setting up the Maven-related MCP servers.
 
 == Prerequisites
 
-* Node.js 18+ with npm/npx (for Claude Code, GitHub MCP)
+* xref:claude-code-setup.adoc[Claude Code] (or another MCP-compatible client) installed
 * Docker Desktop (or Podman) installed and running
-
-Each MCP is optional - install only those you need:
-
-* **Mail MCP**: No account required (public archives)
-* **GitHub MCP**: GitHub account with Personal Access Token
-* **Atlassian MCP**: Apache Confluence and/or Apache Jira accounts with PATs
-
-TIP: For xref:claude-code-setup.adoc#_cross_mcp_orchestration[Cross-MCP Orchestration], having multiple MCPs enables following references across data sources (e.g., finding mail discussions about a GitHub issue).
+* Node.js 18+ with npm/npx (for GitHub MCP)
 
 See xref:ROOT:prerequisites.adoc[Prerequisites] for detailed installation instructions.
 
+== Overview
+
+Each MCP server is optional - install only those you need:
+
+Mail MCP::
+Access to Apache Maven mailing list archives (dev@ and users@).
+No account required (public archives).
+
+GitHub MCP::
+Access to Maven repositories, issues, and pull requests.
+Requires GitHub account with Personal Access Token.
+
+Atlassian MCP::
+Access to Apache Confluence and Jira.
+Requires Apache Confluence and/or Jira accounts with PATs.
+
+TIP: Having multiple MCPs enables cross-MCP orchestration: following references across data sources (e.g., finding mail discussions about a GitHub issue).
+See xref:advanced-usage.adoc[Advanced Usage] for details.
+
 == Mail MCP
 
-The Mail MCP provides access to Apache Maven mailing list archives.
+The Mail MCP provides access to Apache Maven mailing list archives (dev@ and users@).
 It runs as a persistent Docker service and is accessed via Streamable HTTP transport.
 
 === Setup
 
 [source,bash]
 ----
-# Clone the repository
-git clone https://github.com/support-and-care-labs/mail-mcp.git
-cd mail-mcp
+# Create directory and download docker-compose.yml
+mkdir -p mail-mcp && cd mail-mcp
+curl -O https://raw.githubusercontent.com/support-and-care-labs/mail-mcp/main/docker-compose.yml
 
 # Start all services (Elasticsearch + MCP server + scheduler)
 docker compose up -d
 ----
+
+For local development or contributing, see xref:mail-mcp-setup.adoc[Mail MCP Detailed Setup] which covers cloning the full repository.
 
 === Initial Data Retrieval
 
@@ -59,7 +73,7 @@ This can be done entirely via Docker (no local Python installation required):
 
 [source,bash]
 ----
-# Retrieve all dev mailing list archives (2002-present, ~700MB)
+# Retrieve dev@ mailing list archives (2002-present, ~700MB)
 for year in $(seq 2002 $(date +%Y)); do
   for month in $(seq -w 1 12); do
     docker compose exec scheduler retrieve-mbox --date ${year}-${month} || true
@@ -70,7 +84,11 @@ done
 docker compose exec scheduler index-mbox --directory /app/data/dev/
 ----
 
-TIP: The scheduler container automatically updates the current month's archive hourly.
+This example retrieves dev@maven.apache.org.
+For users@maven.apache.org, add `--list users@maven.apache.org --output-dir /app/data/users` to the retrieve command.
+See xref:mail-mcp-setup.adoc[Mail MCP Detailed Setup] for complete instructions.
+
+The scheduler container automatically updates the current month's archive hourly.
 
 === Verify
 
@@ -131,15 +149,13 @@ The Atlassian MCP provides access to Apache Confluence and Jira.
 Apache uses Atlassian Server/Data Center (not Cloud).
 PATs are generated separately in each application:
 
-**Confluence PAT:**
-
+Confluence PAT::
 . Log in to https://cwiki.apache.org/confluence/[Apache Confluence]
 . Go to Profile (top right) → Settings → Personal Access Tokens
 . Click "Create token", set a name and expiry
 . Copy the generated token
 
-**Jira PAT:**
-
+Jira PAT::
 . Log in to https://issues.apache.org/jira[Apache Jira]
 . Go to Profile (top right) → Personal Access Tokens
 . Click "Create token", set a name and expiry
@@ -186,5 +202,5 @@ You should see all configured MCP servers listed.
 
 == Next Steps
 
-* xref:claude-code-setup.adoc[Configure Claude Code] with cross-MCP orchestration
-* xref:llm-mcp-overview.adoc[Learn more about LLMs and MCPs]
+* xref:advanced-usage.adoc[Advanced Usage] - Cross-MCP orchestration and examples
+* xref:llm-mcp-overview.adoc[LLM and MCP Overview] - Understanding how MCPs work

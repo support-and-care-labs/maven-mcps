@@ -49,7 +49,13 @@ The project includes a `Makefile` in the repository root for common tasks:
 | Build and deploy a draft preview to Netlify (unique URL per deploy)
 
 | `make deploy-branch`
-| Build and deploy a branch preview (stable URL based on branch name)
+| Build and deploy a branch preview (stable URL based on the branch name)
+
+| `make serve`
+| Build and serve with live reload (manual rebuild)
+
+| `make dev`
+| Development mode: watch sources, rebuild automatically, live reload
 
 | `make help`
 | Show available targets
@@ -150,11 +156,49 @@ Slashes are replaced with dashes to form a valid URL alias.
 This creates a predictable URL like `https://<branch-name>--maven-mcps.netlify.app`.
 Subsequent deploys from the same branch update the same URL, making it ideal for ongoing review during feature development.
 
-Example: If you're on branch `feature/my-feature`, the deploy URL becomes `https://feature-my-feature--maven-mcps.netlify.app`.
+Example: If you're on branch `feature/my-feature`, the deployment URL becomes `https://feature-my-feature--maven-mcps.netlify.app`.
 
-== Local Preview Server
+== Local Development Server
 
-For local development with live preview, use a local HTTP server:
+=== Development Mode (Recommended)
+
+For the best development experience with automatic rebuilds and live reload:
+
+[source,bash]
+----
+make dev
+----
+
+This starts a development server that:
+
+* Watches all `.adoc` source files for changes
+* Automatically rebuilds the site when sources change
+* Refreshes the browser automatically
+
+Open http://localhost:58000 in your browser.
+Press `Ctrl+C` to stop.
+
+To use a different port:
+
+[source,bash]
+----
+DEV_PORT=9000 make dev
+----
+
+=== Serve Mode
+
+If you prefer manual rebuilds with live reload on build output:
+
+[source,bash]
+----
+make serve
+----
+
+This serves the site with live reload but requires manual `make build-local` in another terminal to rebuild.
+
+=== Simple HTTP Server
+
+Alternatively, use a simple HTTP server without a live reload:
 
 [source,bash]
 ----

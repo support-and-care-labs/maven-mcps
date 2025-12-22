@@ -18,7 +18,7 @@ REMOTE_BUILD_DIR := ./build/remote-site
 SITE_URL ?= $(or $(DEPLOY_PRIME_URL),https://maven-mcps.netlify.app)
 LOCAL_URL := http://localhost:8080
 
-.PHONY: all build-local build-remote clean deploy deploy-preview help
+.PHONY: all build-local build-remote clean deploy deploy-preview deploy-branch help
 
 # Default target (local build)
 all: build-local
@@ -70,6 +70,22 @@ deploy-preview: build-remote
 	netlify deploy --auth=$$NETLIFY_AUTH_TOKEN --site=$$NETLIFY_PROJECT_ID --dir=$(REMOTE_BUILD_DIR)
 	@echo "Preview deployment complete"
 
+# Deploy branch preview to Netlify (stable URL based on branch name)
+deploy-branch: build-remote
+	@echo "Deploying branch preview to Netlify..."
+	@if [ -z "$$NETLIFY_AUTH_TOKEN" ]; then \
+		echo "Error: NETLIFY_AUTH_TOKEN is not set"; \
+		exit 1; \
+	fi
+	@if [ -z "$$NETLIFY_PROJECT_ID" ]; then \
+		echo "Error: NETLIFY_PROJECT_ID is not set"; \
+		exit 1; \
+	fi
+	@BRANCH=$$(git branch --show-current | tr '/' '-'); \
+	echo "Using branch alias: $$BRANCH"; \
+	netlify deploy --auth=$$NETLIFY_AUTH_TOKEN --site=$$NETLIFY_PROJECT_ID --dir=$(REMOTE_BUILD_DIR) --alias="$$BRANCH"
+	@echo "Branch preview deployment complete"
+
 # Show help
 help:
 	@echo "Available targets:"
@@ -77,7 +93,8 @@ help:
 	@echo "  build-remote   - Build for remote deployment (with GitHub edit URLs)"
 	@echo "  clean          - Remove build artifacts"
 	@echo "  deploy         - Build and deploy to Netlify (production)"
-	@echo "  deploy-preview - Build and deploy preview to Netlify"
+	@echo "  deploy-preview - Build and deploy preview to Netlify (unique URL)"
+	@echo "  deploy-branch  - Build and deploy branch preview (stable URL per branch)"
 	@echo "  help           - Show this help message"
 	@echo ""
 	@echo "Environment variables:"

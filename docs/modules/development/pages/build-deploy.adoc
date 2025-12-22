@@ -46,7 +46,10 @@ The project includes a `Makefile` in the repository root for common tasks:
 | Build and deploy to Netlify (production)
 
 | `make deploy-preview`
-| Build and deploy a draft preview to Netlify
+| Build and deploy a draft preview to Netlify (unique URL per deploy)
+
+| `make deploy-branch`
+| Build and deploy a branch preview (stable URL based on branch name)
 
 | `make help`
 | Show available targets
@@ -130,7 +133,24 @@ Deploy a draft preview (generates a unique preview URL):
 make deploy-preview
 ----
 
-This is useful for reviewing changes before publishing to production.
+This is useful for one-off reviews before publishing to production.
+
+=== Branch Preview Deployment
+
+Deploy a branch preview with a stable URL based on the current branch name:
+
+[source,bash]
+----
+make deploy-branch
+----
+
+The branch name is determined automatically from `git branch --show-current`.
+Slashes are replaced with dashes to form a valid URL alias.
+
+This creates a predictable URL like `https://<branch-name>--maven-mcps.netlify.app`.
+Subsequent deploys from the same branch update the same URL, making it ideal for ongoing review during feature development.
+
+Example: If you're on branch `feature/my-feature`, the deploy URL becomes `https://feature-my-feature--maven-mcps.netlify.app`.
 
 == Local Preview Server
 

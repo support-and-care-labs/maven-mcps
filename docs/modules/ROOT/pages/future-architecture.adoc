@@ -1,0 +1,261 @@
+//
+// Copyright 2025 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= Future Architecture: Centralized MCP Platform
+ifndef::env-site[:toc:]
+:toclevels: 3
+:imagesdir: ../images
+
+== Overview
+
+This document describes potential future architectures for hosting all Maven MCPs on a centralized platform.
+The goal is to provide a shared, always-available MCP service that reduces the burden on individual users while enabling cross-organizational learning and service improvement.
+
+[NOTE]
+====
+This is a vision document describing future possibilities.
+The current architecture (see xref:architecture.adoc[Architecture]) remains the reference for existing deployments.
+====
+
+== Motivation
+
+The current architecture requires each user to:
+
+* Deploy and configure multiple MCP servers locally
+* Maintain authentication credentials for each backend service
+* Keep local data stores updated (e.g., mail archives)
+* Manage container orchestration for Docker-based MCPs
+
+A centralized platform could:
+
+* Provide ready-to-use MCP endpoints
+* Centralize credential management
+* Enable shared data caching and updates
+* Allow service monitoring and improvement through usage analytics
+
+== Architecture Alternatives
+
+Two primary approaches are considered for centralized MCP deployment:
+
+. <<multi-entry-point,Multi-Entry-Point Architecture>> - Direct access to individual MCPs
+. <<single-entry-point,Single-Entry-Point Architecture>> - Unified facade with intelligent routing
+
+[[multi-entry-point]]
+== Alternative 1: Multi-Entry-Point Architecture
+
+image::future-architecture-multi-entry.drawio.svg[Multi-Entry-Point Architecture,900]
+
+=== Description
+
+In this architecture, each MCP server runs as a separate container on a central platform (e.g., Kubernetes cluster, cloud container service).
+Each MCP exposes its own endpoint URL that clients connect to directly.
+
+=== Characteristics
+
+Individual Endpoints::
+Each MCP has its own publicly accessible URL (e.g., `mail-mcp.maven-mcps.example.org`, `atlassian-mcp.maven-mcps.example.org`).
+Clients configure each endpoint separately.
+
+Independent Scaling::
+Each MCP can be scaled independently based on load.
+Resource-intensive MCPs (like mail-mcp with large archives) can have dedicated resources.
+
+Direct Protocol Access::
+Clients communicate directly with each MCP using the standard MCP protocol.
+No intermediate translation or routing layer.
+
+Simpler Implementation::
+Straightforward containerization of existing MCPs.
+Standard load balancing and container orchestration.
+
+=== Advantages
+
+* Lower complexity - no routing logic needed
+* Clear separation of concerns
+* Easier debugging - direct access to each MCP
+* Independent deployment and versioning
+
+=== Disadvantages
+
+* Clients must configure multiple endpoints
+* No centralized request optimization
+* Limited cross-MCP orchestration capabilities
+* Each MCP manages its own authentication
+
+[[single-entry-point]]
+== Alternative 2: Single-Entry-Point Architecture
+
+image::future-architecture-single-entry.drawio.svg[Single-Entry-Point Architecture,900]
+
+=== Description
+
+In this architecture, a single entry point handles all MCP requests.
+This gateway provides two levels of functionality:
+
+. *Forwarding Facade*: Routes requests to the appropriate backend MCP based on the tool being invoked
+. *Intelligent Guard*: Uses an additional LLM to analyze, route, and orchestrate requests across multiple MCPs
+
+=== Characteristics
+
+Unified Endpoint::
+Single URL for all MCP access (e.g., `mcps.maven-mcps.example.org`).
+Clients configure only one endpoint.
+
+Forwarding Facade Mode::
+Acts as a transparent proxy.
+Routes requests to backend MCPs based on tool namespacing.
+Aggregates tool listings from all backend MCPs.
+
+Intelligent Guard Mode::
+Employs an additional LLM for request analysis.
+Can decompose complex queries into multiple MCP calls.
+Orchestrates cross-MCP workflows automatically.
+May optimize or cache repeated patterns.
+
+Independent Backend Scaling::
+Backend MCPs can be scaled independently, just as in Alternative 1.
+A stateless gateway (or one with distributed session cache) does not become a bottleneck.
+
+=== Advantages
+
+* Single configuration point for clients
+* Centralized authentication and authorization
+* Cross-MCP query optimization possible
+* Intelligent orchestration can improve user experience
+* Natural point for usage analytics
+
+=== Disadvantages
+
+* Additional infrastructure complexity
+* Potential single point of failure (mitigated by gateway redundancy)
+* Added latency through the gateway
+* LLM orchestrator adds cost and complexity
+
+== Learning and Service Improvement
+
+Both architectures enable opportunities for service improvement through observability.
+
+=== Request Logging and Tracing
+
+Centralized Logging::
+All MCP requests can be logged with:
++
+* Timestamp and duration
+* Tool invocations and parameters
+* Response sizes and error rates
+* Usage patterns across time
+
+Distributed Tracing::
+End-to-end tracing of requests across:
++
+* Gateway/facade layer
+* Individual MCP servers
+* Backend API calls (GitHub, Jira, Confluence)
+
+=== Analytics and Improvement
+
+Usage Pattern Analysis::
+Understanding how MCPs are used enables:
++
+* Identification of common query patterns
+* Detection of underutilized tools
+* Discovery of missing functionality gaps
+* Performance bottleneck identification
+
+Service Optimization::
+Insights can drive:
++
+* Caching strategies for frequent queries
+* Pre-fetching of commonly accessed data
+* Tool API improvements
+* Documentation enhancements
+
+=== GDPR Considerations
+
+Since the platform runs on infrastructure under our control (self-hosted VMs or managed Kubernetes), we retain full responsibility for data protection without third-party data processor agreements.
+
+[NOTE]
+====
+Any logging or analytics must comply with GDPR and other applicable data protection regulations.
+====
+
+Data Minimization::
+Avoid logging personally identifiable information (PII).
+Use anonymized identifiers and never log authentication credentials.
+
+Retention and Transparency::
+Define clear retention periods with automated deletion.
+Inform users about data collection in service terms.
+
+== Comparison Summary
+
+[cols="1,2,2",options="header"]
+|===
+|Aspect
+|Multi-Entry-Point
+|Single-Entry-Point
+
+|Configuration
+|Multiple endpoints per MCP
+|Single endpoint for all
+
+|Complexity
+|Lower infrastructure complexity
+|Higher infrastructure complexity
+
+|Scalability
+|Independent per-MCP scaling
+|Same per-MCP scaling; stateless gateway scales horizontally
+
+|Cross-MCP Queries
+|Client must orchestrate
+|Gateway can orchestrate
+
+|Authentication
+|Per-MCP credential management
+|Centralized credential management
+
+|Debugging
+|Direct MCP access
+|Additional tracing needed
+
+|Cost
+|Container costs only
+|Additional gateway/LLM costs
+|===
+
+== Recommendation
+
+A phased approach is recommended:
+
+. *Phase 1*: Deploy Multi-Entry-Point architecture
+** Lower initial complexity
+** Validates containerization and public accessibility
+** Provides immediate value to users
+. *Phase 2*: Add Simple Forwarding Facade
+** Unified endpoint for convenience
+** Transparent routing, no intelligence
+** Centralized logging enabled
+. *Phase 3*: Introduce Intelligent Guard (optional)
+** Based on observed usage patterns from Phase 2
+** Only if cross-MCP orchestration proves valuable
+** Consider cost/benefit of LLM orchestrator
+
+== Related
+
+* xref:architecture.adoc[Current Architecture]
+* xref:usage:index.adoc[Usage Documentation]
+* xref:components:index.adoc[Components Catalog]

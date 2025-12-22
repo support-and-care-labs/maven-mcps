@@ -17,3 +17,4 @@
 * xref:index.adoc[Overview]
 * xref:prerequisites.adoc[Prerequisites]
 * xref:architecture.adoc[Architecture]
+* xref:future-architecture.adoc[Future Architecture]

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="901px" height="701px" viewBox="-0.5 -0.5 901 701" content="&lt;mxfile host=&quot;app.diagrams.net&quot;&gt;&lt;diagram name=&quot;Single-Entry-Point&quot; id=&quot;maven-mcp-future-single&quot;&gt;&lt;mxGraphModel dx=&quot;900&quot; dy=&quot;700&quot; grid=&quot;1&quot; gridSize=&quot;10&quot; guides=&quot;1&quot; tooltips=&quot;1&quot; connect=&quot;1&quot; arrows=&quot;1&quot; fold=&quot;1&quot; page=&quot;1&quot; pageScale=&quot;1&quot; pageWidth=&quot;900&quot; pageHeight=&quot;700&quot;&gt;&lt;root&gt;&lt;mxCell id=&quot;0&quot;/&gt;&lt;mxCell id=&quot;1&quot; parent=&quot;0&quot;/&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;&lt;/diagram&gt;&lt;/mxfile&gt;">
+  <defs/>
+  <g>
+    <!-- Title -->
+    <text x="450" y="25" font-family="Helvetica" font-size="16" text-anchor="middle" font-weight="bold">Alternative 2: Single-Entry-Point Architecture</text>
+
+    <!-- Client at top -->
+    <rect x="350" y="45" width="200" height="70" fill="#fff2cc" stroke="#d6b656" stroke-width="2"/>
+    <text x="450" y="70" font-family="Helvetica" font-size="11" text-anchor="middle">
+      <tspan font-style="italic">«application»</tspan>
+    </text>
+    <text x="450" y="90" font-family="Helvetica" font-size="14" text-anchor="middle" font-weight="bold">MCP Client</text>
+    <text x="450" y="105" font-family="Helvetica" font-size="10" text-anchor="middle" font-style="italic">(e.g., Claude Code)</text>
+
+    <!-- Central Platform Frame -->
+    <rect x="40" y="140" width="820" height="430" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+    <rect x="40" y="140" width="180" height="30" fill="#e1d5e7" stroke="#9673a6" stroke-width="1"/>
+    <text x="50" y="160" font-family="Helvetica" font-size="12">
+      <tspan font-style="italic">«execution environment»</tspan>
+    </text>
+    <text x="50" y="175" font-family="Helvetica" font-size="12" font-weight="bold">Central MCP Platform</text>
+
+    <!-- Gateway Layer -->
+    <rect x="60" y="190" width="620" height="110" fill="#cce5ff" stroke="#3399ff" stroke-width="2"/>
+    <rect x="60" y="190" width="180" height="25" fill="#cce5ff" stroke="#3399ff" stroke-width="1"/>
+    <text x="70" y="208" font-family="Helvetica" font-size="11">
+      <tspan font-style="italic">«gateway» mcps.example.org</tspan>
+    </text>
+
+    <!-- Forwarding Facade -->
+    <rect x="80" y="225" width="200" height="60" fill="#b3d9ff" stroke="#0066cc" stroke-width="1"/>
+    <text x="180" y="245" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">Forwarding Facade</text>
+    <text x="180" y="262" font-family="Helvetica" font-size="9" text-anchor="middle">Tool-based routing</text>
+    <text x="180" y="275" font-family="Helvetica" font-size="9" text-anchor="middle">Tool aggregation</text>
+
+    <!-- Intelligent Guard -->
+    <rect x="300" y="225" width="200" height="60" fill="#b3d9ff" stroke="#0066cc" stroke-width="1"/>
+    <text x="400" y="245" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">Intelligent Guard</text>
+    <text x="400" y="262" font-family="Helvetica" font-size="9" text-anchor="middle">LLM-based routing</text>
+    <text x="400" y="275" font-family="Helvetica" font-size="9" text-anchor="middle">Cross-MCP orchestration</text>
+
+    <!-- Orchestrator LLM -->
+    <rect x="520" y="225" width="140" height="60" fill="#ffd966" stroke="#d6b656" stroke-width="1"/>
+    <text x="590" y="245" font-family="Helvetica" font-size="11" text-anchor="middle">
+      <tspan font-style="italic">«AI service»</tspan>
+    </text>
+    <text x="590" y="262" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">Orchestrator LLM</text>
+    <text x="590" y="278" font-family="Helvetica" font-size="9" text-anchor="middle">Query decomposition</text>
+
+    <!-- MCP Servers Row -->
+    <rect x="60" y="320" width="620" height="80" fill="#f5f5f5" stroke="#666666" stroke-width="1" stroke-dasharray="5,5"/>
+    <rect x="60" y="320" width="120" height="22" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
+    <text x="70" y="336" font-family="Helvetica" font-size="10">
+      <tspan font-style="italic">«backend MCPs»</tspan>
+    </text>
+
+    <!-- mail-mcp (left) -->
+    <rect x="80" y="350" width="140" height="40" fill="#d5e8d4" stroke="#82b366" stroke-width="1"/>
+    <text x="150" y="375" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">mail-mcp</text>
+
+    <!-- GitHub MCP (center-left) -->
+    <rect x="240" y="350" width="140" height="40" fill="#d5e8d4" stroke="#82b366" stroke-width="1"/>
+    <text x="310" y="375" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">GitHub MCP</text>
+
+    <!-- Atlassian MCP (center-right, spans Jira+Confluence) -->
+    <rect x="400" y="350" width="260" height="40" fill="#d5e8d4" stroke="#82b366" stroke-width="1"/>
+    <text x="530" y="375" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">Atlassian MCP</text>
+
+    <!-- Backend Services Row -->
+    <rect x="60" y="420" width="620" height="70" fill="#fff" stroke="#666666" stroke-width="1"/>
+    <rect x="60" y="420" width="100" height="20" fill="#fff" stroke="#666666" stroke-width="1"/>
+    <text x="70" y="435" font-family="Helvetica" font-size="10">
+      <tspan font-style="italic">«backends»</tspan>
+    </text>
+
+    <!-- Mail Data Store (under mail-mcp) -->
+    <rect x="80" y="450" width="140" height="30" fill="#f8cecc" stroke="#b85450" stroke-width="1"/>
+    <text x="150" y="470" font-family="Helvetica" font-size="11" text-anchor="middle" font-weight="bold">Mail Archives</text>
+
+    <!-- GitHub API (under GitHub MCP) -->
+    <rect x="240" y="450" width="140" height="30" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
+    <text x="310" y="470" font-family="Helvetica" font-size="11" text-anchor="middle" font-weight="bold">GitHub API</text>
+
+    <!-- Apache Jira (under Atlassian MCP left) -->
+    <rect x="400" y="450" width="120" height="30" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
+    <text x="460" y="470" font-family="Helvetica" font-size="11" text-anchor="middle" font-weight="bold">Apache Jira</text>
+
+    <!-- Apache Confluence (under Atlassian MCP right) -->
+    <rect x="540" y="450" width="120" height="30" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
+    <text x="600" y="470" font-family="Helvetica" font-size="11" text-anchor="middle" font-weight="bold">Confluence</text>
+
+    <!-- Observability (right side) -->
+    <rect x="700" y="190" width="140" height="300" fill="#ffe6cc" stroke="#d79b00" stroke-width="1"/>
+    <text x="770" y="215" font-family="Helvetica" font-size="11" text-anchor="middle">
+      <tspan font-style="italic">«observability»</tspan>
+    </text>
+    <text x="770" y="245" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">Logging</text>
+    <text x="770" y="265" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">&amp;</text>
+    <text x="770" y="285" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">Tracing</text>
+    <text x="770" y="320" font-family="Helvetica" font-size="10" text-anchor="middle" font-style="italic">Usage Analytics</text>
+    <text x="770" y="340" font-family="Helvetica" font-size="10" text-anchor="middle" font-style="italic">Performance</text>
+    <text x="770" y="360" font-family="Helvetica" font-size="10" text-anchor="middle" font-style="italic">Metrics</text>
+    <text x="770" y="390" font-family="Helvetica" font-size="10" text-anchor="middle" font-style="italic">Cross-MCP</text>
+    <text x="770" y="410" font-family="Helvetica" font-size="10" text-anchor="middle" font-style="italic">Pattern Detection</text>
+    <text x="770" y="445" font-family="Helvetica" font-size="9" text-anchor="middle">(GDPR-compliant)</text>
+    <text x="770" y="475" font-family="Helvetica" font-size="9" text-anchor="middle">Learning from</text>
+    <text x="770" y="485" font-family="Helvetica" font-size="9" text-anchor="middle">usage patterns</text>
+
+    <!-- Annotations box -->
+    <rect x="60" y="510" width="620" height="50" fill="#fff" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+    <text x="70" y="528" font-family="Helvetica" font-size="10" font-weight="bold">Key Characteristics:</text>
+    <text x="70" y="545" font-family="Helvetica" font-size="10">• Single unified endpoint</text>
+    <text x="220" y="545" font-family="Helvetica" font-size="10">• Centralized authentication</text>
+    <text x="400" y="545" font-family="Helvetica" font-size="10">• Cross-MCP orchestration</text>
+
+    <!-- Connection: Client to Gateway (single thick line) -->
+    <path d="M 450 115 L 450 140 L 340 140 L 340 190" fill="none" stroke="#000000" stroke-width="2.5"/>
+    <polygon points="340,185 335,175 345,175" fill="#000000"/>
+    <text x="360" y="135" font-family="Helvetica" font-size="10" font-weight="bold">MCP/HTTPS</text>
+    <text x="360" y="150" font-family="Helvetica" font-size="9" font-style="italic">(Single connection)</text>
+
+    <!-- Connection: Facade to Intelligent Guard (horizontal) -->
+    <path d="M 280 255 L 300 255" fill="none" stroke="#0066cc" stroke-width="1.5"/>
+    <polygon points="295,255 285,251 285,259" fill="#0066cc"/>
+    <text x="290" y="248" font-family="Helvetica" font-size="8">or</text>
+
+    <!-- Connection: Intelligent Guard to Orchestrator LLM -->
+    <path d="M 500 255 L 520 255" fill="none" stroke="#d6b656" stroke-width="1.5"/>
+    <polygon points="515,255 505,251 505,259" fill="#d6b656"/>
+
+    <!-- Connection: Gateway to mail-mcp -->
+    <path d="M 150 300 L 150 350" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="150,345 146,335 154,335" fill="#000000"/>
+    <text x="160" y="330" font-family="Helvetica" font-size="8">MCP</text>
+
+    <!-- Connection: Gateway to GitHub MCP -->
+    <path d="M 310 300 L 310 350" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="310,345 306,335 314,335" fill="#000000"/>
+
+    <!-- Connection: Gateway to Atlassian MCP -->
+    <path d="M 530 300 L 530 350" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="530,345 526,335 534,335" fill="#000000"/>
+
+    <!-- Connection: mail-mcp to Mail Archives -->
+    <path d="M 150 390 L 150 450" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="150,445 146,435 154,435" fill="#000000"/>
+
+    <!-- Connection: GitHub MCP to GitHub API -->
+    <path d="M 310 390 L 310 450" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="310,445 306,435 314,435" fill="#000000"/>
+    <text x="320" y="425" font-family="Helvetica" font-size="8">REST</text>
+
+    <!-- Connection: Atlassian MCP to Jira -->
+    <path d="M 480 390 L 480 410 L 460 410 L 460 450" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="460,445 456,435 464,435" fill="#000000"/>
+
+    <!-- Connection: Atlassian MCP to Confluence -->
+    <path d="M 580 390 L 580 410 L 600 410 L 600 450" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="600,445 596,435 604,435" fill="#000000"/>
+
+    <!-- Connection: Gateway to Logging -->
+    <path d="M 680 255 L 700 255" fill="none" stroke="#999999" stroke-width="1" stroke-dasharray="3,3"/>
+    <polygon points="695,255 685,251 685,259" fill="#999999"/>
+
+    <!-- Connection: MCPs to Logging -->
+    <path d="M 660 370 L 700 370" fill="none" stroke="#999999" stroke-width="1" stroke-dasharray="3,3"/>
+    <polygon points="695,370 685,366 685,374" fill="#999999"/>
+    <text x="662" y="360" font-family="Helvetica" font-size="8" fill="#999999">logs</text>
+
+    <!-- Legend -->
+    <rect x="40" y="600" width="820" height="80" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+    <rect x="40" y="600" width="60" height="20" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+    <text x="50" y="615" font-family="Helvetica" font-size="11" font-weight="bold">Legend</text>
+
+    <rect x="55" y="635" width="70" height="25" fill="#fff2cc" stroke="#d6b656" stroke-width="1"/>
+    <text x="90" y="652" font-family="Helvetica" font-size="9" text-anchor="middle">MCP Client</text>
+
+    <rect x="135" y="635" width="70" height="25" fill="#b3d9ff" stroke="#0066cc" stroke-width="1"/>
+    <text x="170" y="652" font-family="Helvetica" font-size="9" text-anchor="middle">Gateway</text>
+
+    <rect x="215" y="635" width="70" height="25" fill="#ffd966" stroke="#d6b656" stroke-width="1"/>
+    <text x="250" y="652" font-family="Helvetica" font-size="9" text-anchor="middle">AI Service</text>
+
+    <rect x="295" y="635" width="70" height="25" fill="#d5e8d4" stroke="#82b366" stroke-width="1"/>
+    <text x="330" y="652" font-family="Helvetica" font-size="9" text-anchor="middle">MCP Server</text>
+
+    <rect x="375" y="635" width="70" height="25" fill="#f8cecc" stroke="#b85450" stroke-width="1"/>
+    <text x="410" y="652" font-family="Helvetica" font-size="9" text-anchor="middle">Data Store</text>
+
+    <rect x="455" y="635" width="70" height="25" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
+    <text x="490" y="652" font-family="Helvetica" font-size="9" text-anchor="middle">External API</text>
+
+    <rect x="535" y="635" width="70" height="25" fill="#ffe6cc" stroke="#d79b00" stroke-width="1"/>
+    <text x="570" y="652" font-family="Helvetica" font-size="9" text-anchor="middle">Observability</text>
+
+    <rect x="615" y="635" width="70" height="25" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+    <text x="650" y="652" font-family="Helvetica" font-size="9" text-anchor="middle">Platform</text>
+
+    <!-- Protocol labels in legend -->
+    <line x1="710" y1="647" x2="750" y2="647" stroke="#000000" stroke-width="1.5"/>
+    <polygon points="745,647 735,643 735,651" fill="#000000"/>
+    <text x="770" y="652" font-family="Helvetica" font-size="9">MCP/REST</text>
+
+    <line x1="810" y1="647" x2="845" y2="647" stroke="#999999" stroke-width="1" stroke-dasharray="3,3"/>
+    <polygon points="840,647 830,643 830,651" fill="#999999"/>
+    <text x="855" y="652" font-family="Helvetica" font-size="9">Logs</text>
+  </g>
+</svg>

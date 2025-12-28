@@ -99,9 +99,10 @@ dev: build-local
 	@echo "Starting development mode with file watching..."
 	@echo "Open $(LOCAL_URL) in your browser"
 	@echo "Press Ctrl+C to stop"
-	npx concurrently --kill-others \
-		"npx browser-sync start --server $(LOCAL_BUILD_DIR) --files '$(LOCAL_BUILD_DIR)/**/*' --port $(DEV_PORT)" \
-		"npx chokidar-cli 'docs/**/*.adoc' 'mail-mcp/docs/**/*.adoc' -c 'npx antora --url $(LOCAL_URL) $(LOCAL_PLAYBOOK)'"
+	@trap 'kill 0' EXIT; \
+	npx browser-sync start --server $(LOCAL_BUILD_DIR) --files '$(LOCAL_BUILD_DIR)/**/*' --port $(DEV_PORT) & \
+	npx chokidar-cli 'docs/**/*.adoc' 'mail-mcp/docs/**/*.adoc' \
+		-c 'echo "[rebuild] Detected change, rebuilding..." && npx antora --url $(LOCAL_URL) $(LOCAL_PLAYBOOK) && echo "[rebuild] Done"'
 
 # Show help
 help:

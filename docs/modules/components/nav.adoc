@@ -21,3 +21,4 @@
 * External
 ** xref:components:atlassian-mcps.adoc[Atlassian MCPs]
 ** xref:components:github-mcp.adoc[GitHub MCP]
+** xref:components:maven-tools-mcp.adoc[Maven Tools MCP]

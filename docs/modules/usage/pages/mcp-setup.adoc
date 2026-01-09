@@ -44,6 +44,10 @@ Atlassian MCP::
 Access to Apache Confluence and Jira.
 Requires Apache Confluence and/or Jira accounts with PATs.
 
+Maven Tools MCP::
+Maven Central dependency intelligence (versions, health analysis).
+No account required (public repository).
+
 TIP: Having multiple MCPs enables cross-MCP orchestration: following references across data sources (e.g., finding mail discussions about a GitHub issue).
 See xref:advanced-usage.adoc[Advanced Usage] for details.
 
@@ -188,6 +192,22 @@ claude mcp add maven-atlassian -s user \
 ----
 
 For detailed configuration, see xref:atlassian-mcp-setup.adoc[Atlassian MCP Detailed Setup].
+
+== Maven Tools MCP
+
+The Maven Tools MCP provides Maven Central dependency intelligence - version lookups, health analysis, and upgrade recommendations.
+
+=== Add to Claude Code
+
+[source,bash]
+----
+claude mcp add maven-tools -s user \
+  -- docker run -i --rm arvindand/maven-tools-mcp:latest
+----
+
+No authentication is required as Maven Central is a public repository.
+
+For detailed configuration and available tools, see xref:maven-tools-mcp-setup.adoc[Maven Tools MCP Detailed Setup].
 
 == Verify Installation
 

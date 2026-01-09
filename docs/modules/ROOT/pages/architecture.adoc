@@ -70,6 +70,12 @@ Provides access to GitHub repositories, issues, and pull requests.
 See xref:components:github-mcp.adoc[GitHub MCP documentation].
 Communicates with GitHub API via REST.
 
+Maven Tools MCP::
+Locally deployed MCP server (runs via Docker).
+Provides Maven Central dependency intelligence (version lookups, health analysis).
+See xref:components:maven-tools-mcp.adoc[Maven Tools MCP documentation].
+Communicates with Maven Central repository directly.
+
 === Remote Components
 
 These components are hosted externally:
@@ -115,6 +121,7 @@ Configuration details for each MCP are provided in their respective documentatio
 * xref:mail-mcp::index.adoc[mail-mcp configuration]
 * xref:components:github-mcp.adoc[GitHub MCP configuration]
 * xref:components:atlassian-mcps.adoc[Atlassian MCP configuration]
+* xref:components:maven-tools-mcp.adoc[Maven Tools MCP configuration]
 
 == Related
 

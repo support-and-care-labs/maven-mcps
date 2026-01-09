@@ -29,3 +29,4 @@
 *** xref:usage:mail-mcp-setup.adoc[Mail MCP]
 *** xref:usage:github-mcp-setup.adoc[GitHub MCP]
 *** xref:usage:atlassian-mcp-setup.adoc[Atlassian MCP]
+*** xref:usage:maven-tools-mcp-setup.adoc[Maven Tools MCP]

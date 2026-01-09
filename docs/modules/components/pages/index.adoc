@@ -19,7 +19,7 @@ ifndef::env-site[:toc:]
 
 == Overview
 
-This catalog lists all MCP components used in Maven support workflows, both internal (developed by us) and external (third-party).
+This catalog lists all MCP components used in Maven support workflows, both internally (developed by us) and external (third-party).
 
 == Internal MCPs
 
@@ -53,6 +53,11 @@ MCP servers developed by third parties that we consume.
 |Access to GitHub repositories, issues, and pull requests
 |Available
 |xref:github-mcp.adoc[Details]
+
+|*Maven Tools MCP*
+|Maven Central dependency intelligence (versions, health, upgrades)
+|Available
+|xref:maven-tools-mcp.adoc[Details]
 
 |===
 

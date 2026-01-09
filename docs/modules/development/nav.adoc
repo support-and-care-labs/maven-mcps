@@ -24,3 +24,4 @@
 ** xref:development:adr/0004-documentation-restructuring.adoc[ADR-0004: Documentation Restructuring]
 ** xref:development:adr/0005-antora-site-generator.adoc[ADR-0005: Antora Site Generator]
 ** xref:development:adr/0006-cross-component-partials.adoc[ADR-0006: Cross-Component Partials]
+** xref:development:adr/0007-maven-central-search.adoc[ADR-0007: Maven Central Search]

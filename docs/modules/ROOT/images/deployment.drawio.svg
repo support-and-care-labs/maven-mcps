@@ -1,133 +1,158 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="801px" height="501px" viewBox="-0.5 -0.5 801 501" content="&lt;mxfile host=&quot;app.diagrams.net&quot;&gt;&lt;diagram name=&quot;Deployment&quot; id=&quot;maven-mcp-deployment&quot;&gt;&lt;mxGraphModel dx=&quot;800&quot; dy=&quot;500&quot; grid=&quot;1&quot; gridSize=&quot;10&quot; guides=&quot;1&quot; tooltips=&quot;1&quot; connect=&quot;1&quot; arrows=&quot;1&quot; fold=&quot;1&quot; page=&quot;1&quot; pageScale=&quot;1&quot; pageWidth=&quot;800&quot; pageHeight=&quot;500&quot;&gt;&lt;root&gt;&lt;mxCell id=&quot;0&quot;/&gt;&lt;mxCell id=&quot;1&quot; parent=&quot;0&quot;/&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;&lt;/diagram&gt;&lt;/mxfile&gt;">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="801px" height="521px" viewBox="-0.5 -0.5 801 521" content="&lt;mxfile host=&quot;app.diagrams.net&quot;&gt;&lt;diagram name=&quot;Deployment&quot; id=&quot;maven-mcp-deployment&quot;&gt;&lt;mxGraphModel dx=&quot;800&quot; dy=&quot;500&quot; grid=&quot;1&quot; gridSize=&quot;10&quot; guides=&quot;1&quot; tooltips=&quot;1&quot; connect=&quot;1&quot; arrows=&quot;1&quot; fold=&quot;1&quot; page=&quot;1&quot; pageScale=&quot;1&quot; pageWidth=&quot;800&quot; pageHeight=&quot;500&quot;&gt;&lt;root&gt;&lt;mxCell id=&quot;0&quot;/&gt;&lt;mxCell id=&quot;1&quot; parent=&quot;0&quot;/&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;&lt;/diagram&gt;&lt;/mxfile&gt;">
   <defs/>
   <g>
     <!-- Local Machine Frame -->
-    <rect x="20" y="20" width="280" height="300" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1"/>
+    <rect x="20" y="20" width="340" height="380" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1"/>
     <rect x="20" y="20" width="140" height="30" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1"/>
     <text x="30" y="40" font-family="Helvetica" font-size="12">
       <tspan font-style="italic">«device»</tspan>
     </text>
     <text x="30" y="55" font-family="Helvetica" font-size="12" font-weight="bold">Local Machine</text>
 
-    <!-- MCP Client -->
-    <rect x="100" y="70" width="140" height="60" fill="#fff2cc" stroke="#d6b656" stroke-width="1"/>
-    <text x="170" y="90" font-family="Helvetica" font-size="11" text-anchor="middle">
+    <!-- MCP Client (wide, almost full width) -->
+    <rect x="40" y="60" width="300" height="50" fill="#fff2cc" stroke="#d6b656" stroke-width="1"/>
+    <text x="190" y="80" font-family="Helvetica" font-size="11" text-anchor="middle">
       <tspan font-style="italic">«application»</tspan>
     </text>
-    <text x="170" y="105" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">MCP Client</text>
-    <text x="170" y="120" font-family="Helvetica" font-size="10" text-anchor="middle" font-style="italic">(e.g., Claude Code)</text>
+    <text x="190" y="95" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">MCP Client (e.g., Claude Code)</text>
 
-    <!-- mail-mcp -->
-    <rect x="40" y="170" width="120" height="60" fill="#d5e8d4" stroke="#82b366" stroke-width="1"/>
-    <text x="100" y="190" font-family="Helvetica" font-size="11" text-anchor="middle">
+    <!-- GitHub MCP (top-left of stair) -->
+    <rect x="40" y="125" width="120" height="50" fill="#d5e8d4" stroke="#82b366" stroke-width="1"/>
+    <text x="100" y="145" font-family="Helvetica" font-size="11" text-anchor="middle">
       <tspan font-style="italic">«component»</tspan>
     </text>
-    <text x="100" y="205" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">mail-mcp</text>
-    <text x="100" y="220" font-family="Helvetica" font-size="10" text-anchor="middle" font-style="italic">MCP Server</text>
+    <text x="100" y="160" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">GitHub MCP</text>
 
-    <!-- Atlassian MCP (local) -->
-    <rect x="180" y="170" width="120" height="60" fill="#d5e8d4" stroke="#82b366" stroke-width="1"/>
-    <text x="240" y="190" font-family="Helvetica" font-size="11" text-anchor="middle">
+    <!-- Atlassian MCP (second step) -->
+    <rect x="80" y="195" width="120" height="50" fill="#d5e8d4" stroke="#82b366" stroke-width="1"/>
+    <text x="140" y="215" font-family="Helvetica" font-size="11" text-anchor="middle">
       <tspan font-style="italic">«container»</tspan>
     </text>
-    <text x="240" y="205" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">Atlassian MCP</text>
-    <text x="240" y="220" font-family="Helvetica" font-size="10" text-anchor="middle" font-style="italic">Docker</text>
+    <text x="140" y="230" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">Atlassian MCP</text>
 
-    <!-- Remote Services Frame -->
-    <rect x="400" y="20" width="380" height="360" fill="#e1d5e7" stroke="#9673a6" stroke-width="1" stroke-dasharray="5,5"/>
-    <rect x="400" y="20" width="140" height="30" fill="#e1d5e7" stroke="#9673a6" stroke-width="1"/>
-    <text x="410" y="40" font-family="Helvetica" font-size="12">
-      <tspan font-style="italic">«cloud»</tspan>
+    <!-- Maven Tools MCP (third step) -->
+    <rect x="120" y="265" width="120" height="50" fill="#d5e8d4" stroke="#82b366" stroke-width="1"/>
+    <text x="180" y="285" font-family="Helvetica" font-size="11" text-anchor="middle">
+      <tspan font-style="italic">«container»</tspan>
     </text>
-    <text x="410" y="55" font-family="Helvetica" font-size="12" font-weight="bold">Remote Services</text>
+    <text x="180" y="300" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">Maven Tools MCP</text>
 
-    <!-- GitHub MCP -->
-    <rect x="440" y="70" width="120" height="60" fill="#d5e8d4" stroke="#82b366" stroke-width="1"/>
-    <text x="500" y="90" font-family="Helvetica" font-size="11" text-anchor="middle">
+    <!-- mail-mcp (bottom-right of stair) -->
+    <rect x="160" y="335" width="120" height="50" fill="#d5e8d4" stroke="#82b366" stroke-width="1"/>
+    <text x="220" y="355" font-family="Helvetica" font-size="11" text-anchor="middle">
       <tspan font-style="italic">«component»</tspan>
     </text>
-    <text x="500" y="105" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">GitHub MCP</text>
-    <text x="500" y="120" font-family="Helvetica" font-size="10" text-anchor="middle" font-style="italic">MCP Server</text>
+    <text x="220" y="370" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">mail-mcp</text>
 
-    <!-- GitHub API -->
-    <rect x="620" y="70" width="140" height="60" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
-    <text x="690" y="90" font-family="Helvetica" font-size="11" text-anchor="middle">
+    <!-- Remote Services Frame -->
+    <rect x="420" y="20" width="360" height="380" fill="#e1d5e7" stroke="#9673a6" stroke-width="1" stroke-dasharray="5,5"/>
+    <rect x="420" y="20" width="140" height="30" fill="#e1d5e7" stroke="#9673a6" stroke-width="1"/>
+    <text x="430" y="40" font-family="Helvetica" font-size="12">
+      <tspan font-style="italic">«cloud»</tspan>
+    </text>
+    <text x="430" y="55" font-family="Helvetica" font-size="12" font-weight="bold">Remote Services</text>
+
+    <!-- GitHub API (aligned with GitHub MCP) -->
+    <rect x="520" y="125" width="140" height="50" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
+    <text x="590" y="145" font-family="Helvetica" font-size="11" text-anchor="middle">
       <tspan font-style="italic">«service»</tspan>
     </text>
-    <text x="690" y="105" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">GitHub API</text>
-    <text x="690" y="120" font-family="Helvetica" font-size="10" text-anchor="middle" font-style="italic">api.github.com</text>
+    <text x="590" y="160" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">GitHub API</text>
 
-    <!-- Apache Jira -->
-    <rect x="440" y="170" width="160" height="60" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
-    <text x="520" y="190" font-family="Helvetica" font-size="11" text-anchor="middle">
+    <!-- Apache Jira (aligned with Atlassian MCP - upper) -->
+    <rect x="520" y="195" width="140" height="45" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
+    <text x="590" y="213" font-family="Helvetica" font-size="11" text-anchor="middle">
       <tspan font-style="italic">«service»</tspan>
     </text>
-    <text x="520" y="205" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">Apache Jira</text>
-    <text x="520" y="220" font-family="Helvetica" font-size="10" text-anchor="middle" font-style="italic">issues.apache.org/jira</text>
+    <text x="590" y="228" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">Apache Jira</text>
 
-    <!-- Apache Confluence -->
-    <rect x="440" y="250" width="160" height="60" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
-    <text x="520" y="270" font-family="Helvetica" font-size="11" text-anchor="middle">
+    <!-- Apache Confluence (aligned with Atlassian MCP - lower) -->
+    <rect x="520" y="245" width="140" height="45" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
+    <text x="590" y="263" font-family="Helvetica" font-size="11" text-anchor="middle">
       <tspan font-style="italic">«service»</tspan>
     </text>
-    <text x="520" y="285" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">Apache Confluence</text>
-    <text x="520" y="300" font-family="Helvetica" font-size="10" text-anchor="middle" font-style="italic">cwiki.apache.org</text>
+    <text x="590" y="278" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">Apache Confluence</text>
 
-    <!-- Connection: MCP Client to mail-mcp -->
-    <path d="M 140 130 L 100 130 L 100 170" fill="none" stroke="#000000" stroke-width="1"/>
-    <polygon points="100,165 96,155 104,155" fill="#000000"/>
-    <text x="60" y="155" font-family="Helvetica" font-size="10">MCP</text>
+    <!-- Maven Central (aligned with Maven Tools MCP) -->
+    <rect x="520" y="300" width="140" height="45" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
+    <text x="590" y="318" font-family="Helvetica" font-size="11" text-anchor="middle">
+      <tspan font-style="italic">«service»</tspan>
+    </text>
+    <text x="590" y="333" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">Maven Central</text>
 
-    <!-- Connection: MCP Client to Atlassian MCP -->
-    <path d="M 200 130 L 240 130 L 240 170" fill="none" stroke="#000000" stroke-width="1"/>
-    <polygon points="240,165 236,155 244,155" fill="#000000"/>
-    <text x="250" y="155" font-family="Helvetica" font-size="10">MCP</text>
+    <!-- Apache Mail Archives (aligned with mail-mcp) -->
+    <rect x="520" y="350" width="140" height="45" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
+    <text x="590" y="368" font-family="Helvetica" font-size="11" text-anchor="middle">
+      <tspan font-style="italic">«service»</tspan>
+    </text>
+    <text x="590" y="383" font-family="Helvetica" font-size="12" text-anchor="middle" font-weight="bold">lists.apache.org</text>
 
-    <!-- Connection: MCP Client to GitHub MCP -->
-    <path d="M 240 100 L 440 100" fill="none" stroke="#000000" stroke-width="1"/>
-    <polygon points="435,100 425,96 425,104" fill="#000000"/>
-    <text x="330" y="95" font-family="Helvetica" font-size="10">MCP</text>
+    <!-- Connection: MCP Client to GitHub MCP (centered on box) -->
+    <path d="M 100 110 L 100 125" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="100,120 96,110 104,110" fill="#000000"/>
+
+    <!-- Connection: MCP Client to Atlassian MCP (centered on box) -->
+    <path d="M 140 110 L 140 195" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="140,190 136,180 144,180" fill="#000000"/>
+
+    <!-- Connection: MCP Client to Maven Tools MCP (centered on box) -->
+    <path d="M 180 110 L 180 265" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="180,260 176,250 184,250" fill="#000000"/>
+
+    <!-- Connection: MCP Client to mail-mcp (centered on box) -->
+    <path d="M 220 110 L 220 335" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="220,330 216,320 224,320" fill="#000000"/>
 
     <!-- Connection: GitHub MCP to GitHub API -->
-    <path d="M 560 100 L 620 100" fill="none" stroke="#000000" stroke-width="1"/>
-    <polygon points="615,100 605,96 605,104" fill="#000000"/>
-    <text x="575" y="90" font-family="Helvetica" font-size="10">REST</text>
+    <path d="M 160 150 L 520 150" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="515,150 505,146 505,154" fill="#000000"/>
+    <text x="340" y="143" font-family="Helvetica" font-size="10">REST</text>
 
     <!-- Connection: Atlassian MCP to Apache Jira -->
-    <path d="M 300 190 L 440 190" fill="none" stroke="#000000" stroke-width="1"/>
-    <polygon points="435,190 425,186 425,194" fill="#000000"/>
-    <text x="360" y="185" font-family="Helvetica" font-size="10">REST</text>
+    <path d="M 200 210 L 520 217" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="515,217 505,213 505,221" fill="#000000"/>
+    <text x="360" y="206" font-family="Helvetica" font-size="10">REST</text>
 
     <!-- Connection: Atlassian MCP to Apache Confluence -->
-    <path d="M 300 210 L 370 210 L 370 280 L 440 280" fill="none" stroke="#000000" stroke-width="1"/>
-    <polygon points="435,280 425,276 425,284" fill="#000000"/>
-    <text x="375" y="250" font-family="Helvetica" font-size="10">REST</text>
+    <path d="M 200 230 L 520 267" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="515,266 505,260 506,270" fill="#000000"/>
+    <text x="360" y="256" font-family="Helvetica" font-size="10">REST</text>
+
+    <!-- Connection: Maven Tools MCP to Maven Central -->
+    <path d="M 240 295 L 520 320" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="515,319 505,313 506,323" fill="#000000"/>
+    <text x="380" y="300" font-family="Helvetica" font-size="10">HTTP</text>
+
+    <!-- Connection: mail-mcp to lists.apache.org -->
+    <path d="M 280 365 L 520 372" fill="none" stroke="#000000" stroke-width="1"/>
+    <polygon points="515,372 505,368 505,376" fill="#000000"/>
+    <text x="400" y="362" font-family="Helvetica" font-size="10">HTTP</text>
 
     <!-- Legend -->
-    <rect x="20" y="400" width="760" height="80" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-    <rect x="20" y="400" width="60" height="20" fill="#ffffff" stroke="#000000" stroke-width="1"/>
-    <text x="30" y="415" font-family="Helvetica" font-size="11" font-weight="bold">Legend</text>
+    <rect x="20" y="420" width="760" height="80" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+    <rect x="20" y="420" width="60" height="20" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+    <text x="30" y="435" font-family="Helvetica" font-size="11" font-weight="bold">Legend</text>
 
-    <rect x="40" y="430" width="80" height="25" fill="#fff2cc" stroke="#d6b656" stroke-width="1"/>
-    <text x="80" y="447" font-family="Helvetica" font-size="10" text-anchor="middle">MCP Client</text>
+    <rect x="40" y="450" width="80" height="25" fill="#fff2cc" stroke="#d6b656" stroke-width="1"/>
+    <text x="80" y="467" font-family="Helvetica" font-size="10" text-anchor="middle">MCP Client</text>
 
-    <rect x="140" y="430" width="80" height="25" fill="#d5e8d4" stroke="#82b366" stroke-width="1"/>
-    <text x="180" y="447" font-family="Helvetica" font-size="10" text-anchor="middle">MCP Server</text>
+    <rect x="140" y="450" width="80" height="25" fill="#d5e8d4" stroke="#82b366" stroke-width="1"/>
+    <text x="180" y="467" font-family="Helvetica" font-size="10" text-anchor="middle">MCP Server</text>
 
-    <rect x="240" y="430" width="80" height="25" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
-    <text x="280" y="447" font-family="Helvetica" font-size="10" text-anchor="middle">External API</text>
+    <rect x="240" y="450" width="80" height="25" fill="#f5f5f5" stroke="#666666" stroke-width="1"/>
+    <text x="280" y="467" font-family="Helvetica" font-size="10" text-anchor="middle">External API</text>
 
-    <rect x="340" y="430" width="80" height="25" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1"/>
-    <text x="380" y="447" font-family="Helvetica" font-size="10" text-anchor="middle">Local</text>
+    <rect x="340" y="450" width="80" height="25" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1"/>
+    <text x="380" y="467" font-family="Helvetica" font-size="10" text-anchor="middle">Local</text>
 
-    <rect x="440" y="430" width="80" height="25" fill="#e1d5e7" stroke="#9673a6" stroke-width="1" stroke-dasharray="3,3"/>
-    <text x="480" y="447" font-family="Helvetica" font-size="10" text-anchor="middle">Remote</text>
+    <rect x="440" y="450" width="80" height="25" fill="#e1d5e7" stroke="#9673a6" stroke-width="1" stroke-dasharray="3,3"/>
+    <text x="480" y="467" font-family="Helvetica" font-size="10" text-anchor="middle">Remote</text>
 
     <!-- Protocol labels in legend -->
-    <line x1="560" y1="442" x2="600" y2="442" stroke="#000000" stroke-width="1"/>
-    <polygon points="595,442 585,438 585,446" fill="#000000"/>
-    <text x="620" y="447" font-family="Helvetica" font-size="10">MCP / REST</text>
+    <line x1="560" y1="462" x2="600" y2="462" stroke="#000000" stroke-width="1"/>
+    <polygon points="595,462 585,458 585,466" fill="#000000"/>
+    <text x="620" y="467" font-family="Helvetica" font-size="10">REST / HTTP</text>
   </g>
 </svg>
